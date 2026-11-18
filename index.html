@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="css/motion.css">
   <link rel="stylesheet" href="css/mixer.css">
   <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/stats.css">
 </head>
 <body>
 <div class="app" id="app">
@@ -151,6 +152,7 @@
         <button role="tab" id="tab-live" aria-selected="true" aria-controls="panel-live" data-tab="live">עכשיו</button>
         <button role="tab" id="tab-archive" aria-selected="false" aria-controls="panel-archive" data-tab="archive">ארכיון</button>
         <button role="tab" id="tab-fav" aria-selected="false" aria-controls="panel-fav" data-tab="fav">שמורים</button>
+        <button role="tab" id="tab-stats" aria-selected="false" aria-controls="panel-stats" data-tab="stats">נתונים</button>
       </nav>
 
       <div class="panel" id="panel-live" role="tabpanel" aria-labelledby="tab-live">
@@ -206,6 +208,36 @@
           </button>
         </div>
         <ol class="tracks" id="favList"></ol>
+      </div>
+
+      <!-- ===== נתונים: לוח מחוונים קטן – הארכיון במספרים וההאזנה שלי (js/stats.js) ===== -->
+      <div class="panel" id="panel-stats" role="tabpanel" aria-labelledby="tab-stats" hidden>
+        <div class="kpis" id="kpis"></div>
+
+        <section class="chart-card" aria-labelledby="chListenH">
+          <header class="chart-head">
+            <h3 class="chart-title" id="chListenH">ההאזנה שלי · 7 הימים האחרונים</h3>
+            <span class="chart-meta mono" id="chListenMeta"></span>
+          </header>
+          <div class="chart" id="chListen"></div>
+        </section>
+
+        <section class="chart-card" aria-labelledby="chMonthsH">
+          <header class="chart-head">
+            <h3 class="chart-title" id="chMonthsH">שעות שידור בארכיון · לפי חודש</h3>
+            <div class="legend" id="chMonthsLegend"></div>
+          </header>
+          <div class="chart" id="chMonths"></div>
+        </section>
+
+        <section class="chart-card" aria-labelledby="chSplitH">
+          <header class="chart-head">
+            <h3 class="chart-title" id="chSplitH">הארכיון לפי תוכנית</h3>
+          </header>
+          <div class="split" id="chSplit"></div>
+        </section>
+
+        <p class="stats-note">נתוני ההאזנה נשמרים רק במכשיר הזה ולא נשלחים לשום מקום.</p>
       </div>
     </section>
   </main>
@@ -263,6 +295,7 @@
 <script src="vendor/anime-4.5.0.umd.min.js"></script>
 <script src="vendor/motion-14.9.0.min.js"></script>
 <script src="js/fx.js"></script>
+<script src="js/stats.js"></script>
 <script src="js/motion.js"></script>
 <script src="js/mixer.js"></script>
 </body>

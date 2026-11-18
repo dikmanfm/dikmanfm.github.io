@@ -17,7 +17,8 @@ permissions:
 
 jobs:
   sync:
-    if: github.event_name != 'push'
+    # רץ רק אחרי שהוגדר MEDIA_BASE_URL (שלב 4 ב-README) – עד אז האתר מתפרסם בלי סנכרון, בלי ריצות שנכשלות כל שעה
+    if: github.event_name != 'push' && vars.MEDIA_BASE_URL != ''
     runs-on: ubuntu-latest
     timeout-minutes: 350
     concurrency:

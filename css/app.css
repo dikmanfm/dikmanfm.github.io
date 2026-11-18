@@ -307,7 +307,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 
 /* ---------- Segmented tabs ---------- */
 .seg {
-  display: grid; grid-template-columns: repeat(3, 1fr);
+  display: grid; grid-template-columns: repeat(4, 1fr);
   padding: 4px; border-radius: 14px;
   background: var(--coal-1);
   box-shadow: inset 0 1px 3px rgba(0,0,0,.7), 0 1px 0 rgba(255,255,255,.04);

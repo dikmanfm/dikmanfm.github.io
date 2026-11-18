@@ -34,7 +34,8 @@
     manualLive: false,   // שידור חי שהופעל ידנית מהמיקסר – לא מנתקים אותו אוטומטית
     stopping: false,
     retries: 0,
-    closed: null
+    closed: null,
+    listen: load("listen", {})  // יומן האזנה מקומי: { "YYYY-MM-DD": { t: שניות, c: { קטגוריה/LIVE: שניות } } }
   };
 
   // ---------- עזרים ----------
@@ -402,6 +403,26 @@
       if (bar && audio.duration) bar.style.setProperty("--p", (audio.currentTime / audio.duration * 100).toFixed(1) + "%");
     }
   });
+  // ---------- יומן האזנה (נשמר רק במכשיר, מזין את לשונית "נתונים") ----------
+  var lastTick = 0, lastListenSave = 0;
+  function dayKey(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function logListen() {
+    var now = Date.now(), dt = (now - lastTick) / 1000; lastTick = now;
+    if (audio.paused || !state.item || dt <= 0 || dt > 3) return;   // פער גדול = הפסקה/רקע – לא נספר
+    var k = dayKey(new Date()), day = state.listen[k] || (state.listen[k] = { t: 0, c: {} });
+    var src = state.mode === "live" ? "LIVE" : (state.item.category || "אחר");
+    day.t += dt; day.c[src] = (day.c[src] || 0) + dt;
+    if (now - lastListenSave > 10000) {
+      lastListenSave = now;
+      var keys = Object.keys(state.listen).sort();                 // שומרים 90 ימים אחרונים בלבד
+      while (keys.length > 90) delete state.listen[keys.shift()];
+      save("listen", state.listen);
+    }
+  }
+  audio.addEventListener("timeupdate", logListen);
+  audio.addEventListener("playing", function () { lastTick = Date.now(); });
+  audio.addEventListener("pause", function () { save("listen", state.listen); });
+
   audio.addEventListener("ended", function () {
     if (state.mode === "ep") { delete state.pos[state.item.id]; save("pos", state.pos); }
     // ניגון ברצף מהשמורים: ממשיכים להקלטה הבאה, ובסוף הרשימה – חזרה לרדיו
@@ -692,12 +713,13 @@
       state.episodes = (j.items || []).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
       save("episodes", state.episodes);
       renderChips(); renderArchive(); if (state.tab === "fav") renderFavs();
+      document.dispatchEvent(new CustomEvent("radio:data"));
       if (state.pendingRadio) { state.pendingRadio = false; playRadio(); }
     }).catch(function () { if (!cached) $("archiveMeta").textContent = "הארכיון אינו זמין כרגע"; });
   }
 
   // ---------- לשוניות ----------
-  var TABS = ["live", "archive", "fav"];
+  var TABS = ["live", "archive", "fav", "stats"];
   function setTab(name, focus) {
     state.tab = name;
     TABS.forEach(function (t) {
@@ -707,13 +729,14 @@
       if (on && focus) b.focus();
     });
     if (name === "fav") renderFavs();
+    if (name === "stats") document.dispatchEvent(new CustomEvent("radio:data"));
     save("tab", name);
   }
   document.querySelector(".seg").addEventListener("click", function (e) { var b = e.target.closest("[data-tab]"); if (b) setTab(b.getAttribute("data-tab")); });
   document.querySelector(".seg").addEventListener("keydown", function (e) {
     var i = TABS.indexOf(state.tab);
-    if (e.key === "ArrowLeft") { setTab(TABS[(i + 1) % 3], true); e.preventDefault(); }   // RTL: שמאלה = הבא
-    if (e.key === "ArrowRight") { setTab(TABS[(i + 2) % 3], true); e.preventDefault(); }
+    if (e.key === "ArrowLeft") { setTab(TABS[(i + 1) % TABS.length], true); e.preventDefault(); }   // RTL: שמאלה = הבא
+    if (e.key === "ArrowRight") { setTab(TABS[(i + TABS.length - 1) % TABS.length], true); e.preventDefault(); }
   });
 
   // ---------- פקדי קונסולה ----------
@@ -876,7 +899,7 @@
   // ---------- הפעלה ----------
   $("year").textContent = new Date().getFullYear();
   loadEpisodes();
-  setTab(load("tab", "live"));
+  var savedTab = load("tab", "live"); setTab(TABS.indexOf(savedTab) > -1 ? savedTab : "live");
   updateDeck(); setPlayUI();
   tickClock(); setInterval(tickClock, 15000);
   checkClosed(); setInterval(checkClosed, 30000);
