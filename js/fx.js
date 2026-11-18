@@ -175,7 +175,80 @@
     }).observe(cta, { attributes: true, attributeFilter: ["class"] });
   }
 
-  window.FX = { active: true, powerOn: powerOn };
-  function start() { dial(); revealRows(); chipIndicator(); playMorph(); }
+  // ---------- 6. שמורים: ניצוצות בשמירה (Anime.js) + קפיץ לכוכב (Motion) ----------
+  function favBurst() {
+    document.addEventListener("click", function (e) {
+      // רץ אחרי ה-handler של app.js (bubbling), כך ש-aria-pressed כבר מעודכן
+      var b = e.target.closest && e.target.closest(".icon-btn.fav"); if (!b) return;
+      var on = b.getAttribute("aria-pressed") === "true", svg = $("svg", b);
+      M.animate(svg, on ? { scale: [.5, 1.12], rotate: [-40, -8] } : { scale: [1.25, 1], rotate: [-8, 0] },
+        { type: "spring", stiffness: 520, damping: on ? 12 : 22 });
+      if (!on) return;
+      var sparks = [];
+      for (var i = 0; i < 8; i++) { var s = document.createElement("i"); s.className = "spark"; b.appendChild(s); sparks.push(s); }
+      A.animate(sparks, {
+        x: function (_, i) { return Math.cos(i / 8 * Math.PI * 2) * A.utils.random(16, 24); },
+        y: function (_, i) { return Math.sin(i / 8 * Math.PI * 2) * A.utils.random(16, 24); },
+        scale: [{ to: 1.2, duration: 120 }, { to: 0, duration: 420 }],
+        opacity: [1, 0], duration: 560, ease: "outQuart", delay: A.stagger(12),
+        onComplete: function () { sparks.forEach(function (s) { s.remove(); }); }
+      });
+    });
+  }
+  // שורה שיוצאת מהשמורים: מחליקה שמאלה (סוף השורה ב-RTL), ואז מתקפלת
+  function leave(row, done) {
+    var h = row.offsetHeight;
+    row.style.overflow = "hidden";
+    M.animate(row, { opacity: 0, x: -48 }, { duration: .22, ease: "easeIn" })
+      .then(function () { return M.animate(row, { height: [h + "px", "0px"], paddingTop: 0, paddingBottom: 0 }, { duration: .28, ease: [.65, 0, .35, 1] }); })
+      .then(done, done);
+  }
+  // מצב ריק: הכוכב מצויר קו אחר קו כשהלשונית נפתחת
+  function favPanel() {
+    var panel = $("#panel-fav"); if (!panel) return;
+    function intro() {
+      if (panel.hidden) return;
+      var star = $(".empty-star path", panel);
+      if (star) A.animate(A.svg.createDrawable(star), { draw: ["0 0", "0 1"], duration: 1400, ease: "inOutCubic" });
+      var head = $(".fav-head:not([hidden])", panel);
+      if (head) M.animate(head, { opacity: [0, 1], y: [10, 0] }, SOFT);
+    }
+    new MutationObserver(intro).observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+    new MutationObserver(function () { var s = $(".empty-star path", panel); if (s && !panel.hidden) A.animate(A.svg.createDrawable(s), { draw: ["0 0", "0 1"], duration: 1400, ease: "inOutCubic" }); })
+      .observe($("#favList"), { childList: true });
+    intro();
+  }
+
+  // ---------- 7. מסך שבת: נכנס כמו הדלקת נרות (Anime.js timeline) ----------
+  function shabbat() {
+    var scr = $("#shabbat"); if (!scr) return;
+    var flames = $$(".flame", scr), timers = [];
+    // ריצוד חי של הלהבות – כל פעם ערכים אקראיים חדשים, כמו אש אמיתית
+    function flicker(f) {
+      A.animate(f, {
+        scaleY: A.utils.random(.9, 1.12, 2), scaleX: A.utils.random(.92, 1.04, 2), skewX: A.utils.random(-4, 4, 1),
+        duration: A.utils.random(180, 420), ease: "inOutSine",
+        onComplete: function () { if (!scr.hidden) flicker(f); }
+      });
+    }
+    function open() {
+      if (scr.hidden) return;
+      flames.forEach(function (f) { f.style.animation = "none"; });
+      var arc = $("#shArc", scr);
+      var tl = A.createTimeline({ defaults: { ease: "outExpo" } });
+      tl.add($$(".sh-ticks line", scr), { opacity: [0, 1], duration: 500, delay: A.stagger(14) }, 0)
+        .add($$(".candles rect", scr), { scaleY: [0, 1], duration: 900 }, 200)
+        .add(flames, { scale: [0, 1], opacity: [0, 1], duration: 700, ease: "outBack(2)", delay: A.stagger(240) }, 750)
+        .add($$(".halo", scr), { opacity: [0, 1], scale: [.4, 1], duration: 1200, delay: A.stagger(240) }, 850)
+        .add(["#shabbatTitle", "#shabbatText", ".sh-count"].map(function (s) { return $(s, scr); }), { opacity: [0, 1], y: [18, 0], duration: 900, delay: A.stagger(110) }, 900);
+      if (arc) M.animate(arc, { opacity: [0, 1] }, { duration: 1.2, delay: .4 });
+      tl.then(function () { flames.forEach(function (f, i) { timers.push(setTimeout(function () { flicker(f); }, i * 150)); }); });
+    }
+    new MutationObserver(open).observe(scr, { attributes: true, attributeFilter: ["hidden"] });
+    open();
+  }
+
+  window.FX = { active: true, powerOn: powerOn, leave: leave };
+  function start() { dial(); revealRows(); chipIndicator(); playMorph(); favBurst(); favPanel(); shabbat(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
 })();

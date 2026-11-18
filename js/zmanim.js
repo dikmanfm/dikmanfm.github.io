@@ -35,14 +35,14 @@
     if (day === 5 || day === 6) {
       var start = sunset(fri, cfg.lat, cfg.lng).getTime() - c;
       var end = sunset(addDays(fri, 1), cfg.lat, cfg.lng).getTime() + h;
-      if (now >= start && now < end) return { kind: "shabbat", until: new Date(end) };
+      if (now >= start && now < end) return { kind: "shabbat", since: new Date(start), until: new Date(end) };
     }
     // חגים
     var list = cfg.holidays || [];
     for (var i = 0; i < list.length; i++) {
       var s = sunset(parseDay(list[i].start), cfg.lat, cfg.lng).getTime() - c;
       var e = sunset(parseDay(list[i].end), cfg.lat, cfg.lng).getTime() + h;
-      if (now >= s && now < e) return { kind: "holiday", name: list[i].name, until: new Date(e) };
+      if (now >= s && now < e) return { kind: "holiday", name: list[i].name, since: new Date(s), until: new Date(e) };
     }
     return null;
   }
