@@ -212,7 +212,7 @@
       playing ? (m === "replay" ? "שידור חוזר" : "מנגן") :
       liveNow ? "חי עכשיו" : "מוכן";
     var r = $("btnRadio");
-    if (r) r.textContent = playing && state.auto ? "מאזינים עכשיו" : (liveNow ? "האזנה לשידור החי" : "האזנה לרדיו");
+    if (r) r.querySelector(".cta-label").textContent = playing && state.auto ? "מאזינים עכשיו · עצירה" : (liveNow ? "האזנה לשידור החי" : "האזנה לרדיו");
     if (r) r.classList.toggle("is-on", playing && state.auto);
     try { document.dispatchEvent(new CustomEvent("radio:update")); } catch (e) {}
   }
@@ -320,11 +320,13 @@
   }
 
   // בחירה ידנית מהארכיון
-  function playEpisode(ep, queue) {
+  // opts.autoNext: בסוף ההקלטה ממשיכים לבאה ברשימה (ניגון השמורים ברצף)
+  function playEpisode(ep, queue, opts) {
     if (guardClosed()) return;
     var src = srcFor(ep);
     if (!src) { toast("הקובץ עדיין לא זמין"); return; }
     state.mode = "ep"; state.auto = false; state.item = ep; state.queue = queue || state.episodes;
+    state.autoNext = !!(opts && opts.autoNext);
     updateDeck();
     var resume = state.pos[ep.id] || 0;
     var once = function () {
@@ -362,7 +364,7 @@
     if (state.mode === "replay" && dir > 0) { playReplayNext(); return; }
     var q = state.queue, i = q.indexOf(state.item);
     if (i < 0 || !q.length) return;
-    playEpisode(q[(i + dir + q.length) % q.length], q);
+    playEpisode(q[(i + dir + q.length) % q.length], q, { autoNext: state.autoNext });
   }
 
   // מעבר אוטומטי בין שידור חי לשידורים חוזרים – נבדק כל 10 שניות
@@ -396,12 +398,18 @@
       lastSave = Date.now();
       state.pos[state.item.id] = Math.floor(audio.currentTime);
       save("pos", state.pos);
-      var bar = document.querySelector('.track.is-active .track-prog i');
-      if (bar && audio.duration) bar.style.width = (audio.currentTime / audio.duration * 100) + "%";
+      var bar = document.querySelector('.track.is-active .track-wave');
+      if (bar && audio.duration) bar.style.setProperty("--p", (audio.currentTime / audio.duration * 100).toFixed(1) + "%");
     }
   });
   audio.addEventListener("ended", function () {
     if (state.mode === "ep") { delete state.pos[state.item.id]; save("pos", state.pos); }
+    // ניגון ברצף מהשמורים: ממשיכים להקלטה הבאה, ובסוף הרשימה – חזרה לרדיו
+    if (state.mode === "ep" && state.autoNext) {
+      var qi = state.queue.indexOf(state.item);
+      if (qi > -1 && qi < state.queue.length - 1) { playEpisode(state.queue[qi + 1], state.queue, { autoNext: true }); return; }
+      state.autoNext = false;
+    }
     // בסוף כל הקלטה – הרדיו ממשיך (נשארים בערוץ שנבחר במיקסר, אלא אם התחיל שידור חי)
     if (state.mode !== "live") {
       if (state.channel && !(schedStatus().live && liveAvailable())) playReplayNext(); else playRadio();
@@ -479,6 +487,7 @@
     $("nowNext").innerHTML = st.next ? '<span>השידור החי הבא</span><b>' + esc(whenLabel(st.next, m)) + '</b><span class="count">' + esc(countdown(st.nextInMin)) + '</span>' : "";
     // לוח שבועי
     var ws = window.Schedule.windows(CFG).sort(function (a, b) { return a.start - b.start; });
+    renderDial(ws, m, st);
     $("schedList").innerHTML = ws.map(function (w) {
       var on = m >= w.start && m < w.end;
       var isNext = !st.live && st.next === w;
@@ -488,6 +497,46 @@
         '<span class="sched-tag">' + (on ? "חי עכשיו" : isNext ? "הבא" : "") + '</span></li>';
     }).join("");
   }
+  // ---------- ציר התדרים: 24 השעות של היום (שעון ישראל), RTL – חצות בימין ----------
+  var WEEK_MIN = 7 * 1440, dialKey = "";
+  (function buildDialScale() {
+    var ticks = "", labels = "";
+    for (var h = 0; h <= 24; h++) {
+      var p = (h / 24 * 100).toFixed(3) + "%";
+      ticks += '<i class="' + (h % 6 === 0 ? "major" : h % 3 === 0 ? "mid" : "") + '" style="inset-inline-start:' + p + '"></i>';
+      if (h % 6 === 0) labels += '<span style="inset-inline-start:' + p + '">' + pad(h % 24 === 0 && h ? 24 : h) + '</span>';
+    }
+    for (var q = 0; q < 96; q++) if (q % 4) ticks += '<i class="fine" style="inset-inline-start:' + (q / 96 * 100).toFixed(3) + '%"></i>';
+    $("dialTicks").innerHTML = ticks;
+    $("dialLabels").innerHTML = labels;
+  })();
+  function renderDial(ws, m, st) {
+    var today = Math.floor(m / 1440), d0 = today * 1440, d1 = d0 + 1440;
+    $("nowDay").textContent = "יום " + DAY_NAMES[today] + " · " + hm(m);
+    var bands = [];
+    ws.forEach(function (w) {
+      [-WEEK_MIN, 0, WEEK_MIN].forEach(function (shift) {
+        var s = Math.max(w.start + shift, d0), e = Math.min(w.end + shift, d1);
+        if (e > s) bands.push({ s: s - d0, e: e - d0, state: m >= w.start + shift && m < w.end + shift ? "on" : m >= w.end + shift ? "past" : "next", label: w.slot.label || "" });
+      });
+    });
+    // מציירים מחדש רק כשמשהו השתנה – כדי שהאנימציות לא יתחילו מחדש כל 10 שניות
+    var key = bands.map(function (b) { return b.s + "-" + b.e + b.state; }).join("|");
+    if (key !== dialKey) {
+      dialKey = key;
+      $("dialBands").innerHTML = bands.map(function (b) {
+        return '<span class="dial-band ' + b.state + '" style="inset-inline-start:' + (b.s / 14.4).toFixed(3) + '%;width:' + ((b.e - b.s) / 14.4).toFixed(3) + '%">' +
+          '<em class="mono">' + hm(b.s) + '</em></span>';
+      }).join("");
+      $("dial").setAttribute("aria-label", "ציר השידורים של היום: " + (bands.length ? bands.map(function (b) { return "שידור חי " + hm(b.s) + " עד " + hm(b.e); }).join(", ") : "אין שידור חי היום"));
+    }
+    var needle = $("dialNeedle"), p = (m - d0) / 14.4;
+    needle.style.setProperty("--np", p.toFixed(3) + "%");
+    needle.classList.toggle("live", !!st.live);
+    needle.classList.toggle("flip", p > 88);
+    $("dialNow").textContent = hm(m);
+  }
+
   $("btnRadio").addEventListener("click", function () {
     if (!audio.paused && state.auto) { stopAudio(); return; }
     playRadio();
@@ -506,15 +555,31 @@
   // ---------- ארכיון ----------
   var ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5.5v13L6.5 12z"/></svg>';
   var ICON_STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.8l2.5 5.1 5.6.8-4 4 .9 5.6-5-2.7-5 2.7.9-5.6-4-4 5.6-.8z"/></svg>';
+  // צורת גל קטנה וקבועה לכל הקלטה (נגזרת מהמזהה) – משמשת גם כפס ההתקדמות
+  var waveCache = {};
+  function waveSVG(id) {
+    if (waveCache[id]) return waveCache[id];
+    var h = 2166136261, s = String(id), bars = "";
+    for (var c = 0; c < s.length; c++) { h ^= s.charCodeAt(c); h = Math.imul ? Math.imul(h, 16777619) : (h * 16777619) | 0; }
+    for (var i = 0; i < 64; i++) {
+      h ^= h << 13; h ^= h >>> 17; h ^= h << 5;
+      var env = .45 + .55 * Math.sin(i / 63 * Math.PI) ;
+      var v = Math.max(.14, env * (.35 + ((h >>> 0) % 1000) / 1540));
+      var bh = (v * 16).toFixed(1);
+      bars += '<rect x="' + (i * 2) + '" y="' + ((16 - bh) / 2).toFixed(1) + '" width="1.1" height="' + bh + '" rx=".55"/>';
+    }
+    return (waveCache[id] = '<svg viewBox="0 0 128 16" preserveAspectRatio="none">' + bars + '</svg>');
+  }
   function trackHTML(ep, i) {
     var fav = state.favs.indexOf(ep.id) > -1;
     var pos = state.pos[ep.id] || 0, pct = ep.duration ? Math.min(100, pos / ep.duration * 100) : 0;
+    var wave = waveSVG(ep.id);
     return '<li class="track" data-ep="' + esc(ep.id) + '">' +
       '<span class="track-n">' + pad(i + 1) + '</span>' +
       '<button class="track-main" data-nav data-act="play">' +
         '<span class="track-title">' + esc(ep.title) + '</span>' +
         '<span class="track-meta"><span class="cat">' + esc(ep.category) + '</span><span class="sep">·</span><span>' + fmtDate(ep.date) + '</span><span class="sep">·</span><span>' + fmtDuration(ep.duration) + '</span></span>' +
-        (pct > 1 ? '<span class="track-prog"><i style="width:' + pct + '%"></i></span>' : '') +
+        '<span class="track-wave" aria-hidden="true" style="--p:' + pct.toFixed(1) + '%">' + wave + '<i>' + wave + '</i></span>' +
       '</button>' +
       '<button class="icon-btn fav" data-nav data-act="fav" aria-pressed="' + fav + '" aria-label="' + (fav ? "הסרה מהשמורים" : "שמירה") + '">' + ICON_STAR + '</button>' +
       '<button class="icon-btn go" data-nav data-act="play" aria-label="נגן">' + ICON_PLAY + '</button>' +
@@ -544,11 +609,33 @@
     var items = document.querySelectorAll("#trackList [data-act=play]");
     var target = items[(shown - PAGE) * 2]; if (target) target.focus();
   });
+  // השמורים – לפי סדר השמירה (האחרון שנשמר ראשון)
+  function favEpisodes() {
+    return state.favs.map(function (id) { return state.episodes.filter(function (ep) { return ep.id === id; })[0]; }).filter(Boolean);
+  }
+  var ICON_STAR_BIG = '<svg class="empty-star" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6.5l5.2 10.6 11.7 1.7-8.5 8.2 2 11.6L24 33.1l-10.4 5.5 2-11.6-8.5-8.2 11.7-1.7z"/></svg>';
   function renderFavs() {
-    var list = state.episodes.filter(function (ep) { return state.favs.indexOf(ep.id) > -1; });
-    $("favList").innerHTML = list.map(trackHTML).join("") || '<li class="empty">עדיין לא שמרתם הקלטות. הקישו על הכוכב ליד הקלטה כדי לשמור אותה כאן.</li>';
+    var list = favEpisodes();
+    $("favList").innerHTML = list.map(trackHTML).join("") ||
+      '<li class="empty fav-empty">' + ICON_STAR_BIG +
+        '<b>עוד אין כאן הקלטות</b>' +
+        '<span>הקישו על הכוכב ליד הקלטה בארכיון, והיא תחכה לכם כאן – מוכנה לניגון ברצף.</span>' +
+        '<button class="more" data-nav data-goto="archive">מעבר לארכיון</button>' +
+      '</li>';
+    var head = $("favHead");
+    head.hidden = !list.length;
+    if (list.length) {
+      var total = list.reduce(function (s, ep) { return s + (ep.duration || 0); }, 0);
+      $("favMeta").textContent = list.length.toLocaleString("he-IL") + (list.length === 1 ? " הקלטה" : " הקלטות") + " · " + fmtDuration(total);
+    }
     markActive();
   }
+  $("favList").addEventListener("click", function (e) { if (e.target.closest("[data-goto=archive]")) { setTab("archive", true); } });
+  $("btnFavPlay").addEventListener("click", function () {
+    var list = favEpisodes(); if (!list.length) return;
+    playEpisode(list[0], list, { autoNext: true });
+    toast("מנגנים את השמורים ברצף");
+  });
   function renderChips() {
     var cats = ["הכל"];
     state.episodes.forEach(function (ep) { if (cats.indexOf(ep.category) < 0) cats.push(ep.category); });
@@ -572,16 +659,19 @@
       if (i > -1) state.favs.splice(i, 1); else state.favs.unshift(id);
       save("favs", state.favs);
       b.setAttribute("aria-pressed", i < 0);
+      b.setAttribute("aria-label", i < 0 ? "הסרה מהשמורים" : "שמירה");
       toast(i < 0 ? "נשמר בשמורים" : "הוסר מהשמורים");
-      if (state.tab === "fav") renderFavs();
+      // בלשונית השמורים: השורה יוצאת בתנועה (fx.js), ורק אז הרשימה מתעדכנת
+      if (state.tab === "fav") {
+        var row = b.closest(".track");
+        if (window.FX && FX.leave && row) FX.leave(row, renderFavs); else renderFavs();
+      }
       return;
     }
     if (state.item === ep) togglePlay(); else playEpisode(ep, getQueue());
   }
   $("trackList").addEventListener("click", function (e) { onTrackClick(e, filtered); });
-  $("favList").addEventListener("click", function (e) {
-    onTrackClick(e, function () { return state.episodes.filter(function (ep) { return state.favs.indexOf(ep.id) > -1; }); });
-  });
+  $("favList").addEventListener("click", function (e) { onTrackClick(e, favEpisodes); });
 
   function markActive() {
     var id = state.item && state.item.id;
@@ -674,7 +764,9 @@
   document.addEventListener("keydown", function (e) {
     var tag = e.target.tagName, typing = tag === "INPUT" && e.target.type !== "range";
     if (e.key === "MediaPlayPause") { togglePlay(); return; }
-    if (typing) return;
+    if (typing) { if (e.key === "Escape") e.target.blur(); return; }
+    // "/" – קפיצה לחיפוש בארכיון (כמו שורת פקודה)
+    if (e.key === "/" && !e.ctrlKey && !e.metaKey) { setTab("archive"); $("q").focus(); e.preventDefault(); return; }
     switch (e.key) {
       case "5": case " ": if (e.target.tagName !== "BUTTON" || e.key === "5") { togglePlay(); e.preventDefault(); } break;
       case "4": seek(-15); break;
@@ -698,7 +790,9 @@
   }
   function checkClosed() {
     var preview = location.hash === "#shabbat-preview";
-    var st = preview ? { kind: "shabbat", until: new Date(Date.now() + 3600e3 * 20) } : window.Zmanim.closedState(new Date(), CFG.shabbat);
+    var st = preview ? { kind: "shabbat", since: new Date(Date.now() - 3600e3 * 5.5), until: new Date(Date.now() + 3600e3 * 20) } : window.Zmanim.closedState(new Date(), CFG.shabbat);
+    // תצוגה מקדימה – זמן קבוע לכל ריענון, כדי שהספירה תתקדם באמת
+    if (preview && state.closed && state.closed.kind === "shabbat") st = state.closed;
     state.closed = st;
     $("shabbat").hidden = !st;
     if (!st) return;
@@ -706,8 +800,30 @@
     var holiday = st.kind === "holiday";
     $("shabbatTitle").textContent = holiday ? "חג שמח" : "שבת שלום";
     $("shabbatText").textContent = holiday ? "השידורים מושבתים בחג" + (st.name ? " " + st.name : "") + " ויחודשו בצאת החג." : "השידורים מושבתים בשבת ויחודשו במוצאי שבת.";
-    $("shabbatTime").textContent = "חידוש השידורים: " + pad(st.until.getHours()) + ":" + pad(st.until.getMinutes());
+    $("shabbatTime").textContent = (holiday ? "בצאת החג, " : "במוצאי שבת, ") + pad(st.until.getHours()) + ":" + pad(st.until.getMinutes());
+    tickShabbat();
   }
+  // ספירה לאחור עד חידוש השידורים + טבעת שמראה כמה מהשבת עברה
+  (function buildShabbatTicks() {
+    var g = $("shTicks"), out = "";
+    for (var i = 0; i < 60; i++) {
+      var a = i / 60 * Math.PI * 2, r1 = i % 5 ? 91 : 87, r2 = 94;
+      out += '<line x1="' + (110 + r1 * Math.sin(a)).toFixed(1) + '" y1="' + (110 - r1 * Math.cos(a)).toFixed(1) +
+        '" x2="' + (110 + r2 * Math.sin(a)).toFixed(1) + '" y2="' + (110 - r2 * Math.cos(a)).toFixed(1) + '"' + (i % 5 ? "" : ' class="major"') + '/>';
+    }
+    g.innerHTML = out;
+  })();
+  function tickShabbat() {
+    var st = state.closed; if (!st) return;
+    var left = Math.max(0, st.until - Date.now());
+    var s = Math.floor(left / 1000);
+    $("shabbatCount").textContent = pad(Math.floor(s / 3600)) + ":" + pad(Math.floor(s % 3600 / 60)) + ":" + pad(s % 60);
+    if (st.since) {
+      var f = Math.max(0, Math.min(1, (Date.now() - st.since) / (st.until - st.since)));
+      $("shArc").style.setProperty("--f", f.toFixed(4));
+    }
+  }
+  setInterval(function () { if (state.closed) tickShabbat(); }, 1000);
   window.addEventListener("hashchange", checkClosed);
 
   // ---------- התקנה כאפליקציה (מחשב וטלפון) ----------

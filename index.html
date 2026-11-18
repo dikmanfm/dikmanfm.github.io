@@ -18,13 +18,13 @@
   <link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <!-- בפרודקשן: להעביר את הפונטים לשרת שלכם (תיקיית fonts/) – חלק מהסינונים חוסמים דומיינים חיצוניים -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Share+Tech+Mono&display=swap">
+  <!-- הפונטים מקומיים (fonts/) – בלי תלות בדומיינים חיצוניים שחלק מהסינונים חוסמים -->
+  <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/karantina-hebrew-700-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/motion.css">
   <link rel="stylesheet" href="css/mixer.css">
+  <link rel="stylesheet" href="css/ui.css">
 </head>
 <body>
 <div class="app" id="app">
@@ -155,13 +155,30 @@
 
       <div class="panel" id="panel-live" role="tabpanel" aria-labelledby="tab-live">
         <div class="now-card">
-          <span class="now-badge" id="nowBadge">שידורים חוזרים</span>
+          <div class="now-head">
+            <span class="now-badge" id="nowBadge">שידורים חוזרים</span>
+            <span class="now-day" id="nowDay"></span>
+          </div>
           <h2 class="now-title" id="nowTitle">המיטב מהארכיון, ברצף</h2>
           <p class="now-sub" id="nowSub"></p>
-          <button class="cta" id="btnRadio" data-nav>האזנה לרדיו</button>
+
+          <!-- ציר התדרים: 24 השעות של היום, חלונות השידור החי והמחוג של "עכשיו" -->
+          <div class="dial" id="dial" role="img" aria-label="ציר השידורים של היום">
+            <div class="dial-track">
+              <div class="dial-ticks" id="dialTicks" aria-hidden="true"></div>
+              <div class="dial-bands" id="dialBands" aria-hidden="true"></div>
+              <div class="dial-needle" id="dialNeedle" aria-hidden="true"><span class="dial-now mono" id="dialNow">--:--</span></div>
+            </div>
+            <div class="dial-labels mono" id="dialLabels" aria-hidden="true"></div>
+          </div>
+
+          <button class="cta" id="btnRadio" data-nav>
+            <span class="cta-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 5.5v13L6.5 12z"/></svg></span>
+            <span class="cta-label">האזנה לרדיו</span>
+          </button>
           <div class="now-next" id="nowNext"></div>
         </div>
-        <h3 class="sec-h">לוח השידורים החיים</h3>
+        <h3 class="sec-h">לוח השידורים החיים · השבוע</h3>
         <ul class="sched" id="schedList"></ul>
         <p class="sched-note">השעות לפי שעון ישראל. בשעות השידור החי הנגן עובר אליו אוטומטית, ובסיומו חוזר לשידורים החוזרים.</p>
       </div>
@@ -169,7 +186,8 @@
       <div class="panel" id="panel-archive" role="tabpanel" aria-labelledby="tab-archive" hidden>
         <div class="search">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>
-          <input type="search" id="q" placeholder="חיפוש בארכיון" aria-label="חיפוש בארכיון" enterkeyhint="search">
+          <input type="search" id="q" placeholder="חיפוש בארכיון: שם תוכנית, תאריך…" aria-label="חיפוש בארכיון" enterkeyhint="search">
+          <kbd class="kbd" aria-hidden="true">/</kbd>
         </div>
         <div class="chips" id="chips" role="group" aria-label="סינון לפי קטגוריה"></div>
         <ol class="tracks" id="trackList"></ol>
@@ -177,6 +195,16 @@
       </div>
 
       <div class="panel" id="panel-fav" role="tabpanel" aria-labelledby="tab-fav" hidden>
+        <div class="fav-head" id="favHead" hidden>
+          <div class="fav-head-text">
+            <h3 class="fav-title">השמורים שלי</h3>
+            <span class="fav-meta" id="favMeta"></span>
+          </div>
+          <button class="fav-play" id="btnFavPlay" data-nav>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5.5v13L6.5 12z"/></svg>
+            <span>ניגון ברצף</span>
+          </button>
+        </div>
         <ol class="tracks" id="favList"></ol>
       </div>
     </section>
@@ -191,14 +219,35 @@
 <!-- מסך שבת / חג -->
 <div class="shabbat" id="shabbat" hidden>
   <div class="shabbat-card">
-    <svg viewBox="0 0 64 64" aria-hidden="true" class="candles">
-      <path d="M22 26v26M42 26v26" stroke="url(#gs2)" stroke-width="5" stroke-linecap="round"/>
-      <path d="M22 12c3 4 3 7 0 10-3-3-3-6 0-10zM42 12c3 4 3 7 0 10-3-3-3-6 0-10z" fill="var(--neon)"/>
-      <defs><linearGradient id="gs2" x1="0" x2="1"><stop offset="0" stop-color="#7c838b"/><stop offset=".5" stop-color="#eef1f4"/><stop offset="1" stop-color="#7c838b"/></linearGradient></defs>
-    </svg>
+    <!-- טבעת הזמן: כמה מהשבת כבר עברה. בתוכה – שני נרות -->
+    <div class="sh-orbit" aria-hidden="true">
+      <svg viewBox="0 0 220 220" class="sh-ring">
+        <circle cx="110" cy="110" r="100" class="sh-track"/>
+        <g class="sh-ticks" id="shTicks"></g>
+        <circle cx="110" cy="110" r="100" class="sh-arc" id="shArc" pathLength="1000"/>
+      </svg>
+      <svg viewBox="0 0 64 80" class="candles">
+        <defs>
+          <linearGradient id="gs2" x1="0" x2="1"><stop offset="0" stop-color="#6b727a"/><stop offset=".5" stop-color="#eef1f4"/><stop offset="1" stop-color="#6b727a"/></linearGradient>
+          <radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd58a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd58a" stop-opacity="0"/></radialGradient>
+          <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff6df"/><stop offset=".45" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff9a3c"/></linearGradient>
+        </defs>
+        <circle cx="20" cy="22" r="14" fill="url(#glow)" class="halo"/>
+        <circle cx="44" cy="22" r="14" fill="url(#glow)" class="halo"/>
+        <rect x="16.5" y="34" width="7" height="40" rx="2" fill="url(#gs2)"/>
+        <rect x="40.5" y="34" width="7" height="40" rx="2" fill="url(#gs2)"/>
+        <path d="M20 33.5v-3.5M44 33.5v-3.5" stroke="#2a2e33" stroke-width="1.2" stroke-linecap="round"/>
+        <path class="flame" d="M20 12c4 6 4.6 10.5 0 18-4.6-7.5-4-12 0-18z" fill="url(#flame)"/>
+        <path class="flame" d="M44 12c4 6 4.6 10.5 0 18-4.6-7.5-4-12 0-18z" fill="url(#flame)"/>
+      </svg>
+    </div>
     <h2 id="shabbatTitle">שבת שלום</h2>
     <p id="shabbatText">השידורים מושבתים בשבת ויחודשו במוצאי שבת.</p>
-    <p class="shabbat-time" id="shabbatTime"></p>
+    <div class="sh-count" role="timer" aria-live="off">
+      <span class="sh-count-label">חידוש השידורים בעוד</span>
+      <span class="sh-digits mono" id="shabbatCount">--:--:--</span>
+      <span class="shabbat-time" id="shabbatTime"></span>
+    </div>
   </div>
 </div>
 
@@ -210,6 +259,10 @@
 <script src="js/schedule.js"></script>
 <script src="js/demo-audio.js"></script>
 <script src="js/app.js"></script>
+<!-- שכבת תנועה מתקדמת: Anime.js v4 + Motion, מקומיות. בדפדפן ישן שלא מכיר אותן – נשארת השכבה הבסיסית (motion.js) -->
+<script src="vendor/anime-4.5.0.umd.min.js"></script>
+<script src="vendor/motion-14.9.0.min.js"></script>
+<script src="js/fx.js"></script>
 <script src="js/motion.js"></script>
 <script src="js/mixer.js"></script>
 </body>
