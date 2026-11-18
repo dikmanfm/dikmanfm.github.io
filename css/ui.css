@@ -1,0 +1,186 @@
+/* ==========================================================================
+   שכבת בלוקים (שלב 1): כרטיס "עכשיו" עם ציר תדרים, CTA מתכתי,
+   ארכיון כיומן שידור, שורת חיפוש בסגנון Command bar.
+   מבנה הבלוקים בהשראת Kokonut UI, מותאם לפלטת הפחם/גרפיט/טורקיז שלנו.
+   נטען אחרון – דורס את app.css / motion.css רק איפה שצריך.
+   ========================================================================== */
+
+/* ---------- טיפוגרפיה ---------- */
+.now-title, .shabbat h2 {
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: .01em;
+  line-height: .95;
+}
+.brand-sub { letter-spacing: .02em; }
+
+/* ---------- כרטיס "עכשיו" ---------- */
+.now-card { padding: 20px 20px 18px; border-radius: 18px; }
+.now-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.now-day { font-size: 12.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.now-title {
+  margin: 16px 0 4px;
+  font-size: clamp(38px, 9vw, 52px);
+  color: var(--ink);
+  text-wrap: balance;
+}
+.now-sub { font-size: 14px; }
+
+/* ---------- ציר התדרים ---------- */
+.dial { margin-top: 18px; user-select: none; }
+.dial-track {
+  position: relative; height: 54px;
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(31,230,208,.035), rgba(31,230,208,0) 60%),
+    #070909;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), inset 0 6px 14px rgba(0,0,0,.7);
+  overflow: hidden;
+}
+/* זכוכית מעל הסקאלה */
+.dial-track::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(170deg, rgba(255,255,255,.06), rgba(255,255,255,0) 40%);
+}
+.dial-ticks i {
+  position: absolute; bottom: 0; width: 1px; height: 9px; margin-inline-start: -.5px;
+  background: rgba(182,255,242,.28); transform-origin: 50% 100%;
+}
+.dial-ticks i.fine { height: 4px; background: rgba(182,255,242,.14); }
+.dial-ticks i.mid { height: 14px; background: rgba(182,255,242,.4); }
+.dial-ticks i.major { height: 22px; background: rgba(182,255,242,.6); }
+.dial-bands { position: absolute; inset: 0; }
+.dial-band {
+  position: absolute; top: 8px; bottom: 26px; border-radius: 4px; min-width: 6px;
+  background: rgba(31,230,208,.12);
+  box-shadow: inset 0 0 0 1px rgba(31,230,208,.5);
+  transform-origin: 100% 50%;
+}
+.dial-band em {
+  position: absolute; top: 50%; inset-inline-start: 6px; transform: translateY(-50%);
+  font-size: 10px; font-style: normal; letter-spacing: .06em; color: rgba(182,255,242,.85);
+  white-space: nowrap;
+}
+.dial-band.on { background: rgba(255,81,72,.2); box-shadow: inset 0 0 0 1px rgba(255,106,98,.85), 0 0 18px rgba(255,81,72,.35); }
+.dial-band.on em { color: #ffd9d6; }
+.dial-band.past { background: rgba(255,255,255,.03); box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); }
+.dial-band.past em { color: var(--ink-3); }
+.dial-needle {
+  --np: 0%;
+  position: absolute; top: 0; bottom: 0; width: 2px; margin-inline-start: -1px;
+  inset-inline-start: var(--np);
+  background: var(--neon); box-shadow: 0 0 10px var(--neon-soft), 0 0 2px #fff;
+  z-index: 2;
+}
+.dial-needle::before { /* משולש-ראש למחוג */
+  content: ""; position: absolute; top: 0; left: 50%; margin-left: -5px;
+  border: 5px solid transparent; border-top-color: var(--neon); border-bottom: 0;
+}
+.dial-needle.live { background: #ff6a62; box-shadow: 0 0 12px rgba(255,81,72,.8), 0 0 2px #fff; }
+.dial-needle.live::before { border-top-color: #ff6a62; }
+.dial-now {
+  position: absolute; bottom: 4px; inset-inline-start: 6px;
+  font-size: 11px; line-height: 1; color: var(--neon); text-shadow: 0 0 8px var(--neon-soft);
+  white-space: nowrap;
+}
+.dial-needle.live .dial-now { color: #ffb3ae; text-shadow: 0 0 8px rgba(255,81,72,.7); }
+/* המחוג קרוב לקצה השמאלי – התווית עוברת לצד השני */
+.dial-needle.flip .dial-now { inset-inline-start: auto; inset-inline-end: 6px; }
+.dial-labels { position: relative; height: 16px; margin-top: 5px; font-size: 10.5px; color: var(--ink-3); }
+.dial-labels span { position: absolute; transform: translateX(50%); }
+.dial-labels span:first-child { transform: none; }
+.dial-labels span:last-child { transform: translateX(100%); }
+
+/* ---------- CTA: מתכת מלוטשת עם אייקון בתוך טבעת ---------- */
+.cta {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin-top: 18px; height: 54px; border-radius: 14px;
+  background: var(--metal);
+  color: #0b0c0e; font-weight: 700; letter-spacing: .01em;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85), inset 0 -1px 0 rgba(0,0,0,.25), 0 10px 22px -10px rgba(0,0,0,.95), 0 0 0 1px #0a0b0c;
+}
+.cta-ic {
+  width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; flex: none;
+  background: #0d0f11; box-shadow: inset 0 1px 2px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.6);
+}
+.cta-ic svg { width: 14px; height: 14px; fill: var(--neon); filter: drop-shadow(0 0 4px var(--neon-soft)); transform: translateX(-1px); }
+.cta.is-on .cta-ic { background: rgba(31,230,208,.12); box-shadow: inset 0 0 0 1px rgba(31,230,208,.5); }
+.cta.is-on .cta-ic svg path { d: path("M7 6h3.4v12H7zM13.6 6H17v12h-3.4z"); }
+
+/* ---------- לוח שידורים: יומן מסודר ---------- */
+.sec-h { display: flex; align-items: center; gap: 10px; }
+.sec-h::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line-2), transparent); }
+.sched { border-radius: 14px; }
+.sched-time { font-family: var(--mono); letter-spacing: .04em; }
+
+/* ---------- שורת חיפוש בסגנון Command bar ---------- */
+.search input {
+  height: 50px; border-radius: 14px; padding-inline: 44px 52px;
+  background: #0c0d0f; border-color: rgba(255,255,255,.07);
+  transition: border-color .2s, box-shadow .25s;
+}
+.search input:focus { border-color: rgba(31,230,208,.55); box-shadow: inset 0 1px 3px rgba(0,0,0,.6), 0 0 0 4px rgba(31,230,208,.1); }
+.search input::-webkit-search-cancel-button { filter: grayscale(1) brightness(1.5); }
+.kbd {
+  position: absolute; top: 50%; inset-inline-end: 12px; transform: translateY(-50%);
+  min-width: 26px; height: 24px; padding: 0 7px; border-radius: 6px;
+  display: grid; place-items: center;
+  font: 600 12px/1 var(--mono); color: var(--ink-3);
+  background: var(--coal-2); box-shadow: inset 0 0 0 1px var(--line-2), 0 2px 0 #050607;
+  transition: opacity .2s;
+}
+.search:focus-within .kbd { opacity: 0; }
+@media (pointer: coarse) { .kbd { display: none; } .search input { padding-inline-end: 14px; } }
+
+/* ---------- צ'יפים: גלולה מחליקה (מופעלת ב-fx.js) ---------- */
+.chips { position: relative; isolation: isolate; }
+.chip-ind {
+  position: absolute; top: 12px; left: 0; height: 34px; width: 0; z-index: -1; border-radius: 999px;
+  background: var(--metal); box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 4px 12px -4px rgba(0,0,0,.8);
+  pointer-events: none;
+}
+.chips.has-ind .chip[aria-pressed="true"] { background: transparent; border-color: transparent; }
+
+/* ---------- ארכיון: יומן שידור עם צורות גל ---------- */
+.tracks { counter-reset: none; }
+.track {
+  grid-template-columns: 40px 1fr auto auto;
+  padding: 12px 6px; gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.045);
+}
+.track-n {
+  font-size: 12px; letter-spacing: .06em; color: var(--ink-3);
+  height: 28px; display: grid; place-items: center;
+  border-radius: 6px; background: rgba(255,255,255,.025); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
+}
+.track.is-active .track-n { background: rgba(31,230,208,.08); box-shadow: inset 0 0 0 1px rgba(31,230,208,.3); }
+.track-title { font-weight: 500; letter-spacing: -.005em; }
+.track-meta .cat {
+  color: var(--neon-ink); opacity: .75;
+}
+.track-wave {
+  --p: 0%;
+  position: relative; display: block; height: 14px; margin-top: 9px; max-width: 280px;
+  color: rgba(255,255,255,.13);
+}
+.track-wave svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+/* החלק שכבר הושמע: אותה צורה בטורקיז, חתוכה מימין (RTL) */
+.track-wave i {
+  position: absolute; inset: 0; color: var(--silver-mid);
+  clip-path: inset(0 0 0 calc(100% - var(--p)));
+  transition: clip-path .6s var(--ease-out);
+}
+.track.is-active .track-wave i { color: var(--neon); filter: drop-shadow(0 0 3px rgba(31,230,208,.6)); }
+@media (hover: hover) {
+  .track:hover .track-wave { color: rgba(255,255,255,.22); }
+}
+.icon-btn.go { background: rgba(255,255,255,.02); }
+.track.is-active .icon-btn.go { background: rgba(31,230,208,.1); box-shadow: 0 0 14px rgba(31,230,208,.18); }
+
+.more { border-radius: 999px; padding: 0 26px; background: #0e1012; }
+
+@media (max-width: 360px) {
+  .now-title { font-size: 34px; }
+  .dial-band em { display: none; }
+  .track { grid-template-columns: 30px 1fr auto auto; gap: 8px; }
+}

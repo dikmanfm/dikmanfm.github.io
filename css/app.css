@@ -1,9 +1,32 @@
 /* ==========================================================================
    DIKMAN FM — עיצוב קונסולת אולפן
-   פלטה: פחם (charcoal) · כסף מטאלי · תכלת ניאון
+   פלטה: פחם מט (charcoal) · גרפיט מטאלי · טורקיז חשמלי
    ========================================================================== */
 
+/* ---------- פונטים מקומיים (בלי Google Fonts – לא נחסם בסינונים) ---------- */
+@font-face { font-family: "Heebo"; font-style: normal; font-weight: 100 900; font-display: swap;
+  src: url("../fonts/heebo-hebrew-wght-normal.woff2") format("woff2-variations"), url("../fonts/heebo-hebrew-wght-normal.woff2") format("woff2");
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "Heebo"; font-style: normal; font-weight: 100 900; font-display: swap;
+  src: url("../fonts/heebo-latin-wght-normal.woff2") format("woff2-variations"), url("../fonts/heebo-latin-wght-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Karantina"; font-weight: 400; font-display: swap; src: url("../fonts/karantina-hebrew-400-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "Karantina"; font-weight: 700; font-display: swap; src: url("../fonts/karantina-hebrew-700-normal.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "Karantina"; font-weight: 400; font-display: swap; src: url("../fonts/karantina-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122; }
+@font-face { font-family: "Karantina"; font-weight: 700; font-display: swap; src: url("../fonts/karantina-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122; }
+@font-face { font-family: "Share Tech Mono"; font-weight: 400; font-display: swap; src: url("../fonts/share-tech-mono-latin-400-normal.woff2") format("woff2"); }
+
 :root {
+  /* גרפיט: גוף הקונסולה */
+  --graphite-hi: #34383e;
+  --graphite: #1d2024;
+  --graphite-lo: #121417;
+  /* מתכת: טבעות, ברגים, כפתורים – גרדיאנט אחד לכל המערכת */
+  --metal: linear-gradient(180deg, #eef1f4 0%, #9aa1a9 46%, #c9ced3 54%, #6b727a 100%);
+  --metal-ring: conic-gradient(from 210deg, #eef1f4, #7a8088 18%, #d9dde1 32%, #5b6168 50%, #e7eaed 66%, #80868e 82%, #eef1f4);
+  --display: "Karantina", "Heebo", "Arial Hebrew", sans-serif;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+
   --coal-0: #0b0c0e;
   --coal-1: #111215;
   --coal-2: #17191c;
@@ -17,10 +40,10 @@
   --silver-mid: #8d949c;
   --silver-lo: #5d636a;
 
-  --neon: #3ee6ff;
-  --neon-soft: rgba(62, 230, 255, .55);
-  --neon-dim: rgba(62, 230, 255, .14);
-  --neon-ink: #b9f6ff;
+  --neon: #1fe6d0;
+  --neon-soft: rgba(31,230,208, .55);
+  --neon-dim: rgba(31,230,208, .14);
+  --neon-ink: #b6fff2;
   --red: #ff5148;
 
   --ink: #e7e9ec;
@@ -144,8 +167,8 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   min-height: 132px;
   background:
     repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px),
-    radial-gradient(120% 140% at 50% 0%, #0c1c22 0%, #050c0f 70%);
-  box-shadow: inset 0 2px 10px rgba(0,0,0,.9), inset 0 0 0 1px rgba(62,230,255,.08);
+    radial-gradient(120% 140% at 50% 0%, #0a1d1b 0%, #040c0b 70%);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,.9), inset 0 0 0 1px rgba(31,230,208,.08);
   color: var(--neon-ink);
 }
 .lcd::after { /* בוהק זכוכית */
@@ -161,19 +184,19 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   box-shadow: 0 0 12px var(--neon-soft);
 }
 .lcd-tag.rec { background: transparent; color: var(--neon); box-shadow: inset 0 0 0 1px var(--neon-soft); }
-.lcd-date { color: rgba(185,246,255,.6); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lcd-date { color: rgba(182,255,242,.6); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .lcd-clock { font-size: 15px; color: var(--neon); text-shadow: 0 0 8px var(--neon-soft); }
 .lcd-title {
   margin-top: 12px;
   font-size: 20px; font-weight: 600; line-height: 1.25;
-  color: #e9fdff;
-  text-shadow: 0 0 10px rgba(62,230,255,.35);
+  color: #e6fffa;
+  text-shadow: 0 0 10px rgba(31,230,208,.35);
   white-space: nowrap; overflow: hidden;
 }
 .lcd-title span { display: inline-block; }
 .lcd-title.scroll span { animation: marquee 14s linear infinite; padding-inline-end: 48px; }
 @keyframes marquee { 0%, 12% { transform: translateX(0); } 100% { transform: translateX(var(--shift, 0)); } }
-.lcd-sub { margin-top: 3px; font-size: 13.5px; color: rgba(185,246,255,.62); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lcd-sub { margin-top: 3px; font-size: 13.5px; color: rgba(182,255,242,.62); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .progress { margin-top: 12px; }
 .progress-track {
@@ -181,7 +204,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 }
 .progress-track::before {
   content: ""; position: absolute; inset: 7px 0; border-radius: 4px;
-  background: rgba(62,230,255,.12);
+  background: rgba(31,230,208,.12);
 }
 .progress-fill {
   position: absolute; top: 7px; bottom: 7px; right: 0; width: 0;
@@ -189,9 +212,9 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 }
 .progress-head {
   position: absolute; top: 3px; width: 12px; height: 12px; margin-right: -6px; right: 0;
-  border-radius: 50%; background: #e9fdff; box-shadow: 0 0 0 3px rgba(62,230,255,.25);
+  border-radius: 50%; background: #e6fffa; box-shadow: 0 0 0 3px rgba(31,230,208,.25);
 }
-.progress-times { display: flex; justify-content: space-between; font-size: 12px; color: rgba(185,246,255,.6); margin-top: 2px; }
+.progress-times { display: flex; justify-content: space-between; font-size: 12px; color: rgba(182,255,242,.6); margin-top: 2px; }
 
 /* ---------- VU meters ---------- */
 .meters { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; direction: ltr; }
@@ -257,7 +280,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .play.is-loading .ic-play, .play.is-loading .ic-pause { display: none; }
 .play.is-loading .spinner {
   display: block; position: relative; width: 30px; height: 30px; border-radius: 50%;
-  border: 2px solid rgba(62,230,255,.2); border-top-color: var(--neon);
+  border: 2px solid rgba(31,230,208,.2); border-top-color: var(--neon);
   animation: spin .8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -318,11 +341,11 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
 .ch-freq {
   width: 58px; height: 58px; border-radius: 12px;
   display: grid; place-items: center; align-content: center;
-  background: #070b0d; box-shadow: inset 0 0 0 1px rgba(62,230,255,.12), inset 0 2px 6px rgba(0,0,0,.8);
+  background: #060b0a; box-shadow: inset 0 0 0 1px rgba(31,230,208,.12), inset 0 2px 6px rgba(0,0,0,.8);
   font-family: var(--mono); color: var(--neon); line-height: 1;
 }
 .ch-freq b { font-size: 18px; font-weight: 400; text-shadow: 0 0 8px var(--neon-soft); }
-.ch-freq small { font-size: 9.5px; letter-spacing: .14em; color: rgba(185,246,255,.5); margin-top: 4px; }
+.ch-freq small { font-size: 9.5px; letter-spacing: .14em; color: rgba(182,255,242,.5); margin-top: 4px; }
 .ch-name { font-weight: 600; font-size: 16.5px; }
 .ch-desc { font-size: 13.5px; color: var(--ink-2); margin-top: 1px; }
 .ch-now { font-size: 12.5px; color: var(--ink-3); margin-top: 4px; display: flex; align-items: center; gap: 6px; }
@@ -332,7 +355,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   border: 1px solid var(--line-2); color: var(--silver);
 }
 .ch-go svg { width: 16px; height: 16px; fill: currentColor; }
-.channel.is-active { border-color: rgba(62,230,255,.35); background: linear-gradient(180deg, rgba(62,230,255,.05), rgba(62,230,255,0)), var(--coal-2); }
+.channel.is-active { border-color: rgba(31,230,208,.35); background: linear-gradient(180deg, rgba(31,230,208,.05), rgba(31,230,208,0)), var(--coal-2); }
 .channel.is-active .ch-go { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 12px var(--neon-dim); }
 .channel.is-active .ch-now .dot { background: var(--red); box-shadow: 0 0 6px rgba(255,81,72,.7); }
 
@@ -354,7 +377,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   -webkit-appearance: none; appearance: none;
 }
 .search input::placeholder { color: var(--ink-3); }
-.search input:focus { outline: none; border-color: rgba(62,230,255,.5); }
+.search input:focus { outline: none; border-color: rgba(31,230,208,.5); }
 
 .chips { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0 4px; scrollbar-width: none; }
 .chips::-webkit-scrollbar { display: none; }
@@ -463,7 +486,7 @@ button { cursor: pointer; background: none; border: 0; padding: 0; }
   transition: transform .1s, box-shadow .2s, color .2s, background .2s;
 }
 .cta:active { transform: translateY(1px); }
-.cta.is-on { color: var(--neon); background: #0a1114; box-shadow: inset 0 0 0 1px rgba(62,230,255,.5), 0 0 18px var(--neon-dim); }
+.cta.is-on { color: var(--neon); background: #08110f; box-shadow: inset 0 0 0 1px rgba(31,230,208,.5), 0 0 18px var(--neon-dim); }
 .now-next {
   display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
   margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line);

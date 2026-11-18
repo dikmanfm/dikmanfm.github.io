@@ -18,13 +18,13 @@
   <link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-  <!-- בפרודקשן: להעביר את הפונטים לשרת שלכם (תיקיית fonts/) – חלק מהסינונים חוסמים דומיינים חיצוניים -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Share+Tech+Mono&display=swap">
+  <!-- הפונטים מקומיים (fonts/) – בלי תלות בדומיינים חיצוניים שחלק מהסינונים חוסמים -->
+  <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/karantina-hebrew-700-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/motion.css">
   <link rel="stylesheet" href="css/mixer.css">
+  <link rel="stylesheet" href="css/ui.css">
 </head>
 <body>
 <div class="app" id="app">
@@ -155,13 +155,30 @@
 
       <div class="panel" id="panel-live" role="tabpanel" aria-labelledby="tab-live">
         <div class="now-card">
-          <span class="now-badge" id="nowBadge">שידורים חוזרים</span>
+          <div class="now-head">
+            <span class="now-badge" id="nowBadge">שידורים חוזרים</span>
+            <span class="now-day" id="nowDay"></span>
+          </div>
           <h2 class="now-title" id="nowTitle">המיטב מהארכיון, ברצף</h2>
           <p class="now-sub" id="nowSub"></p>
-          <button class="cta" id="btnRadio" data-nav>האזנה לרדיו</button>
+
+          <!-- ציר התדרים: 24 השעות של היום, חלונות השידור החי והמחוג של "עכשיו" -->
+          <div class="dial" id="dial" role="img" aria-label="ציר השידורים של היום">
+            <div class="dial-track">
+              <div class="dial-ticks" id="dialTicks" aria-hidden="true"></div>
+              <div class="dial-bands" id="dialBands" aria-hidden="true"></div>
+              <div class="dial-needle" id="dialNeedle" aria-hidden="true"><span class="dial-now mono" id="dialNow">--:--</span></div>
+            </div>
+            <div class="dial-labels mono" id="dialLabels" aria-hidden="true"></div>
+          </div>
+
+          <button class="cta" id="btnRadio" data-nav>
+            <span class="cta-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 5.5v13L6.5 12z"/></svg></span>
+            <span class="cta-label">האזנה לרדיו</span>
+          </button>
           <div class="now-next" id="nowNext"></div>
         </div>
-        <h3 class="sec-h">לוח השידורים החיים</h3>
+        <h3 class="sec-h">לוח השידורים החיים · השבוע</h3>
         <ul class="sched" id="schedList"></ul>
         <p class="sched-note">השעות לפי שעון ישראל. בשעות השידור החי הנגן עובר אליו אוטומטית, ובסיומו חוזר לשידורים החוזרים.</p>
       </div>
@@ -169,7 +186,8 @@
       <div class="panel" id="panel-archive" role="tabpanel" aria-labelledby="tab-archive" hidden>
         <div class="search">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>
-          <input type="search" id="q" placeholder="חיפוש בארכיון" aria-label="חיפוש בארכיון" enterkeyhint="search">
+          <input type="search" id="q" placeholder="חיפוש בארכיון: שם תוכנית, תאריך…" aria-label="חיפוש בארכיון" enterkeyhint="search">
+          <kbd class="kbd" aria-hidden="true">/</kbd>
         </div>
         <div class="chips" id="chips" role="group" aria-label="סינון לפי קטגוריה"></div>
         <ol class="tracks" id="trackList"></ol>
@@ -210,6 +228,10 @@
 <script src="js/schedule.js"></script>
 <script src="js/demo-audio.js"></script>
 <script src="js/app.js"></script>
+<!-- שכבת תנועה מתקדמת: Anime.js v4 + Motion, מקומיות. בדפדפן ישן שלא מכיר אותן – נשארת השכבה הבסיסית (motion.js) -->
+<script src="vendor/anime-4.5.0.umd.min.js"></script>
+<script src="vendor/motion-14.9.0.min.js"></script>
+<script src="js/fx.js"></script>
 <script src="js/motion.js"></script>
 <script src="js/mixer.js"></script>
 </body>

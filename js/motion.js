@@ -125,14 +125,16 @@
       new MutationObserver(function () {
         if (p.hidden) return;
         anim(p, [{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 420, easing: OUT });
-        stagger($$(".now-card, .sec-h, .sched-row, .search, .chip, .track", p).slice(0, 18), 28, 60, SOFT);
+        stagger($$(window.FX ? ".now-card, .sec-h, .sched-row, .search, .chip" : ".now-card, .sec-h, .sched-row, .search, .chip, .track", p).slice(0, 18), 28, 60, SOFT);
       }).observe(p, { attributes: true, attributeFilter: ["hidden"] });
     });
   }
 
   // ---------- 3. רשימות: פריטים חדשים נכנסים במדורג ----------
   function lists() {
-    ["trackList", "favList", "schedList", "chips"].forEach(function (id) {
+    // כשהשכבה המתקדמת פעילה (fx.js) – שורות הארכיון נחשפות בגלילה שם
+    var ids = window.FX ? ["schedList", "chips"] : ["trackList", "favList", "schedList", "chips"];
+    ids.forEach(function (id) {
       var list = document.getElementById(id); if (!list) return;
       var prev = 0;
       new MutationObserver(function () {
@@ -174,7 +176,7 @@
     var play = $("#btnPlay"), ring = $(".play-ring");
     if (play) new MutationObserver(function () {
       if (play.classList.contains("is-playing")) {
-        anim(ring, [{ boxShadow: "0 0 0 0 rgba(62,230,255,.7)" }, { boxShadow: "0 0 0 22px rgba(62,230,255,0)" }], { duration: 900, easing: OUT });
+        anim(ring, [{ boxShadow: "0 0 0 0 rgba(31,230,208,.7)" }, { boxShadow: "0 0 0 22px rgba(31,230,208,0)" }], { duration: 900, easing: OUT });
       }
     }).observe(play, { attributes: true, attributeFilter: ["class"] });
 
@@ -266,7 +268,14 @@
   }
 
   function start() {
-    powerOn(); tabs(); lists(); buttons(); playerState(); aura(); tilt(); header(); ticker();
+    if (window.FX && FX.powerOn) {
+      try { FX.powerOn(); }
+      catch (e) { // תקלה בשכבה המתקדמת – מחזירים נראוּת ועוברים לבסיסית
+        $$(".topbar > *, .deck, .seg, .panel > *").forEach(function (n) { n.style.opacity = ""; n.style.transform = ""; });
+        powerOn();
+      }
+    } else powerOn();
+    tabs(); lists(); buttons(); playerState(); aura(); tilt(); header(); ticker();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
 })();
