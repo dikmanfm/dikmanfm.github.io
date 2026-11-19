@@ -1,6 +1,6 @@
 /* Service Worker – מעטפת האפליקציה עובדת גם בלי רשת.
    שידורים חיים וקובצי שמע לא נשמרים במטמון (לא חוסמים, לא תופסים מקום). */
-var VERSION = "dikman-voice-v2";
+var VERSION = "dikman-voice-v3";
 var SHELL = [
   "./", "index.html", "css/voice.css",
   "js/config.js", "js/zmanim.js", "js/schedule.js", "js/demo-audio.js", "js/app.js", "js/voice.js", "js/fx.js", "js/stats.js",

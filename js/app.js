@@ -588,7 +588,7 @@
       '<button class="track-main" data-nav data-act="play">' +
         '<span class="td mono">' + esc(fmtDate(ep.date)) + '</span>' +
         '<span class="tt">' + esc(cleanTitle(ep.title)) + '</span>' +
-        '<span class="tm"><b>' + esc(ep.category) + '</b> · ' + fmtDuration(ep.duration) + (pct > 1 && pct < 99 ? ' · <i>הושמעו ' + Math.round(pct) + '%</i>' : '') + '</span>' +
+        '<span class="tm"><b data-cat="' + esc(ep.category) + '">' + esc(ep.category) + '</b> · ' + fmtDuration(ep.duration) + (pct > 1 && pct < 99 ? ' · <i>הושמעו ' + Math.round(pct) + '%</i>' : '') + '</span>' +
         '<span class="tw" style="--p:' + pct.toFixed(1) + '%">' + w + '<span class="tw-lit">' + w + '</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span></span>' +
       '</button>' +
       '<button class="fav" data-nav data-act="fav" aria-pressed="' + fav + '" aria-label="' + (fav ? "הסרה מהשמורים" : "שמירה") + '">' + ICON_STAR + '</button>' +

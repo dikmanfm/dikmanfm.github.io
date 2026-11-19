@@ -1,8 +1,8 @@
 /* ==========================================================================
    DIKMAN FM – "הקול הוא הממשק"
    רעיון: אין קונסולה ואין כרטיסים. המסך הוא טיפוגרפיה ענקית מעל צורת גל חיה.
-   פלטת "דלי": צבע הדגשה ראשי – טורקיז חשמלי (--cue) – מסמן את מה שקורה עכשיו
-   (חי, מתנגן, כפתור הנגינה). משני – אינדיגו קריר (--accent-2) לפרטים עדינים,
+   פלטת "דלי": צבע הדגשה ראשי (--cue) מסמן את מה שקורה עכשיו
+   (חי, מתנגן, כפתור הנגינה) – ציאן חשמלי / כחול-סייבר. משני – אינדיגו קריר (--accent-2) לפרטים ומסגרות,
    וטיטניום מט (--titanium) לפרטי מתכת. הנייטרלים גרפיט קריר.
    כל צירי הזמן זורמים מימין לשמאל (RTL): ההתחלה בימין.
    ========================================================================== */
@@ -21,22 +21,23 @@
 /* ---------- טוקנים: כהה כברירת מחדל (רדיו שומעים גם בלילה), בהיר לפי המכשיר ---------- */
 :root {
   color-scheme: dark;
-  --bg: #0e1013;          /* גרפיט קריר, מט */
-  --bg-2: #161a1f;        /* משטח מוגבה (נגן מוקטן, ריחוף) */
-  --fg: #ecf0f3;
-  --fg-2: #9ba4ae;
-  --fg-3: #6f7984;
-  --line: #242a31;
-  --scope: #313942;       /* עמודות הגל שלא "דולקות" */
-  --cue: #26b8cc;         /* הדגשה ראשית: טורקיז חשמלי – מה שקורה עכשיו */
-  --cue-hover: #4fcadb;
-  --cue-ink: #031a1f;     /* טקסט ואייקונים על הטורקיז */
-  --accent-2: #8d8cf0;    /* הדגשה משנית: אינדיגו קריר */
-  --titanium: #aab3bd;    /* כסוף-טיטניום מט */
-  --glow: 30%;
-  --s1: #aab3bd;          /* מאסטר פליי (גרפים) – טיטניום */
-  --s2: #8d8cf0;          /* לילה מנצח (גרפים) – אינדיגו */
-  --s3: #5f6873;
+  --bg: #0b0d11;          /* גרפיט-לילה קריר, מט */
+  --bg-2: #13171d;        /* משטח מוגבה (נגן מוקטן, ריחוף) */
+  --fg: #eef2f6;
+  --fg-2: #9aa4b0;
+  --fg-3: #6e7985;
+  --line: #20262e;
+  --scope: #2c343e;       /* עמודות הגל שלא "דולקות" */
+  --cue: #1fc8ee;         /* הדגשה ראשית: ציאן חשמלי / כחול-סייבר – מה שקורה עכשיו */
+  --cue-hover: #5ad8f5;
+  --cue-ink: #021821;     /* טקסט ואייקונים על הציאן */
+  --cue-grad: linear-gradient(150deg, #5ad8f5 0%, #1fc8ee 55%, #2a9fe0 100%);
+  --accent-2: #8b8cf2;    /* הדגשה משנית: אינדיגו קריר – מסגרות ופרטים */
+  --titanium: #b8c0ca;    /* כסוף-טיטניום מט */
+  --glow: 32%;            /* עוצמת ההילות (0% במצב בהיר) */
+  --s1: #b8c0ca;          /* מאסטר פליי – טיטניום */
+  --s2: #8b8cf2;          /* לילה מנצח – אינדיגו */
+  --s3: #5c6672;
 
   --display: "Karantina", "Heebo", "Arial Narrow", sans-serif;
   --body: "Heebo", "Segoe UI", Arial, sans-serif;
@@ -51,7 +52,8 @@
   :root:not([data-theme="dark"]) {
     color-scheme: light;
     --bg: #edf0f3; --bg-2: #f8fafb; --fg: #0e1418; --fg-2: #4c5761; --fg-3: #6f7a85;
-    --line: #d2d9e0; --scope: #c1cad3; --cue: #087a8d; --cue-hover: #066a7b; --cue-ink: #ffffff;
+    --line: #d2d9e0; --scope: #c1cad3; --cue: #0570a0; --cue-hover: #045d85; --cue-ink: #ffffff;
+    --cue-grad: linear-gradient(150deg, #0b86b8 0%, #0570a0 60%, #0b5f95 100%);
     --accent-2: #5552cf; --titanium: #6b7682; --glow: 0%;
     --s1: #6b7682; --s2: #5552cf; --s3: #9aa3ad;
   }
@@ -59,7 +61,8 @@
 :root[data-theme="light"] {
   color-scheme: light;
   --bg: #edf0f3; --bg-2: #f8fafb; --fg: #0e1418; --fg-2: #4c5761; --fg-3: #6f7a85;
-  --line: #d2d9e0; --scope: #c1cad3; --cue: #087a8d; --cue-hover: #066a7b; --cue-ink: #ffffff;
+  --line: #d2d9e0; --scope: #c1cad3; --cue: #0570a0; --cue-hover: #045d85; --cue-ink: #ffffff;
+  --cue-grad: linear-gradient(150deg, #0b86b8 0%, #0570a0 60%, #0b5f95 100%);
   --accent-2: #5552cf; --titanium: #6b7682; --glow: 0%;
   --s1: #6b7682; --s2: #5552cf; --s3: #9aa3ad;
 }
@@ -136,7 +139,7 @@ html.is-playing .headline { text-shadow: 0 0 calc(var(--lvl, 0) * 28px) color-mi
 .sw-dim { color: var(--scope); }
 .sw-lit { color: var(--fg); clip-path: inset(0 0 0 100%); }
 .sw-dim rect, .sw-lit rect { fill: currentColor; }
-.sw-head { position: absolute; top: -4px; bottom: -4px; right: 0; width: 2px; margin-right: -1px; background: var(--cue); border-radius: 1px; }
+.sw-head { position: absolute; top: -4px; bottom: -4px; right: 0; width: 2px; margin-right: -1px; background: var(--cue); border-radius: 1px; box-shadow: 0 0 10px color-mix(in srgb, var(--cue) var(--glow), transparent); }
 .sw-times { display: flex; justify-content: space-between; margin-top: 6px; font-size: 13px; color: var(--fg-2); }
 
 /* היום ברצועה אחת */
@@ -147,7 +150,7 @@ html.is-playing .headline { text-shadow: 0 0 calc(var(--lvl, 0) * 28px) color-mi
 .day-hours i { position: absolute; bottom: 0; width: 1px; height: 6px; background: var(--fg-3); opacity: .5; }
 .day-hours i.major { height: 10px; opacity: 1; }
 .band { position: absolute; top: 4px; bottom: 4px; border-radius: 3px; min-width: 4px; }
-.band.on { background: var(--cue); }
+.band.on { background: linear-gradient(to left, var(--cue), color-mix(in srgb, var(--cue) 65%, var(--accent-2))); box-shadow: 0 0 14px -2px color-mix(in srgb, var(--cue) var(--glow), transparent); }
 .band.next { box-shadow: inset 0 0 0 1.5px var(--accent-2); }
 .band.past { background: repeating-linear-gradient(135deg, var(--scope) 0 2px, transparent 2px 5px); }
 .band em { position: absolute; bottom: calc(100% + 6px); inset-inline-start: 0; font-style: normal; font-size: 11px; color: var(--fg-2); white-space: nowrap; }
@@ -161,10 +164,12 @@ html.is-playing .headline { text-shadow: 0 0 calc(var(--lvl, 0) * 28px) color-mi
 .transport { display: flex; align-items: center; justify-content: center; gap: 28px; margin-top: 30px; }
 .play {
   position: relative; width: 88px; height: 88px; border-radius: 50%;
-  display: grid; place-items: center; background: var(--cue); color: var(--cue-ink);
-  transition: transform .2s var(--ease);
+  display: grid; place-items: center; background: var(--cue-grad); color: var(--cue-ink);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--cue) 45%, transparent), 0 14px 36px -12px color-mix(in srgb, var(--cue) var(--glow), transparent);
+  transition: transform .2s var(--ease), box-shadow .3s var(--ease);
 }
 .play:active { transform: scale(.94); }
+html.is-playing .play { box-shadow: 0 0 0 1px color-mix(in srgb, var(--cue) 45%, transparent), 0 0 calc(12px + var(--lvl, 0) * 34px) color-mix(in srgb, var(--cue) var(--glow), transparent); }
 .play svg { width: 34px; height: 34px; fill: currentColor; grid-area: 1 / 1; }
 .play .ic-pause, .play.is-playing .ic-play { display: none; }
 .play.is-playing .ic-pause { display: block; }
@@ -181,7 +186,7 @@ html.is-playing .headline { text-shadow: 0 0 calc(var(--lvl, 0) * 28px) color-mi
 .src { display: grid; gap: 2px; padding: 14px 14px 13px; text-align: start; background: var(--bg); min-width: 0; transition: background-color .25s var(--ease), color .25s var(--ease); }
 .src b { font: 700 26px/1 var(--display); letter-spacing: .01em; }
 .src small { font-size: 12px; line-height: 1.35; color: var(--fg-2); }
-.src[aria-checked="true"] { background: var(--cue); color: var(--cue-ink); }
+.src[aria-checked="true"] { background: var(--cue-grad); color: var(--cue-ink); }
 .src[aria-checked="true"] small { color: color-mix(in srgb, var(--cue-ink) 72%, transparent); }
 
 .volume { display: grid; grid-template-columns: auto 1fr 3ch; align-items: center; gap: 14px; margin-top: 22px; font-size: 13px; color: var(--fg-2); }
@@ -225,6 +230,12 @@ html.is-playing .headline { text-shadow: 0 0 calc(var(--lvl, 0) * 28px) color-mi
 .tt { font-size: 16px; font-weight: 500; line-height: 1.4; min-width: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .tm { font-size: 12.5px; color: var(--fg-3); }
 .tm b { font-weight: 500; color: var(--fg-2); }
+/* תגיות התוכניות: טיטניום למאסטר פליי, אינדיגו ללילה מנצח */
+.tm b[data-cat="מאסטר פליי"], .chip[data-cat="מאסטר פליי"] { --tag: var(--titanium); }
+.tm b[data-cat="לילה מנצח"], .chip[data-cat="לילה מנצח"] { --tag: var(--accent-2); }
+.tm b[data-cat] { color: var(--tag, var(--fg-2)); }
+.chip[data-cat]::before { content: ""; width: 7px; height: 7px; border-radius: 50%; align-self: center; background: var(--tag, transparent); }
+.chip[data-cat="הכל"]::before { display: none; }
 .tm i { font-style: normal; color: var(--fg-2); }
 .tw { grid-column: 2; position: relative; height: 18px; margin-top: 6px; color: var(--scope); }
 .tw svg { width: 100%; height: 100%; }
@@ -250,7 +261,7 @@ html.is-playing .track.is-active .eq { display: flex; }
 .fav-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
 .fav-head .ph { margin-bottom: 4px; }
 .fav-meta { font-size: 13px; color: var(--fg-2); }
-.fav-play { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px 10px 16px; border-radius: 999px; background: var(--cue); color: var(--cue-ink); font-weight: 600; font-size: 15px; }
+.fav-play { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px 10px 16px; border-radius: 999px; background: var(--cue-grad); color: var(--cue-ink); font-weight: 600; font-size: 15px; box-shadow: 0 8px 24px -10px color-mix(in srgb, var(--cue) var(--glow), transparent); }
 .fav-play[hidden] { display: none; }
 .fav-play svg { width: 18px; height: 18px; fill: currentColor; }
 
@@ -319,7 +330,7 @@ html.is-playing .track.is-active .eq { display: flex; }
   background: var(--bg-2); border-top: 1px solid var(--line);
 }
 .mini[hidden] { display: none; }
-.mini-play { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--cue); color: var(--cue-ink); }
+.mini-play { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--cue-grad); color: var(--cue-ink); box-shadow: 0 0 0 1px color-mix(in srgb, var(--cue) 45%, transparent); }
 .mini-play svg { width: 20px; height: 20px; fill: currentColor; }
 .mini-play .ic-pause, .mini-play.is-playing .ic-play { display: none; }
 .mini-play.is-playing .ic-pause { display: block; }
@@ -338,7 +349,7 @@ html.is-playing .track.is-active .eq { display: flex; }
 .tabs button { position: relative; display: grid; justify-items: center; align-content: center; gap: 3px; font-size: 12px; font-weight: 500; color: var(--fg-3); }
 .tabs svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .tabs button[aria-selected="true"] { color: var(--fg); }
-.tabs button[aria-selected="true"]::before { content: ""; position: absolute; top: -1px; inset-inline: 30%; height: 2px; background: var(--cue); }
+.tabs button[aria-selected="true"]::before { content: ""; position: absolute; top: -1px; inset-inline: 30%; height: 2px; background: var(--cue); box-shadow: 0 0 10px color-mix(in srgb, var(--cue) var(--glow), transparent); }
 
 .toast {
   position: fixed; z-index: 40; left: 50%; bottom: calc(var(--tabs-h) + 24px + env(safe-area-inset-bottom, 0px));
@@ -388,8 +399,8 @@ html.has-mini .toast { bottom: calc(var(--tabs-h) + 90px + env(safe-area-inset-b
 
 /* ---------- ריחוף (רק במכשירים עם עכבר) ---------- */
 @media (hover: hover) {
-  .play, .mini-play, .fav-play { transition: background-color .2s var(--ease), transform .2s var(--ease); }
-  .play:hover, .mini-play:hover, .fav-play:hover { background: var(--cue-hover); }
+  .play, .mini-play, .fav-play { transition: filter .2s var(--ease), transform .2s var(--ease), box-shadow .3s var(--ease); }
+  .play:hover, .mini-play:hover, .fav-play:hover { filter: brightness(1.08) saturate(1.05); }
   .src:not([aria-checked="true"]):hover { background: var(--bg-2); }
   .src:not([aria-checked="true"]):hover b { color: var(--cue); }
   .chip:not([aria-pressed="true"]):hover { border-color: var(--accent-2); color: var(--fg); }

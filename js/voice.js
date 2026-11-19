@@ -54,7 +54,7 @@
   var mini = new Scope(document.getElementById("miniScope"), { bar: 2, gap: 2, fade: true });
   if (!big.ctx) return;
 
-  var colors = { lit: "#26b8cc", dim: "#313942" };
+  var colors = { lit: "#1fc8ee", dim: "#2c343e" };
   function readColors() {
     var cs = getComputedStyle(root);
     colors.lit = (cs.getPropertyValue("--cue") || colors.lit).trim();

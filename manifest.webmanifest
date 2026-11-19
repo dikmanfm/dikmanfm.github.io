@@ -15,8 +15,8 @@
   "launch_handler": {
     "client_mode": "focus-existing"
   },
-  "background_color": "#0e1013",
-  "theme_color": "#0e1013",
+  "background_color": "#0b0d11",
+  "theme_color": "#0b0d11",
   "categories": [
     "music",
     "entertainment"
