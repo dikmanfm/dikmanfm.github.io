@@ -1,13 +1,12 @@
 /* Service Worker – מעטפת האפליקציה עובדת גם בלי רשת.
    שידורים חיים וקובצי שמע לא נשמרים במטמון (לא חוסמים, לא תופסים מקום). */
-var VERSION = "dikman-v7";
+var VERSION = "dikman-voice-v1";
 var SHELL = [
-  "./", "index.html", "css/app.css",
-  "css/motion.css", "css/mixer.css", "css/ui.css", "css/stats.css",
-  "js/config.js", "js/zmanim.js", "js/schedule.js", "js/demo-audio.js", "js/app.js", "js/fx.js", "js/motion.js", "js/mixer.js", "js/stats.js",
+  "./", "index.html", "css/voice.css",
+  "js/config.js", "js/zmanim.js", "js/schedule.js", "js/demo-audio.js", "js/app.js", "js/voice.js", "js/fx.js", "js/stats.js",
   "vendor/anime-4.5.0.umd.min.js", "vendor/motion-14.9.0.min.js",
   "fonts/heebo-hebrew-wght-normal.woff2", "fonts/heebo-latin-wght-normal.woff2",
-  "fonts/karantina-hebrew-700-normal.woff2", "fonts/share-tech-mono-latin-400-normal.woff2",
+  "fonts/karantina-hebrew-700-normal.woff2", "fonts/karantina-latin-700-normal.woff2", "fonts/share-tech-mono-latin-400-normal.woff2",
   "icons/icon.svg", "icons/icon-192.png", "icons/icon-512.png", "icons/favicon-32.png", "manifest.webmanifest"
 ];
 
