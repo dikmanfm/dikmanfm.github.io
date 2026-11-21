@@ -48,6 +48,13 @@
   padding: 6px 0 10px;
   margin-bottom: 8px;
 }
+/* בנייד הכותרת הרגילה דביקה – ה-HERO הענק לא אמור להידבק מעל התוכן */
+@media (max-width: 919px) {
+  .hero.topbar, .hero.topbar.is-glass {
+    position: relative; margin: 0 0 8px; padding: calc(6px + var(--safe-t)) 0 10px;
+    background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+}
 .hud {
   display: flex; align-items: center; gap: 8px;
   padding-bottom: 6px;

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-theme="orbit">
+<head>
+  <!-- קונספט B: כל הנתיבים יחסיים לשורש האפליקציה, כך שהקונספט משתמש באותו קוד, אותם נתונים ואותו שידור -->
+  <base href="../../">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#020202">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Dikman FM">
+  <meta name="description" content="DIKMAN FM – הרדיו של יואלי דיקמן: שידור חי ושידורים חוזרים">
+  <title>DIKMAN FM · קונספט B</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="application-name" content="Dikman FM">
+  <meta name="msapplication-TileColor" content="#020202">
+  <meta name="msapplication-TileImage" content="icons/icon-192.png">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="icons/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <!-- הפונטים מקומיים (fonts/) – בלי תלות בדומיינים חיצוניים שחלק מהסינונים חוסמים -->
+  <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/karantina-hebrew-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/motion.css">
+  <link rel="stylesheet" href="css/mixer.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="concepts/orbit/theme.css">
+</head>
+<body>
+<div class="app" id="app">
+
+  <header class="topbar orbit-hero" id="hero">
+    <div class="hud">
+      <span class="hud-id mono" dir="ltr">DKM/FM <i>·</i> CH-01</span>
+      <div class="onair" id="onair" aria-live="polite">
+        <i class="led"></i><span id="onairText">משדר</span>
+      </div>
+    </div>
+
+    <div class="orbit-stage">
+      <!-- טבעות המסלול: מכ"ם / חוגת תדרים. מצוירות בכניסה ומסתובבות לפי עוצמת השמע -->
+      <svg class="orbit brand-mark" viewBox="0 0 600 600" aria-hidden="true">
+        <defs>
+          <linearGradient id="sweepG" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#ff1a3c" stop-opacity="0"/>
+            <stop offset="1" stop-color="#ff1a3c" stop-opacity=".38"/>
+          </linearGradient>
+        </defs>
+        <g class="ring r-outer"><circle cx="300" cy="300" r="292"/></g>
+        <g class="ring r-ticks" id="orbitTicks"></g>
+        <g class="ring r-dash"><circle cx="300" cy="300" r="210"/></g>
+        <g class="ring r-inner"><circle cx="300" cy="300" r="150"/></g>
+        <g class="sweep" id="orbitSweep"><path d="M300 300 L300 40 A260 260 0 0 1 483.8 116.2 Z" fill="url(#sweepG)"/></g>
+        <!-- "לוויין" בצורת סמל הדלי שמקיף את הלוגו -->
+        <g class="sat" id="orbitSat">
+          <g transform="translate(300 8)">
+            <path d="M-14 -4 L-7 -9 L0 -4 L7 -9 L14 -4"/>
+            <path d="M-14 5 L-7 0 L0 5 L7 0 L14 5"/>
+          </g>
+        </g>
+      </svg>
+
+      <span class="ro ro-tl mono" dir="ltr"><small>MODE</small><b id="roMode">REPLAY</b></span>
+      <span class="ro ro-tr mono" dir="ltr"><small>SIGNAL</small><b id="roSig">000%</b></span>
+      <span class="ro ro-bl mono" dir="ltr"><small>FREQ</small><b>107.6</b></span>
+      <span class="ro ro-br mono" dir="ltr"><small>UTC+2</small><b id="roTime">--:--:--</b></span>
+
+      <h1 class="logo-b" dir="ltr" aria-label="DIKMAN FM">
+        <span class="lb-word" aria-hidden="true">
+          <span class="lb-mask"><span class="lb-line lb-outline">DIKMAN</span></span>
+          <span class="lb-mask lb-fill-wrap"><span class="lb-line lb-fill">DIKMAN</span></span>
+        </span>
+        <span class="lb-fm" aria-hidden="true"><b>FM</b></span>
+      </h1>
+    </div>
+
+    <p class="brand-sub"><span>ניגונים</span><i></i><span>שיעורים</span><i></i><span>תוכניות</span></p>
+  </header>
+
+  <main class="layout">
+    <!-- ===== קונסולת הנגן ===== -->
+    <section class="deck console" aria-label="מיקסר השידור">
+      <i class="screw s1"></i><i class="screw s2"></i><i class="screw s3"></i><i class="screw s4"></i>
+
+      <!-- ===== גשר המסכים (Meter bridge) ===== -->
+      <div class="bridge">
+        <div class="lcd screen" id="lcd">
+          <div class="lcd-row">
+            <span class="lcd-tag" id="lcdTag">LIVE</span>
+            <span class="lcd-date" id="lcdDate"></span>
+            <span class="lcd-clock mono" id="lcdClock" hidden>--:--</span>
+            <span class="onair-lamp" id="onairLamp">ON AIR</span>
+          </div>
+          <div class="big-clock mono" id="bigClock" aria-label="השעה עכשיו"><span class="ghost">88:88:88</span><span class="digits">--:--:--</span></div>
+          <div class="lcd-title" id="lcdTitle"><span>הקישו על נגן כדי להאזין</span></div>
+          <div class="lcd-sub" id="lcdSub">DIKMAN FM · שידורים חוזרים</div>
+
+          <div class="progress" id="progress" hidden>
+            <div class="progress-track" id="progressTrack" role="slider" tabindex="0"
+                 aria-label="מיקום בהקלטה" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="progress-fill" id="progressFill"></div>
+              <div class="progress-head" id="progressHead"></div>
+            </div>
+            <div class="progress-times mono"><span id="tCur">0:00</span><span id="tDur">0:00</span></div>
+          </div>
+
+          <div class="meters" aria-hidden="true">
+            <div class="vu"><svg viewBox="0 0 160 92" id="vuL"></svg><b>L</b></div>
+            <div class="vu"><svg viewBox="0 0 160 92" id="vuR"></svg><b>R</b></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== כפתור הנגינה הראשי – במרווח שבין המסך למשטח ===== -->
+      <div class="transport-bay">
+        <span class="bay-groove" aria-hidden="true"></span>
+        <button class="play big-play" id="btnPlay" aria-label="נגן">
+          <span class="play-ring"></span>
+          <svg class="ic-play" viewBox="0 0 24 24"><path d="M16 5.5v13L6.5 12z"/></svg>
+          <svg class="ic-pause" viewBox="0 0 24 24"><rect x="6.5" y="5.5" width="3.6" height="13" rx="1"/><rect x="13.9" y="5.5" width="3.6" height="13" rx="1"/></svg>
+          <span class="spinner"></span>
+        </button>
+        <span class="bay-groove" aria-hidden="true"></span>
+        <span class="bay-label">PLAY · PAUSE</span>
+      </div>
+
+      <!-- ===== משטח הערוצים ===== -->
+      <div class="surface">
+        <div class="strips">
+          <div class="strip" data-ch="live">
+            <span class="knob" aria-hidden="true"></span>
+            <div class="scribble"><b>קול פליי</b><span data-status>LIVE</span></div>
+            <div class="pads">
+              <button class="pad red" data-act="on" aria-label="האזנה לשידור החי של קול פליי">ON</button>
+              <button class="pad" data-act="auto" aria-label="מצב אוטומטי: חי בזמן התוכנית, ארכיון בשאר השעות">AUTO</button>
+            </div>
+            <div class="fwrap"><div class="scale" aria-hidden="true"></div><div class="ftrack"><i class="slot"></i><span class="fcap" role="slider" tabindex="0" aria-label="פיידר שידור חי"></span></div><div class="ladder" aria-hidden="true"></div></div>
+            <div class="strip-name">LIVE · 107.6</div>
+          </div>
+
+          <div class="strip" data-ch="מאסטר פליי">
+            <span class="knob" aria-hidden="true"></span>
+            <div class="scribble"><b>מאסטר פליי</b><span data-status>ארכיון</span></div>
+            <div class="pads">
+              <button class="pad" data-act="on" aria-label="ארכיון מאסטר פליי">ON</button>
+              <button class="pad" data-act="next" aria-label="הפרק הבא">NEXT</button>
+            </div>
+            <div class="fwrap"><div class="scale" aria-hidden="true"></div><div class="ftrack"><i class="slot"></i><span class="fcap" role="slider" tabindex="0" aria-label="פיידר מאסטר פליי"></span></div><div class="ladder" aria-hidden="true"></div></div>
+            <div class="strip-name">MASTER PLAY</div>
+          </div>
+
+          <div class="strip" data-ch="לילה מנצח">
+            <span class="knob" aria-hidden="true"></span>
+            <div class="scribble"><b>לילה מנצח</b><span data-status>ארכיון</span></div>
+            <div class="pads">
+              <button class="pad" data-act="on" aria-label="ארכיון לילה מנצח">ON</button>
+              <button class="pad" data-act="next" aria-label="הפרק הבא">NEXT</button>
+            </div>
+            <div class="fwrap"><div class="scale" aria-hidden="true"></div><div class="ftrack"><i class="slot"></i><span class="fcap" role="slider" tabindex="0" aria-label="פיידר לילה מנצח"></span></div><div class="ladder" aria-hidden="true"></div></div>
+            <div class="strip-name">LAILA</div>
+          </div>
+
+          <div class="strip master" data-ch="master">
+            <span class="knob" aria-hidden="true"></span>
+            <div class="scribble"><b>MASTER</b><span data-status id="volVal">85</span></div>
+            <div class="pads transport">
+              <button class="pad tbtn" id="btnBack" aria-label="15 שניות אחורה" disabled><svg viewBox="0 0 24 24"><path d="M13 5a7 7 0 1 1-6.6 9.3"/><path d="M13 2v6h-.01L16.5 5 13 2z" class="fill"/></svg></button>
+              <button class="pad tbtn" id="btnFwd" aria-label="15 שניות קדימה" disabled><svg viewBox="0 0 24 24"><path d="M11 5a7 7 0 1 0 6.6 9.3"/><path d="M11 2v6h.01L7.5 5 11 2z" class="fill"/></svg></button>
+              <button class="pad music" id="btnMusic" aria-label="מוזיקה – רשימת השירים (בקרוב)">מוזיקה</button>
+            </div>
+            <div class="fwrap"><div class="scale" aria-hidden="true"></div><div class="ftrack"><i class="slot"></i><span class="fcap" role="slider" tabindex="0" aria-label="עוצמת שמע"></span></div><div class="ladder" aria-hidden="true"></div></div>
+            <div class="strip-name">MASTER</div>
+            <input type="range" id="vol" class="sr-only" min="0" max="100" value="85" tabindex="-1" aria-hidden="true">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== תוכן ===== -->
+    <section class="content">
+      <nav class="seg" role="tablist" aria-label="מדורים">
+        <button role="tab" id="tab-live" aria-selected="true" aria-controls="panel-live" data-tab="live">עכשיו</button>
+        <button role="tab" id="tab-archive" aria-selected="false" aria-controls="panel-archive" data-tab="archive">ארכיון</button>
+        <button role="tab" id="tab-fav" aria-selected="false" aria-controls="panel-fav" data-tab="fav">שמורים</button>
+      </nav>
+
+      <div class="panel" id="panel-live" role="tabpanel" aria-labelledby="tab-live">
+        <div class="now-card">
+          <div class="now-head">
+            <span class="now-badge" id="nowBadge">שידורים חוזרים</span>
+            <span class="now-day" id="nowDay"></span>
+          </div>
+          <h2 class="now-title" id="nowTitle">המיטב מהארכיון, ברצף</h2>
+          <p class="now-sub" id="nowSub"></p>
+
+          <!-- ציר התדרים: 24 השעות של היום, חלונות השידור החי והמחוג של "עכשיו" -->
+          <div class="dial" id="dial" role="img" aria-label="ציר השידורים של היום">
+            <div class="dial-track">
+              <div class="dial-ticks" id="dialTicks" aria-hidden="true"></div>
+              <div class="dial-bands" id="dialBands" aria-hidden="true"></div>
+              <div class="dial-needle" id="dialNeedle" aria-hidden="true"><span class="dial-now mono" id="dialNow">--:--</span></div>
+            </div>
+            <div class="dial-labels mono" id="dialLabels" aria-hidden="true"></div>
+          </div>
+
+          <button class="cta" id="btnRadio" data-nav>
+            <span class="cta-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 5.5v13L6.5 12z"/></svg></span>
+            <span class="cta-label">האזנה לרדיו</span>
+          </button>
+          <div class="now-next" id="nowNext"></div>
+        </div>
+        <h3 class="sec-h">לוח השידורים החיים · השבוע</h3>
+        <ul class="sched" id="schedList"></ul>
+        <p class="sched-note">השעות לפי שעון ישראל. בשעות השידור החי הנגן עובר אליו אוטומטית, ובסיומו חוזר לשידורים החוזרים.</p>
+      </div>
+
+      <div class="panel" id="panel-archive" role="tabpanel" aria-labelledby="tab-archive" hidden>
+        <div class="search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>
+          <input type="search" id="q" placeholder="חיפוש בארכיון: שם תוכנית, תאריך…" aria-label="חיפוש בארכיון" enterkeyhint="search">
+          <kbd class="kbd" aria-hidden="true">/</kbd>
+        </div>
+        <div class="chips" id="chips" role="group" aria-label="סינון לפי קטגוריה"></div>
+        <ol class="tracks" id="trackList"></ol>
+        <p class="list-meta" id="archiveMeta"></p>
+      </div>
+
+      <div class="panel" id="panel-fav" role="tabpanel" aria-labelledby="tab-fav" hidden>
+        <div class="fav-head" id="favHead" hidden>
+          <div class="fav-head-text">
+            <h3 class="fav-title">השמורים שלי</h3>
+            <span class="fav-meta" id="favMeta"></span>
+          </div>
+          <button class="fav-play" id="btnFavPlay" data-nav>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5.5v13L6.5 12z"/></svg>
+            <span>ניגון ברצף</span>
+          </button>
+        </div>
+        <ol class="tracks" id="favList"></ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>© <span id="year"></span> DIKMAN FM</span>
+    <span class="foot-keys">מקשים: 5 נגן/עצור · 4/6 דילוג · 8 הבא</span>
+  </footer>
+</div>
+
+<!-- מסך שבת / חג -->
+<div class="shabbat" id="shabbat" hidden>
+  <div class="shabbat-card">
+    <!-- טבעת הזמן: כמה מהשבת כבר עברה. בתוכה – שני נרות -->
+    <div class="sh-orbit" aria-hidden="true">
+      <svg viewBox="0 0 220 220" class="sh-ring">
+        <circle cx="110" cy="110" r="100" class="sh-track"/>
+        <g class="sh-ticks" id="shTicks"></g>
+        <circle cx="110" cy="110" r="100" class="sh-arc" id="shArc" pathLength="1000"/>
+      </svg>
+      <svg viewBox="0 0 64 80" class="candles">
+        <defs>
+          <linearGradient id="gs2" x1="0" x2="1"><stop offset="0" stop-color="#6b727a"/><stop offset=".5" stop-color="#eef1f4"/><stop offset="1" stop-color="#6b727a"/></linearGradient>
+          <radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd58a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd58a" stop-opacity="0"/></radialGradient>
+          <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff6df"/><stop offset=".45" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff9a3c"/></linearGradient>
+        </defs>
+        <circle cx="20" cy="22" r="14" fill="url(#glow)" class="halo"/>
+        <circle cx="44" cy="22" r="14" fill="url(#glow)" class="halo"/>
+        <rect x="16.5" y="34" width="7" height="40" rx="2" fill="url(#gs2)"/>
+        <rect x="40.5" y="34" width="7" height="40" rx="2" fill="url(#gs2)"/>
+        <path d="M20 33.5v-3.5M44 33.5v-3.5" stroke="#2a2e33" stroke-width="1.2" stroke-linecap="round"/>
+        <path class="flame" d="M20 12c4 6 4.6 10.5 0 18-4.6-7.5-4-12 0-18z" fill="url(#flame)"/>
+        <path class="flame" d="M44 12c4 6 4.6 10.5 0 18-4.6-7.5-4-12 0-18z" fill="url(#flame)"/>
+      </svg>
+    </div>
+    <h2 id="shabbatTitle">שבת שלום</h2>
+    <p id="shabbatText">השידורים מושבתים בשבת ויחודשו במוצאי שבת.</p>
+    <div class="sh-count" role="timer" aria-live="off">
+      <span class="sh-count-label">חידוש השידורים בעוד</span>
+      <span class="sh-digits mono" id="shabbatCount">--:--:--</span>
+      <span class="shabbat-time" id="shabbatTime"></span>
+    </div>
+  </div>
+</div>
+
+<a class="concept-tag" href="concepts/"><b>B</b> מסלול · כל הקונספטים</a>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<audio id="audio" preload="none" playsinline></audio>
+
+<script src="js/config.js"></script>
+<script src="js/zmanim.js"></script>
+<script src="js/schedule.js"></script>
+<script src="js/demo-audio.js"></script>
+<script src="js/app.js"></script>
+<!-- שכבת תנועה מתקדמת: Anime.js v4 + Motion, מקומיות. בדפדפן ישן שלא מכיר אותן – נשארת השכבה הבסיסית (motion.js) -->
+<script src="vendor/anime-4.5.0.umd.min.js"></script>
+<script src="vendor/motion-14.9.0.min.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/motion.js"></script>
+<script src="js/mixer.js"></script>
+<script src="concepts/orbit/hero.js"></script>
+</body>
+</html>
