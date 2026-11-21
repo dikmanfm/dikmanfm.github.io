@@ -1,0 +1,234 @@
+/* ==========================================================================
+   DIKMAN FM · קונספט A — "אות אדום" (Red Signal)
+   פחם כמעט שחור · אדום סייבר חד · לבן "לוהט" לשידור חי
+   הקובץ נטען אחרי כל קובצי ה-CSS של האפליקציה ומחליף רק את השפה החזותית.
+   ========================================================================== */
+
+@property --beam { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+:root[data-theme="red"] {
+  --neon-rgb: 255, 26, 60;
+  --neon-ink-rgb: 255, 205, 210;
+  --neon: #ff1a3c;
+  --neon-ink: #ffd6da;
+  --hot: #ff4d63;          /* אדום בהיר להדגשות קטנות */
+  --blood: #7a0a1a;        /* אדום עמוק לרקעים מוארים */
+  --red: #ffffff;          /* "חי" = לבן לוהט, כדי שיבלוט על רקע שכולו אדום */
+
+  --coal-0: #060606;
+  --coal-1: #0c0c0d;
+  --coal-2: #121213;
+  --coal-3: #19191b;
+  --coal-4: #242427;
+  --graphite-hi: #2b2b2e;
+  --graphite: #151517;
+  --graphite-lo: #0b0b0c;
+  --line: rgba(255, 255, 255, .055);
+  --line-2: rgba(255, 255, 255, .09);
+  --ink: #f2f2f3;
+  --ink-2: #a9a9ae;
+  --ink-3: #6c6c72;
+}
+
+/* ---------- רקע: פחם, מטריצת נקודות דקה, וזרקור אדום מאחורי הלוגו ---------- */
+[data-theme="red"] body {
+  background:
+    radial-gradient(900px 520px at 50% 120px, rgba(var(--neon-rgb), .16), transparent 70%),
+    radial-gradient(circle, rgba(255,255,255,.035) 1px, transparent 1.2px) 0 0 / 22px 22px,
+    var(--coal-0);
+}
+[data-theme="red"] body::before { background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px); }
+[data-theme="red"] body::after { background: radial-gradient(closest-side, rgba(var(--neon-rgb), .1), transparent 70%); }
+
+/* ==========================================================================
+   HERO — הלוגו הוא הדבר הגדול ביותר במסך
+   ========================================================================== */
+.hero.topbar {
+  display: block; position: relative;
+  padding: 6px 0 10px;
+  margin-bottom: 8px;
+}
+/* בנייד הכותרת הרגילה דביקה – ה-HERO הענק לא אמור להידבק מעל התוכן */
+@media (max-width: 919px) {
+  .hero.topbar, .hero.topbar.is-glass {
+    position: relative; margin: 0 0 8px; padding: calc(6px + var(--safe-t)) 0 10px;
+    background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+}
+.hud {
+  display: flex; align-items: center; gap: 8px;
+  padding-bottom: 6px;
+}
+.hud .onair { margin-inline-start: auto; }
+.hud-cell {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  height: 30px; padding: 0 10px; border-radius: 4px;
+  font-size: 12px; color: var(--ink-3);
+  background: rgba(255,255,255,.02);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+  align-items: center;
+}
+.hud-cell small { font-size: 10px; letter-spacing: .16em; }
+.hud-cell b { font-weight: 400; font-size: 15px; color: var(--neon); text-shadow: 0 0 10px rgba(var(--neon-rgb), .7); font-variant-numeric: tabular-nums; }
+.sig-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.sig-bars i { width: 3px; background: #2a2a2d; border-radius: 1px; }
+.sig-bars i:nth-child(1) { height: 30%; } .sig-bars i:nth-child(2) { height: 45%; } .sig-bars i:nth-child(3) { height: 62%; }
+.sig-bars i:nth-child(4) { height: 80%; } .sig-bars i:nth-child(5) { height: 100%; }
+.sig-bars i.on { background: var(--neon); box-shadow: 0 0 6px rgba(var(--neon-rgb), .8); }
+
+[data-theme="red"] .onair { border-radius: 4px; background: rgba(255,255,255,.02); border-color: var(--line-2); font-family: var(--font); }
+[data-theme="red"] .onair.is-live { color: #fff; border-color: rgba(var(--neon-rgb), .7); background: rgba(var(--neon-rgb), .14); box-shadow: 0 0 18px rgba(var(--neon-rgb), .35); }
+[data-theme="red"] .onair.is-live .led { background: #fff; box-shadow: 0 0 0 3px rgba(var(--neon-rgb), .4), 0 0 12px #fff; }
+
+.logo-stage { position: relative; text-align: center; padding: 18px 0 6px; }
+.logo-coord {
+  position: absolute; inset-inline-end: 0; top: 4px;
+  font-size: 10px; letter-spacing: .18em; color: var(--ink-3);
+}
+.logo {
+  --size: min(21vw, 250px);
+  margin: 0 auto; display: inline-flex; align-items: stretch; justify-content: center;
+  gap: calc(var(--size) * .06);
+  font: 700 var(--size)/.78 "Karantina", "Heebo", sans-serif;
+  letter-spacing: -.005em;
+  user-select: none; -webkit-user-select: none;
+}
+.logo-word { position: relative; display: block; }
+.logo-layer { display: block; white-space: nowrap; }
+.logo-main { position: relative; z-index: 2; color: var(--neon);
+  text-shadow: 0 0 calc(var(--size) * .05) rgba(var(--neon-rgb), .55), 0 0 calc(var(--size) * .22) rgba(var(--neon-rgb), .28);
+}
+.logo { --glow: 0; }
+.logo-main { filter: brightness(calc(1 + var(--glow) * .35)) saturate(calc(1 + var(--glow) * .3)); }
+.logo-main i { font-style: normal; display: inline-block; will-change: transform; }
+/* שתי שכבות "רפאים" לאפקט פיצול צבע (glitch). מוסתרות עד שהגליץ' מופעל */
+.logo-ghost { position: absolute; inset: 0; z-index: 1; opacity: 0; pointer-events: none; }
+.logo-ghost.g1 { color: #fff; mix-blend-mode: screen; }
+.logo-ghost.g2 { color: #00e1ff; mix-blend-mode: screen; }
+
+.logo-fm {
+  display: flex; flex-direction: column; justify-content: space-between; align-items: stretch;
+  padding: calc(var(--size) * .05) 0 calc(var(--size) * .02);
+}
+.logo-fm b {
+  display: block; font-weight: 700; color: #fff;
+  font-size: calc(var(--size) * .5); line-height: .8; letter-spacing: .02em;
+  text-shadow: 0 0 18px rgba(255,255,255,.25);
+}
+.brand-mark.aqua { width: auto; height: calc(var(--size) * .26); display: block; overflow: visible; }
+.brand-mark.aqua path {
+  fill: none; stroke: var(--neon); stroke-width: 5; stroke-linejoin: miter; stroke-linecap: square;
+  filter: drop-shadow(0 0 6px rgba(var(--neon-rgb), .8));
+}
+
+.logo-rule { display: flex; align-items: center; gap: 12px; margin: 14px auto 0; max-width: 760px; }
+.logo-rule span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(var(--neon-rgb), .7)); }
+.logo-rule span:last-child { background: linear-gradient(270deg, transparent, rgba(var(--neon-rgb), .7)); }
+.logo-rule em { font-style: normal; font-size: 10.5px; letter-spacing: .24em; color: var(--ink-2); white-space: nowrap; }
+[data-theme="red"] .brand-sub { margin: 8px 0 0; font-size: 14px; color: var(--ink-2); letter-spacing: .02em; }
+
+.scope { display: block; width: 100%; height: 46px; margin-top: 10px; }
+
+/* ==========================================================================
+   הקונסולה — גרפיט שחור, מסגרת "קרן" אדומה שמסתובבת (בהשראת Kokonut UI)
+   ========================================================================== */
+[data-theme="red"] .console.deck {
+  border: 1px solid transparent;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0 1px, rgba(0,0,0,.03) 1px 3px) padding-box,
+    radial-gradient(140% 70% at 50% 0%, rgba(var(--neon-rgb), .06), transparent 60%) padding-box,
+    linear-gradient(180deg, #141416 0%, #0f0f11 55%, #0a0a0b 100%) padding-box,
+    conic-gradient(from var(--beam), transparent 0 62%, rgba(var(--neon-rgb), .15) 74%, var(--neon) 86%, #fff 88%, transparent 90%) border-box,
+    linear-gradient(#232326, #232326) border-box;
+  animation: beam 7s linear infinite;
+}
+@keyframes beam { to { --beam: 360deg; } }
+[data-theme="red"] .console.deck::before { background: linear-gradient(90deg, transparent, rgba(255,255,255,.35) 30%, rgba(255,255,255,.35) 70%, transparent); }
+[data-theme="red"] .console .screw { background: radial-gradient(circle at 35% 30%, #d8d8dc, #6d6d73 55%, #2a2a2e); }
+[data-theme="red"] .bridge { background: linear-gradient(180deg, #232326, #0e0e10 70%, #080809); }
+
+/* מסך ה-LCD: זכוכית שחורה עם רשת אדומה */
+[data-theme="red"] .lcd { background: repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px), radial-gradient(120% 140% at 50% 0%, #1c0508 0%, #080203 70%); }
+[data-theme="red"] .console .screen.lcd {
+  background:
+    linear-gradient(rgba(var(--neon-rgb), .05) 1px, transparent 1px) 0 0 / 100% 14px,
+    linear-gradient(90deg, rgba(var(--neon-rgb), .05) 1px, transparent 1px) 0 0 / 14px 100%,
+    radial-gradient(120% 120% at 50% 0%, #1d0509 0%, #070102 75%);
+}
+[data-theme="red"] .lcd-title { color: #fff; text-shadow: 0 0 12px rgba(var(--neon-rgb), .55); }
+[data-theme="red"] .lcd-tag { color: #fff; border-radius: 2px; }
+[data-theme="red"] .big-clock .digits { color: var(--neon); }
+[data-theme="red"] .progress-head { background: #fff; }
+[data-theme="red"] .console .vu .hub { fill: #fff; }
+[data-theme="red"] .console .vu .arc.hot, [data-theme="red"] .console .vu .tick.hot { stroke: #fff; }
+[data-theme="red"] .console .vu .lbl.hot { fill: #fff; }
+
+/* ערוצים */
+[data-theme="red"] .scribble { background: linear-gradient(180deg, #170507, #0a0203); }
+[data-theme="red"] .scribble b { color: #ffe9eb; }
+[data-theme="red"] .strip[data-ch="live"].is-on .scribble span { color: #fff; text-shadow: 0 0 8px rgba(var(--neon-rgb), .9); }
+[data-theme="red"] .pad { border-radius: 3px; background: linear-gradient(180deg, #29292c, #1f1f22 60%, #18181a); }
+[data-theme="red"] .pad.lit {
+  color: #fff;
+  background: radial-gradient(circle at 50% 40%, #ffd0d6 0%, #ff4d63 38%, #c4001f 100%);
+  box-shadow: 0 2px 0 #6b0012, 0 0 16px rgba(var(--neon-rgb), .9), 0 0 2px #fff, inset 0 0 6px rgba(255,255,255,.55);
+}
+[data-theme="red"] .pad.red { color: #ff8a98; background: linear-gradient(180deg, #33161a, #261114 60%, #1d0d10); }
+[data-theme="red"] .pad.red.lit {
+  color: #2a0006;
+  background: radial-gradient(circle at 50% 40%, #fff 0%, #ffe3e6 40%, #ff9fab 100%);
+  box-shadow: 0 2px 0 #a3283a, 0 0 18px rgba(255,255,255,.7), 0 0 26px rgba(var(--neon-rgb), .8), inset 0 0 6px #fff;
+}
+[data-theme="red"] .ladder i.on { background: var(--neon); }
+[data-theme="red"] .ladder i.on.amber { background: #ff8a3d; box-shadow: 0 0 6px rgba(255,138,61,.9); }
+[data-theme="red"] .ladder i.on.hot { background: #fff; box-shadow: 0 0 8px #fff, 0 0 12px rgba(var(--neon-rgb), .9); }
+
+/* כפתור הנגינה: טבעת אדומה שפועמת כשמתנגן */
+[data-theme="red"] .console .big-play.is-playing {
+  box-shadow: 0 14px 24px -8px rgba(0,0,0,.95), 0 0 0 5px rgba(var(--neon-rgb), .25), 0 0 44px rgba(var(--neon-rgb), .55);
+}
+[data-theme="red"] .bay-label { color: var(--hot); letter-spacing: .3em; }
+
+/* ---------- תוכן ---------- */
+[data-theme="red"] .ch-freq { background: #0b0203; }
+[data-theme="red"] .cta {
+  border-radius: 4px; color: #fff;
+  background: linear-gradient(180deg, #ff2d4b, #c80020);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 0 0 1px #ff6b7e, 0 10px 30px -10px rgba(var(--neon-rgb), .8);
+  letter-spacing: .02em;
+}
+[data-theme="red"] .cta .cta-ic svg { fill: #fff; filter: none; }
+[data-theme="red"] .cta.is-on { color: #fff; background: #140306; box-shadow: inset 0 0 0 1px rgba(var(--neon-rgb), .8), 0 0 26px rgba(var(--neon-rgb), .35); }
+[data-theme="red"] .dial-track { background: linear-gradient(180deg, rgba(var(--neon-rgb), .05), rgba(var(--neon-rgb), 0) 60%), #0a0405; }
+[data-theme="red"] .seg { border-radius: 6px; }
+[data-theme="red"] .seg button[aria-selected="true"] { color: #fff; }
+[data-theme="red"] .now-card, [data-theme="red"] .fav-head { border-radius: 8px; }
+[data-theme="red"] .sec-h { color: var(--hot); letter-spacing: .04em; }
+[data-theme="red"] .more { background: #120607; }
+[data-theme="red"] .now-badge.live::before { box-shadow: 0 0 8px #fff, 0 0 14px rgba(var(--neon-rgb), .9); }
+
+/* ---------- תווית הקונספט (רק לסקיצה, כדי לדעת מה מציגים) ---------- */
+.concept-tag {
+  position: relative; z-index: 1; width: max-content; margin: 0 auto calc(20px + var(--safe-b));
+  display: flex; align-items: center; gap: 8px;
+  height: 32px; padding: 0 12px; border-radius: 4px;
+  font-size: 12px; color: var(--ink-2); text-decoration: none;
+  background: rgba(12,12,13,.85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+.concept-tag b { color: var(--neon); font-family: var(--mono); font-weight: 400; letter-spacing: .1em; }
+.concept-tag:hover { color: var(--ink); }
+
+/* ניצוצות בלחיצה על הלוגו / הנגן */
+.burst { position: fixed; width: 4px; height: 4px; margin: -2px; border-radius: 1px; background: var(--neon); box-shadow: 0 0 8px var(--neon); pointer-events: none; z-index: 70; }
+
+@media (max-width: 520px) {
+  .logo { --size: 24.5vw; }
+  .logo-coord { display: none; }
+  .logo-rule em { font-size: 9px; letter-spacing: .16em; }
+  .hud-sig { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="red"] .console.deck { animation: none; }
+}
