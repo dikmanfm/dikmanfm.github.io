@@ -379,3 +379,29 @@
   .host { --h: 70%; left: -11%; top: 43%; }
   .host img { filter: contrast(1.04) saturate(.85) drop-shadow(0 0 1px rgba(var(--neon-rgb), .8)) drop-shadow(0 0 14px rgba(var(--neon-rgb), .3)); }
 }
+
+/* ==========================================================================
+   בדיקת פונטים ללוגו (?font=) – הלוגו מקבל את הפונט מהמשתנים, וסרגל דפדוף בתחתית
+   ========================================================================== */
+.logo-b[data-font] .lb-line, .logo-b[data-font] .lb-fm b {
+  font-family: var(--logo-font); font-weight: var(--logo-weight); letter-spacing: var(--logo-track);
+}
+.logo-b[data-font] .lb-mask { padding-right: .12em; }      /* פונטים נטויים לא נחתכים */
+.logo-b[data-font] .lb-fm { padding: .1em .14em .05em; }
+
+.fontbar {
+  position: fixed; z-index: 60; left: 50%; bottom: calc(12px + var(--safe-b, 0px)); transform: translateX(-50%);
+  display: flex; align-items: center; gap: 6px; padding: 6px;
+  width: min(440px, calc(100vw - 24px));
+  background: rgba(5,5,5,.94); box-shadow: inset 0 0 0 1px rgba(var(--neon-rgb), .5), 0 14px 40px -10px #000;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.fb-btn { flex: 0 0 auto; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 0; cursor: pointer;
+  background: var(--neon); color: #000; }
+.fb-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.6; }
+.fb-btn:focus-visible, .fb-all:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.fb-mid { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; line-height: 1.2; }
+.fb-mid small { font-size: 11px; color: var(--ink-3); }
+.fb-name { font-size: 16px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.fb-all { flex: 0 0 auto; align-self: stretch; display: grid; place-items: center; padding: 0 10px; font-size: 12px; color: var(--ink-2); text-decoration: none; box-shadow: inset 0 0 0 1px var(--line-2); }
+.fb-all:hover { color: #fff; }
