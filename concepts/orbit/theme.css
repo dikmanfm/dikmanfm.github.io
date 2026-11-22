@@ -477,3 +477,5 @@
   .orb:hover .orb-arc { animation-duration: 1.6s; }
 }
 @keyframes orb-spin { to { --spin: 360deg; } }
+.orb-disc svg.clef { width: 50%; height: 50%; stroke-width: 1.5; }
+.head-disc svg.clef { width: 52%; height: 52%; }
