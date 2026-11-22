@@ -3,8 +3,8 @@
    • כל אזור מחושב לפי אזור הזמן שלו (Asia/Jerusalem, America/New_York) והשקיעה במקומו,
      בלי קשר לשעון של המכשיר. שבת בישראל חוסמת רק גולשים מישראל, ולהפך.
    • אזור הגולש מזוהה לפי אזור הזמן של הדפדפן (בלי לבקש הרשאת מיקום).
-   • אלגוריתם "משוואת הזריחה" (NOAA המקוצר) – דיוק של כדקה, מספיק לחסימת שידור.
-     לזמנים הלכתיים מדויקים לפרסום – להשתמש בלוח מוסמך.
+   • כשלאזור יש טבלת זמנים (times, למשל מלוח 2net) – הטבלה קובעת בדיוק, כולל חגים.
+   • מחוץ לתקופת הטבלה: אלגוריתם "משוואת הזריחה" (NOAA המקוצר) – דיוק של כדקה.
 
    מצב בדיקה (בכתובת):
      ?shabbat=1            מסך השבת מוצג עכשיו, עם זמני השבת הקרובה של האזור
@@ -102,12 +102,38 @@
     };
   }
 
+  // ---------- טבלת זמנים קבועה (למשל מלוח 2net) ----------
+  // r.times = [["YYYY-MM-DD HH:MM" כניסה, "YYYY-MM-DD HH:MM" יציאה, "shabbat"|"holiday", שם], ...] בשעון האזור.
+  // בתוך התקופה שהטבלה מכסה – רק הטבלה קובעת (בדיוק לפי הלוח). מחוץ לה – החישוב לפי השקיעה.
+  function table(r) {
+    if (!r.times || !r.times.length) return null;
+    if (r._tbl) return r._tbl;
+    var list = [];
+    for (var i = 0; i < r.times.length; i++) {
+      var t = r.times[i], a = wallToInstant(String(t[0]).replace(" ", "T"), r.tz), b = wallToInstant(String(t[1]).replace(" ", "T"), r.tz);
+      if (a != null && b != null && b > a) list.push({ since: new Date(a), until: new Date(b), kind: t[2] === "holiday" ? "holiday" : "shabbat", name: t[3] || "" });
+    }
+    list.sort(function (x, y) { return x.since - y.since; });
+    // הטבלה "מכסה" משבוע לפני הכניסה הראשונה ועד היציאה האחרונה
+    r._tbl = list.length ? { list: list, from: list[0].since.getTime() - 7 * DAY, to: list[list.length - 1].until.getTime() } : null;
+    return r._tbl;
+  }
+  function inTable(at, r) {
+    var T = table(r), t = at.getTime();
+    if (!T || t < T.from || t >= T.to) return undefined;     // מחוץ לטבלה: לחשב
+    for (var i = 0; i < T.list.length; i++) { var w = T.list[i]; if (t >= w.since && t < w.until) return w; }
+    return null;                                              // בתוך התקופה, לא בשבת/חג
+  }
+
   // מחזיר null אם מותר לשדר, או {kind, since, until, region, regionName, tz}
   function closedState(at, cfg, key) {
     if (!cfg || !cfg.enabled) return null;
     var R = regions(cfg); key = key && R[key] ? key : detectRegion(cfg);
     var r = R[key], p = parts(at, r.tz), base = { region: key, regionName: r.name, tz: r.tz };
     var out = function (o) { for (var k in base) o[k] = base[k]; return o; };
+
+    var tw = inTable(at, r);
+    if (tw !== undefined) return tw ? out({ kind: tw.kind, name: tw.name, since: tw.since, until: tw.until }) : null;
 
     if (p.dow === 5 || p.dow === 6) {
       var w = shabbatAround(shift(p, p.dow === 6 ? -1 : 0), r);
@@ -126,6 +152,10 @@
   // השבת הנוכחית או הקרובה של אזור (לתצוגה מקדימה ולמידע)
   function nextShabbat(at, cfg, key) {
     var R = regions(cfg), r = R[key] || R[detectRegion(cfg)], p = parts(at, r.tz);
+    var T = table(r);
+    if (T && at.getTime() >= T.from && at.getTime() < T.to) {
+      for (var i = 0; i < T.list.length; i++) if (T.list[i].until > at) return { since: T.list[i].since, until: T.list[i].until, kind: T.list[i].kind, name: T.list[i].name };
+    }
     var w = shabbatAround(shift(p, p.dow === 6 ? -1 : (5 - p.dow + 7) % 7), r);
     if (at >= w.until) w = shabbatAround(shift(p, (5 - p.dow + 7) % 7 || 7), r);
     return w;
