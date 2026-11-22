@@ -496,3 +496,7 @@
 .logo-b:not([data-font]) .lb-line, .logo-b:not([data-font]) .lb-fm b { font-family: "DKM Syncopate", "Heebo", sans-serif; font-weight: 700; letter-spacing: 0; }
 .logo-b:not([data-font]) { --size: min(13vw, 140px); }
 .logo-b:not([data-font]) .lb-fm { padding: .1em .14em .05em; }
+
+/* הוסרו מהתצוגה לבקשת יואלי: פס "מוכן · DKM/FM CH-01" למעלה, ו-MODE / SIGNAL שבצדי הלוגו.
+   האלמנטים נשארים ב-HTML כי הנגן מעדכן אותם; השעונים של ישראל וניו יורק נשארים. */
+.orbit-hero .hud, .ro-tl, .ro-tr { display: none !important; }
