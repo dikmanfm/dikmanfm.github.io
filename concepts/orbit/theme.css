@@ -567,3 +567,8 @@
   .ro-bl, .ro-br { bottom: 3%; }
   .ro-bl { left: 16px; } .ro-br { right: 16px; }
 }
+/* טלפון: "לחצו פליי לשידור החי" יורד לקו של היד עם השעון של יואלי.
+   top ולא transform – כדי לא להתנגש באנימציית הכניסה, והמיקום של הלחצן עצמו לא זז */
+@media (max-width: 520px) {
+  .live-key-label { position: relative; top: 14vw; }
+}
