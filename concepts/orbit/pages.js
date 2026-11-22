@@ -54,42 +54,7 @@
     Array.prototype.forEach.call(document.querySelectorAll("iframe.vframe"), function (f) { f.src = "about:blank"; });
   }
 
-  if (page === "video") {
-    var grid = el("div", "vgrid");
-    items.forEach(function (it) {
-      var yt = typeof it.youtube === "string" && /^[\w-]{11}$/.test(it.youtube) ? it.youtube : "";
-      var file = https(it.url);
-      if (!yt && !file) return;
-      var card = el("article", "card"), thumb = el("button", "vthumb");
-      thumb.type = "button"; thumb.setAttribute("aria-label", "ניגון: " + (it.title || "וידיאו"));
-      var pb = el("span", "pbtn"); pb.appendChild(svg("M8 5.5v13l10-6.5z")); thumb.appendChild(pb);
-      thumb.addEventListener("click", function () {
-        if (guard()) return;
-        stopAll();
-        var media;
-        if (yt) {
-          media = document.createElement("iframe");
-          media.src = "https://www.youtube-nocookie.com/embed/" + yt + "?autoplay=1&rel=0";
-          media.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
-          media.setAttribute("allowfullscreen", ""); media.title = it.title || "וידיאו";
-        } else {
-          media = document.createElement("video");
-          media.src = file; media.controls = true; media.autoplay = true; media.playsInline = true;
-        }
-        media.className = "vframe";
-        thumb.replaceWith(media);
-      });
-      card.appendChild(thumb);
-      var meta = el("div", "vmeta");
-      meta.appendChild(el("b", null, it.title || "הופעה"));
-      var sub = [heDate(it.date), it.place].filter(Boolean).join(" · ");
-      if (sub) meta.appendChild(el("span", null, sub));
-      card.appendChild(meta);
-      grid.appendChild(card);
-    });
-    host.appendChild(grid);
-    return;
-  }
+  if (page === "video") return;   // הוידיאו מטופל ב-video.js
 
   // ---------- שירים (עיבודים ולחנים / יואלי מקורי) ----------
   audio = new Audio(); audio.preload = "none";
@@ -110,6 +75,7 @@
       if (current === li && !audio.paused) { audio.pause(); li.classList.remove("is-playing"); btn.setAttribute("aria-label", "ניגון: " + (it.title || "שיר")); return; }
       if (guard()) return;
       if (current !== li) { stopAll(); audio.src = src; }
+      try { new BroadcastChannel("dikman-fm").postMessage({ type: "media-start", from: page }); } catch (x) {}   // עוצר את הרדיו אם הוא מנגן בלשונית אחרת
       current = li; li.classList.add("is-playing"); btn.setAttribute("aria-label", "השהיה: " + (it.title || "שיר"));
       audio.play().catch(function () { li.classList.remove("is-playing"); });
     });

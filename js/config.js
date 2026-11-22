@@ -52,11 +52,24 @@ window.RADIO_CONFIG = {
   ],
 
   // הדפים "עוד מיואלי" (הלחצנים העגולים ב-Orbit). כל הקישורים חייבים להיות ב-https.
-  //   video:        { title: "שם ההופעה", youtube: "מזהה הסרטון", date: "2024-03-01", place: "היכל התרבות" }
+  //   video:        { youtube: "מזהה הסרטון", title: "שם השיר", sub: "שורת משנה" } (אפשר גם date, place)
   //                 או { title, url: "https://…mp4" }
   //   arrangements: { title: "שם השיר", artist: "מבצע", role: "עיבוד" / "לחן" / "עיבוד ולחן", url: "https://…mp3", duration: 240 }
   //   original:     { title: "שם השיר", note: "שורה קצרה", url: "https://…mp3", duration: 240 }
-  showcase: { video: [], arrangements: [], original: [] },
+  showcase: {
+    video: [
+      { youtube: "j1JJRKhyjxg", title: "אוברטורת פתיחה · Ruslan & Ludmila", sub: "יואלי דיקמן · מופע השקת האלבום \"תדבר איתו\" של שמוליק סוכות" },
+      { youtube: "KSmkAuIX_6o", title: "תדבר איתו", sub: "בניני האומה LIVE · שמוליק סוכות & יואלי דיקמן" },
+      { youtube: "0eaKyLjWstc", title: "שרים MBD", sub: "LIVE · קובי ברומר, יואלי דיקמן ומקהלת נשמה" },
+      { youtube: "C-Hrpg-AOJc", title: "הילד הזה", sub: "בניני האומה LIVE · שמוליק סוכות & יואלי דיקמן" },
+      { youtube: "dsE4eGVL-r4", title: "גיבור עולם", sub: "בניני האומה LIVE · שמוליק סוכות & יואלי דיקמן" },
+      { youtube: "Zy2fWaUDvY8", title: "רואה אותי", sub: "בניני האומה LIVE · שמוליק סוכות & יואלי דיקמן" },
+      { youtube: "MQPPWvylKsg", title: "תסתכל לשמים", sub: "בניני האומה LIVE · שמוליק סוכות & יואלי דיקמן" },
+      { youtube: "PdGBxsJUSPE", title: "עברתי בחושך", sub: "קולולחן Live · שמוליק סוכות, בנצי שטיין ויואלי דיקמן" }
+    ],
+    arrangements: [],
+    original: []
+  },
 
   shabbat: {
     enabled: true,

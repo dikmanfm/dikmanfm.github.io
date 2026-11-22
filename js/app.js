@@ -902,6 +902,9 @@
     getVolume: function () { return +vol.value; }
   };
 
+  // סרטון או שיר מדף אחר באתר התחיל לנגן (גם בלשונית אחרת): עוצרים את הרדיו כדי שלא ינגנו יחד
+  try { window.__dkmBus = new BroadcastChannel("dikman-fm"); window.__dkmBus.onmessage = function (e) { if (e.data && e.data.type === "media-start" && !audio.paused) stopAudio(); }; } catch (e) {}
+
   // ---------- הפעלה ----------
   loadEpisodes();
   var savedTab = load("tab", "live"); setTab(TABS.indexOf(savedTab) > -1 ? savedTab : "live");
