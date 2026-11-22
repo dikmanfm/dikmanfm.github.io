@@ -20,7 +20,19 @@
     { id: "bigmacca",     name: "Bigmacca",      file: "bigmacca.ttf",        src: "dafont",    lic: "CC BY-SA · קרדיט", note: "כבד, סטנסיל" },
     { id: "robotech-gp",  name: "Robotech GP",   file: "robotech-gp.ttf",     src: "dafont",    lic: "CC BY-SA · קרדיט", note: "טכנו כבד" },
     { id: "moonhouse",    name: "Moonhouse",     file: "moonhouse.ttf",       src: "dafont",    lic: "חינם",           note: "עגול ועתידני" },
-    { id: "future-earth", name: "Future Earth",  file: "future-earth.ttf",    src: "dafont",    lic: "CC BY-ND",       note: "רחב וחזק" }
+    { id: "future-earth", name: "Future Earth",  file: "future-earth.ttf",    src: "dafont",    lic: "CC BY-ND",       note: "רחב וחזק" },
+    // סבב 2 (Google Fonts, כולם OFL)
+    { id: "monoton",      name: "Monoton",       file: "monoton.woff2",       src: "Google Fonts", lic: "OFL", note: "קווי ניאון, שלט אולפן ישן" },
+    { id: "anton",        name: "Anton",         file: "anton.woff2",         src: "Google Fonts", lic: "OFL", note: "גבוה, דחוס ומודגש מאוד" },
+    { id: "michroma",     name: "Michroma",      file: "michroma.woff2",      src: "Google Fonts", lic: "OFL", note: "רחב מאוד, אלגנטי ומינימלי" },
+    { id: "bebas-neue",   name: "Bebas Neue",    file: "bebas-neue.woff2",    src: "Google Fonts", lic: "OFL", note: "נקי ודחוס, קלאסיקה של פוסטרים" },
+    { id: "archivo-black",name: "Archivo Black", file: "archivo-black.woff2", src: "Google Fonts", lic: "OFL", note: "רחב ומוצק" },
+    { id: "righteous",    name: "Righteous",     file: "righteous.woff2",     src: "Google Fonts", lic: "OFL", note: "מעוגל, רדיו שנות ה-70" },
+    { id: "bungee",       name: "Bungee",        file: "bungee.woff2",        src: "Google Fonts", lic: "OFL", note: "שילוט אורבני" },
+    { id: "syncopate",    name: "Syncopate Bold",file: "syncopate.woff2",     src: "Google Fonts", lic: "OFL", note: "רחב ומאוורר, יוקרתי" },
+    { id: "exo2",         name: "Exo 2 Black",   file: "exo2-black.woff2",    src: "Google Fonts", lic: "OFL", note: "עתידני במידה" },
+    { id: "rubik-mono",   name: "Rubik Mono One",file: "rubik-mono-one.woff2",src: "Google Fonts", lic: "OFL", note: "גאומטרי ומעוגל" },
+    { id: "unbounded",    name: "Unbounded Black",file: "unbounded-black.woff2",src: "Google Fonts", lic: "OFL", note: "רחב ורך, עכשווי" }
   ];
   F.forEach(function (f, i) { f.n = i; f.family = f.file ? "DKM " + f.name : "Heebo"; });
 
