@@ -5,7 +5,7 @@
   <base href="../../">
   <meta charset="utf-8">
   <!-- אבטחה: רק קבצים מהאתר עצמו + השידור החי והארכיון (R2). כתובת שידור חדשה → להוסיף ל-media-src -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' blob: https://cdn.cybercdn.live https://*.r2.dev; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' blob: https://cdn.cybercdn.live https://*.r2.dev; frame-src https://www.youtube-nocookie.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#020202">
@@ -26,12 +26,13 @@
   <!-- הפונטים מקומיים (fonts/) – בלי תלות בדומיינים חיצוניים שחלק מהסינונים חוסמים -->
   <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/karantina-hebrew-700-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261123a">
-  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261123a">
-  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261123a">
-  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261123a">
-  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261123a">
-  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261123a">
+  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261123b">
+  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261123b">
+  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261123b">
+  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261123b">
+  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261123b">
+  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261123b">
+  <link rel="stylesheet" href="concepts/orbit/story.css?v=20261123b">
 </head>
 <body>
 <div class="app" id="app">
@@ -101,6 +102,17 @@
     </div>
 
     <p class="brand-sub"><i></i><span><b class="h24">24</b> שעות של מוזיקה יהודית ללא הפסקה</span><i></i></p>
+
+    <!-- סטורי קבוע: "עבודות מאחורי הקלעים". התוכן ב-data/stories.json, שום פריט לא נמחק לבד -->
+    <div class="story-wrap" id="storyWrap" hidden>
+      <button class="story" id="storyBtn" type="button" aria-haspopup="dialog">
+        <span class="story-ring" aria-hidden="true"><svg viewBox="0 0 100 100" id="storyRing"></svg></span>
+        <span class="story-avatar" aria-hidden="true"><img id="storyAvatar" src="concepts/orbit/img/yoeli.png" alt="" width="754" height="942" decoding="async"></span>
+        <span class="story-new mono" id="storyNew" dir="ltr" hidden>NEW</span>
+        <span class="story-label">עבודות מאחורי הקלעים</span>
+        <span class="sr-only" id="storySr"></span>
+      </button>
+    </div>
 
     <!-- עוד מיואלי: שלושה לחצנים עגולים, כל אחד לדף משלו -->
     <nav class="orbs" aria-label="עוד מיואלי דיקמן">
@@ -376,20 +388,21 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <audio id="audio" preload="none" playsinline></audio>
 
-<script src="js/config.js?v=20261123a"></script>
-<script src="js/zmanim.js?v=20261123a"></script>
-<script src="js/schedule.js?v=20261123a"></script>
-<script src="js/demo-audio.js?v=20261123a"></script>
-<script src="concepts/_base/js/app.js?v=20261123a"></script>
+<script src="js/config.js?v=20261123b"></script>
+<script src="js/zmanim.js?v=20261123b"></script>
+<script src="js/schedule.js?v=20261123b"></script>
+<script src="js/demo-audio.js?v=20261123b"></script>
+<script src="concepts/_base/js/app.js?v=20261123b"></script>
 <!-- שכבת תנועה מתקדמת: Anime.js v4 + Motion, מקומיות. בדפדפן ישן שלא מכיר אותן – נשארת השכבה הבסיסית (motion.js) -->
-<script src="vendor/anime-4.5.0.umd.min.js?v=20261123a"></script>
-<script src="vendor/motion-14.9.0.min.js?v=20261123a"></script>
-<script src="concepts/_base/js/fx.js?v=20261123a"></script>
-<script src="concepts/_base/js/motion.js?v=20261123a"></script>
-<script src="concepts/_base/js/mixer.js?v=20261123a"></script>
-<script src="concepts/orbit/hero.js?v=20261123a"></script>
-<script src="concepts/orbit/genres.js?v=20261123a"></script>
-<script src="concepts/fonts/fonts.js?v=20261123a"></script>
-<script src="concepts/orbit/fontpick.js?v=20261123a"></script>
+<script src="vendor/anime-4.5.0.umd.min.js?v=20261123b"></script>
+<script src="vendor/motion-14.9.0.min.js?v=20261123b"></script>
+<script src="concepts/_base/js/fx.js?v=20261123b"></script>
+<script src="concepts/_base/js/motion.js?v=20261123b"></script>
+<script src="concepts/_base/js/mixer.js?v=20261123b"></script>
+<script src="concepts/orbit/hero.js?v=20261123b"></script>
+<script src="concepts/orbit/genres.js?v=20261123b"></script>
+<script src="concepts/orbit/story.js?v=20261123b"></script>
+<script src="concepts/fonts/fonts.js?v=20261123b"></script>
+<script src="concepts/orbit/fontpick.js?v=20261123b"></script>
 </body>
 </html>

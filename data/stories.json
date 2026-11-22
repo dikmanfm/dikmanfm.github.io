@@ -1,0 +1,38 @@
+{
+  "_איך_מוסיפים": [
+    "כל פריט חדש נכנס לסוף הרשימה items. אף פריט לא נמחק לבד: הסטורי קבוע ואין הגבלת 24 שעות.",
+    "שומרים את הקבצים (תמונה, וידיאו, אודיו) בתיקייה data/stories, ובפריט כותבים src: data/stories/שם-הקובץ.",
+    "לכל פריט id ייחודי (למשל תאריך ומילה: 2026-11-23-studio). לפי ה-id האתר זוכר מה כל צופה כבר ראה.",
+    "סוגים: text, image, video, audio, youtube, link. השדות caption ו-date לא חובה.",
+    "דוגמאות לכל סוג נמצאות למטה תחת _דוגמאות. הן לא מוצגות באתר."
+  ],
+  "_דוגמאות": [
+    { "id": "2026-12-01-studio", "date": "2026-12-01", "type": "image", "src": "data/stories/studio.jpg", "caption": "באולפן, עבודה על עיבוד חדש" },
+    { "id": "2026-12-02-take", "date": "2026-12-02", "type": "video", "src": "data/stories/take.mp4", "caption": "טייק ראשון" },
+    { "id": "2026-12-03-demo", "date": "2026-12-03", "type": "audio", "src": "data/stories/demo.mp3", "title": "דמו", "caption": "סקיצה ראשונה ללחן" },
+    { "id": "2026-12-04-clip", "date": "2026-12-04", "type": "youtube", "youtube": "j1JJRKhyjxg", "caption": "מהחזרות" },
+    { "id": "2026-12-05-text", "date": "2026-12-05", "type": "text", "text": "מחר בערב: הופעה חיה", "bg": "red" },
+    { "id": "2026-12-06-link", "date": "2026-12-06", "type": "link", "text": "כל הפרטים על המופע", "url": "https://www.instagram.com/yoelidikman/", "label": "לפרטים" }
+  ],
+
+  "title": "עבודות מאחורי הקלעים",
+  "avatar": "concepts/orbit/img/yoeli.png",
+  "items": [
+    {
+      "id": "2026-11-23-welcome",
+      "date": "2026-11-23",
+      "type": "text",
+      "text": "ברוכים הבאים למאחורי הקלעים של יואלי דיקמן",
+      "caption": "עיבודים, חזרות ורגעים מהאולפן. מתעדכן כל הזמן.",
+      "bg": "red"
+    },
+    {
+      "id": "2026-11-23-yoeli",
+      "date": "2026-11-23",
+      "type": "image",
+      "src": "concepts/orbit/img/yoeli.png",
+      "caption": "יואלי דיקמן",
+      "fit": "contain"
+    }
+  ]
+}
