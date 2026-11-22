@@ -223,6 +223,7 @@
         <button role="tab" id="tab-live" aria-selected="true" aria-controls="panel-live" data-tab="live">עכשיו</button>
         <button role="tab" id="tab-archive" aria-selected="false" aria-controls="panel-archive" data-tab="archive">ארכיון</button>
         <button role="tab" id="tab-fav" aria-selected="false" aria-controls="panel-fav" data-tab="fav">שמורים</button>
+        <button role="tab" id="tab-style" aria-selected="false" aria-controls="panel-style" data-tab="style" class="tab-style"><span>הפלייליסט שלך</span><small>לפי סגנון</small></button>
       </nav>
 
       <div class="panel" id="panel-live" role="tabpanel" aria-labelledby="tab-live">
@@ -278,6 +279,12 @@
           </button>
         </div>
         <ol class="tracks" id="favList"></ol>
+      </div>
+
+      <!-- הפלייליסט שלך: בחירת סגנון פותחת את הרשימה שלו (התוכן מוגדר ב-js/config.js תחת genres) -->
+      <div class="panel" id="panel-style" role="tabpanel" aria-labelledby="tab-style" hidden>
+        <h3 class="sec-h">הפלייליסט שלך · לפי סגנון</h3>
+        <ul class="genres" id="genreList"></ul>
       </div>
     </section>
   </main>
@@ -341,6 +348,7 @@
 <script src="concepts/_base/js/motion.js"></script>
 <script src="concepts/_base/js/mixer.js"></script>
 <script src="concepts/orbit/hero.js"></script>
+<script src="concepts/orbit/genres.js"></script>
 <script src="concepts/fonts/fonts.js"></script>
 <script src="concepts/orbit/fontpick.js"></script>
 </body>

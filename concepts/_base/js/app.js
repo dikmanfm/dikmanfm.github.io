@@ -701,8 +701,10 @@
   }
 
   // ---------- לשוניות ----------
-  var TABS = ["live", "archive", "fav"];
+  // הלשוניות נקראות מהדף עצמו, כך שקונספט יכול להוסיף לשונית משלו
+  var TABS = Array.prototype.map.call(document.querySelectorAll(".seg [data-tab]"), function (b) { return b.getAttribute("data-tab"); });
   function setTab(name, focus) {
+    if (TABS.indexOf(name) < 0) name = "live";
     state.tab = name;
     TABS.forEach(function (t) {
       var b = $("tab-" + t), on = t === name;
@@ -716,8 +718,8 @@
   document.querySelector(".seg").addEventListener("click", function (e) { var b = e.target.closest("[data-tab]"); if (b) setTab(b.getAttribute("data-tab")); });
   document.querySelector(".seg").addEventListener("keydown", function (e) {
     var i = TABS.indexOf(state.tab);
-    if (e.key === "ArrowLeft") { setTab(TABS[(i + 1) % 3], true); e.preventDefault(); }   // RTL: שמאלה = הבא
-    if (e.key === "ArrowRight") { setTab(TABS[(i + 2) % 3], true); e.preventDefault(); }
+    if (e.key === "ArrowLeft") { setTab(TABS[(i + 1) % TABS.length], true); e.preventDefault(); }   // RTL: שמאלה = הבא
+    if (e.key === "ArrowRight") { setTab(TABS[(i + TABS.length - 1) % TABS.length], true); e.preventDefault(); }
   });
 
   // ---------- פקדי קונסולה ----------
@@ -891,6 +893,17 @@
       if (!list.length) { toast("הארכיון עדיין נטען…"); return null; }
       state.channel = null; state.manualLive = false;
       playEpisode(list[0], list, { autoNext: true });
+      return list;
+    },
+    // רשימה חופשית (פלייליסט לפי סגנון): מזהי פרקים מהארכיון או { title, url, duration }
+    playItems: function (items, startAt) {
+      var list = (items || []).map(function (it, i) {
+        if (typeof it === "string") return state.episodes.filter(function (e) { return e.id === it; })[0] || null;
+        return it && it.url ? { id: it.id || "pl-" + i + "-" + it.url, title: it.title || "", url: it.url, category: it.category || "", date: it.date || "", duration: it.duration || 0 } : null;
+      }).filter(Boolean);
+      if (!list.length) { toast("הרשימה עדיין ריקה"); return null; }
+      state.channel = null; state.manualLive = false;
+      playEpisode(list[Math.min(startAt || 0, list.length - 1)], list, { autoNext: true });
       return list;
     },
     toggle: togglePlay, stop: stopAudio, seek: seek, next: function () { step(1); },
