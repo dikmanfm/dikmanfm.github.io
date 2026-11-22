@@ -59,7 +59,8 @@
     if (typeof data.title === "string" && data.title) title = data.title;
     if (local(data.avatar)) avatar = data.avatar;
     if (!items.length) return;
-    document.getElementById("storyAvatar").src = avatar;
+    var avEl = document.getElementById("storyAvatar");
+    if (avatar !== "concepts/orbit/img/yoeli-story.png") { var ps = avEl.parentNode.querySelector("source"); if (ps) ps.remove(); avEl.src = avatar; }   // תמונת ברירת המחדל מגיעה מ-<picture> (WebP קל)
     wrap.hidden = false;
     drawRing();
   }).catch(function () {});
@@ -92,7 +93,7 @@
     var top = el("div", "sv-top");
     bars = el("div", "sv-bars"); bars.setAttribute("aria-hidden", "true");
     var head = el("div", "sv-head");
-    var av = el("span", "sv-av"); var avi = el("img"); avi.src = avatar; avi.alt = ""; av.appendChild(avi);
+    var av = el("span", "sv-av"); var avi = el("img"); avi.src = (document.getElementById("storyAvatar") || {}).currentSrc || avatar; avi.alt = ""; av.appendChild(avi);
     var who = el("div", "sv-who"); who.appendChild(el("b", null, title)); whenEl = el("span"); who.appendChild(whenEl);
     pauseBtn = el("button", "sv-btn"); pauseBtn.type = "button"; pauseBtn.setAttribute("aria-label", "השהיה");
     pauseBtn.appendChild(svg("M8 5v14|M16 5v14", "i-pause")); pauseBtn.appendChild(svg("M8 5.5v13l10-6.5z", "i-play"));
@@ -119,9 +120,11 @@
     dlg.addEventListener("cancel", function () { /* Esc: הדפדפן סוגר, cleanup רץ באירוע close */ });
     dlg.addEventListener("click", function (e) { if (e.target === dlg) close(); });   // לחיצה מחוץ למסגרת
     dlg.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowLeft") { go(idx + 1); e.preventDefault(); }
-      else if (e.key === "ArrowRight") { go(idx - 1); e.preventDefault(); }
-      else if (e.key === " " && !(e.target.closest && e.target.closest("button, a"))) { setPaused(!paused); e.preventDefault(); }
+      // מקלדת וגם מקשי טלפון כשר: 4/6 = הקודם/הבא, 5 = עצירה, מקש מחיקה/חזרה = סגירה
+      if (e.key === "ArrowLeft" || e.key === "6") { go(idx + 1); e.preventDefault(); }
+      else if (e.key === "ArrowRight" || e.key === "4") { go(idx - 1); e.preventDefault(); }
+      else if (e.key === "5" || (e.key === " " && !(e.target.closest && e.target.closest("button, a")))) { setPaused(!paused); e.preventDefault(); }
+      else if (e.key === "Backspace" || e.key === "BrowserBack" || e.key === "GoBack") { close(); e.preventDefault(); }
     });
 
     // הקשה קצרה = מעבר, החזקה = עצירה, החלקה למטה = סגירה, החלקה לצד = מעבר
@@ -249,6 +252,14 @@
       m.addEventListener("timeupdate", function () { if (isFinite(m.duration) && m.duration) setBars(idx, m.currentTime / m.duration); });
       m.addEventListener("ended", function () { if (media === m) go(idx + 1); });
       m.addEventListener("play", hushRadio);
+      // הקובץ לא נטען (רשת איטית / סינון): הודעה ברורה, ואחרי רגע ממשיכים לבא
+      m.addEventListener("error", function () {
+        if (media !== m) return;
+        var tap = el("button", "sv-tap"); tap.type = "button"; tap.appendChild(el("span", null, "הקטע לא נטען · הקישו להמשך"));
+        tap.addEventListener("click", function () { go(idx + 1); });
+        stage.appendChild(tap);
+        var at = idx; setTimeout(function () { if (media === m && idx === at && !paused) go(idx + 1); }, 4000);
+      });
       var p = m.play();
       if (p && p.catch) p.catch(function () {
         // הדפדפן חסם ניגון אוטומטי: כפתור "הקישו לניגון"

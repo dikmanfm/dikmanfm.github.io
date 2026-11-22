@@ -374,6 +374,10 @@
           mask: url("img/yoeli.png") center / 100% 100% no-repeat;
   mix-blend-mode: screen;
 }
+/* דפדפן שמכיר image-set עם type: המסכה מה-WebP הקל (אותה תמונה שכבר ירדה), בלי להוריד גם את ה-PNG */
+@supports (mask-image: image-set(url("img/yoeli.webp") type("image/webp"))) {
+  .host::after { -webkit-mask-image: url("img/yoeli.webp"); mask-image: url("img/yoeli.webp"); }
+}
 
 @media (max-width: 680px) {
   .host { --h: 70%; left: -11%; top: 43%; }

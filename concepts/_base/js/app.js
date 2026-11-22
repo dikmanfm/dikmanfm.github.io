@@ -779,8 +779,9 @@
       case "6": seek(15); break;
       case "2": step(-1); break;
       case "8": step(1); break;
+      // חצים למעלה/למטה: ניווט בין כל הלחצנים והקישורים בדף – concepts/orbit/access.js
       case "ArrowDown": case "ArrowUp":
-        if (tag === "INPUT") return;
+        if (window.DKM_LITE !== undefined || tag === "INPUT") return;
         var items = navItems(), i = items.indexOf(document.activeElement);
         var n = items[Math.max(0, Math.min(items.length - 1, i + (e.key === "ArrowDown" ? 1 : -1)))];
         if (n) { n.focus(); if (n.scrollIntoView) n.scrollIntoView({ block: "nearest" }); }

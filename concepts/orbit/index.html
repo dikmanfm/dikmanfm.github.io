@@ -26,13 +26,15 @@
   <!-- הפונטים מקומיים (fonts/) – בלי תלות בדומיינים חיצוניים שחלק מהסינונים חוסמים -->
   <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/karantina-hebrew-700-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261123c">
-  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261123c">
-  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261123c">
-  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261123c">
-  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261123c">
-  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261123c">
-  <link rel="stylesheet" href="concepts/orbit/story.css?v=20261123c">
+  <script src="concepts/orbit/access.js?v=20261124a"></script>
+  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261124a">
+  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261124a">
+  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261124a">
+  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261124a">
+  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261124a">
+  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261124a">
+  <link rel="stylesheet" href="concepts/orbit/story.css?v=20261124a">
+  <link rel="stylesheet" href="concepts/orbit/access.css?v=20261124a">
 </head>
 <body>
 <div class="app" id="app">
@@ -75,7 +77,7 @@
 
       <!-- יואלי דיקמן: "מנצח" על השידור – השרביט מכוון אל הלוגו ולחצן החי -->
       <figure class="host" aria-hidden="true">
-        <img src="concepts/orbit/img/yoeli.png" width="754" height="942" alt="" decoding="async" fetchpriority="high">
+        <picture><source srcset="concepts/orbit/img/yoeli.webp" type="image/webp"><img src="concepts/orbit/img/yoeli.png" width="754" height="942" alt="" decoding="async" fetchpriority="high"></picture>
       </figure>
 
       <div class="core">
@@ -101,13 +103,22 @@
       </div>
     </div>
 
+    <!-- דפדפן בלי JavaScript (חלק מהטלפונים הכשרים/המסוננים): נגן פשוט של הדפדפן לשידור החי -->
+    <noscript>
+      <div class="nojs">
+        <b>השידור החי של DIKMAN FM</b>
+        <audio controls preload="none" src="https://cdn.cybercdn.live/Kol_Barama/Music/icecast.audio">הדפדפן לא תומך בנגן.</audio>
+        <a href="https://cdn.cybercdn.live/Kol_Barama/Music/icecast.audio">פתיחת השידור בנגן של הטלפון</a>
+      </div>
+    </noscript>
+
     <p class="brand-sub"><i></i><span><b class="h24">24</b> שעות של מוזיקה יהודית ללא הפסקה</span><i></i></p>
 
     <!-- סטורי קבוע: "מאחורי הקלעים באולפן של יואלי". התוכן ב-data/stories.json, שום פריט לא נמחק לבד -->
     <div class="story-wrap" id="storyWrap" hidden>
       <button class="story" id="storyBtn" type="button" aria-haspopup="dialog">
         <span class="story-ring" aria-hidden="true"><svg viewBox="0 0 100 100" id="storyRing"></svg></span>
-        <span class="story-avatar" aria-hidden="true"><img id="storyAvatar" src="concepts/orbit/img/yoeli-story.png" alt="" width="480" height="480" decoding="async"></span>
+        <span class="story-avatar" aria-hidden="true"><picture><source srcset="concepts/orbit/img/yoeli-story.webp" type="image/webp"><img id="storyAvatar" src="concepts/orbit/img/yoeli-story.png" alt="" width="480" height="480" decoding="async"></picture></span>
         <span class="story-new mono" id="storyNew" dir="ltr" hidden>NEW</span>
         <span class="story-label">מאחורי הקלעים באולפן של יואלי</span>
         <span class="sr-only" id="storySr"></span>
@@ -328,7 +339,7 @@
   </main>
 
   <footer class="foot">
-    <div class="foot-info"><span>© <span id="year"></span> DIKMAN FM</span><span class="foot-keys">מקשים: 5 נגן/עצור · 4/6 דילוג · 8 הבא</span></div>
+    <div class="foot-info"><span>© <span id="year"></span> DIKMAN FM</span><span class="foot-keys">מקשים: 5 נגן/עצור · 4/6 דילוג · 8 הבא · חצים מעבר בין לחצנים</span><a class="lite-toggle" data-lite-toggle href="#" hidden>גרסה קלה למכשירים כשרים</a></div>
     <!-- יואלי ברשתות: נפתח בכרטיסייה חדשה -->
     <nav class="social" aria-label="יואלי דיקמן ברשתות החברתיות">
       <span class="social-tag" dir="ltr" aria-hidden="true">FOLLOW //</span>
@@ -388,21 +399,20 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <audio id="audio" preload="none" playsinline></audio>
 
-<script src="js/config.js?v=20261123c"></script>
-<script src="js/zmanim.js?v=20261123c"></script>
-<script src="js/schedule.js?v=20261123c"></script>
-<script src="js/demo-audio.js?v=20261123c"></script>
-<script src="concepts/_base/js/app.js?v=20261123c"></script>
+<script src="js/config.js?v=20261124a"></script>
+<script src="js/zmanim.js?v=20261124a"></script>
+<script src="js/schedule.js?v=20261124a"></script>
+<script src="js/demo-audio.js?v=20261124a"></script>
+<script src="concepts/_base/js/app.js?v=20261124a"></script>
 <!-- שכבת תנועה מתקדמת: Anime.js v4 + Motion, מקומיות. בדפדפן ישן שלא מכיר אותן – נשארת השכבה הבסיסית (motion.js) -->
-<script src="vendor/anime-4.5.0.umd.min.js?v=20261123c"></script>
-<script src="vendor/motion-14.9.0.min.js?v=20261123c"></script>
-<script src="concepts/_base/js/fx.js?v=20261123c"></script>
-<script src="concepts/_base/js/motion.js?v=20261123c"></script>
-<script src="concepts/_base/js/mixer.js?v=20261123c"></script>
-<script src="concepts/orbit/hero.js?v=20261123c"></script>
-<script src="concepts/orbit/genres.js?v=20261123c"></script>
-<script src="concepts/orbit/story.js?v=20261123c"></script>
-<script src="concepts/fonts/fonts.js?v=20261123c"></script>
-<script src="concepts/orbit/fontpick.js?v=20261123c"></script>
+<script src="concepts/orbit/vendor-load.js?v=20261124a" data-v="20261124a"></script>
+<script src="concepts/_base/js/fx.js?v=20261124a"></script>
+<script src="concepts/_base/js/motion.js?v=20261124a"></script>
+<script src="concepts/_base/js/mixer.js?v=20261124a"></script>
+<script src="concepts/orbit/hero.js?v=20261124a"></script>
+<script src="concepts/orbit/genres.js?v=20261124a"></script>
+<script src="concepts/orbit/story.js?v=20261124a"></script>
+<script src="concepts/fonts/fonts.js?v=20261124a"></script>
+<script src="concepts/orbit/fontpick.js?v=20261124a"></script>
 </body>
 </html>

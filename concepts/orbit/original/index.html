@@ -13,16 +13,18 @@
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="concepts/orbit/pages.css?v=20261123d">
-  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261123d">
-  <link rel="stylesheet" href="concepts/orbit/minihero.css?v=20261123d">
+  <script src="concepts/orbit/access.js?v=20261124a"></script>
+  <link rel="stylesheet" href="concepts/orbit/pages.css?v=20261124a">
+  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261124a">
+  <link rel="stylesheet" href="concepts/orbit/minihero.css?v=20261124a">
+  <link rel="stylesheet" href="concepts/orbit/access.css?v=20261124a">
 </head>
 <body data-page="original" data-empty="כאן יופיעו השירים המקוריים של יואלי, עם ניגון ישיר מהדף.">
 <div class="wrap">
   <!-- ראש עמוד קבוע בכל דף: הלוגו, יואלי והשידור החי -->
   <header class="mh">
     <a class="mh-back" href="concepts/orbit/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>לעמוד הראשי</a>
-    <figure class="mh-host" aria-hidden="true"><img src="concepts/orbit/img/yoeli.png" width="754" height="942" alt="" decoding="async" fetchpriority="high"></figure>
+    <figure class="mh-host" aria-hidden="true"><picture><source srcset="concepts/orbit/img/yoeli.webp" type="image/webp"><img src="concepts/orbit/img/yoeli.png" width="754" height="942" alt="" decoding="async" fetchpriority="high"></picture></figure>
     <div class="mh-core">
       <a class="mh-logo" href="concepts/orbit/" dir="ltr" aria-label="DIKMAN FM, לעמוד הראשי"><span class="mh-word" aria-hidden="true">DIKMAN</span><span class="mh-fm" aria-hidden="true">FM</span></a>
       <div class="mh-live-wrap">
@@ -51,6 +53,7 @@
   <main>
     <p class="notice" id="notice" role="status" hidden></p>
     <div id="items"></div>
+    <noscript><div class="nojs"><b>התוכן בדף הזה צריך JavaScript</b>אפשר להאזין לשידור החי בנגן של הטלפון:<audio controls preload="none" src="https://cdn.cybercdn.live/Kol_Barama/Music/icecast.audio">הדפדפן לא תומך בנגן.</audio><a href="https://cdn.cybercdn.live/Kol_Barama/Music/icecast.audio">פתיחת השידור החי</a></div></noscript>
   </main>
 
   <nav class="sibs" aria-label="עוד מיואלי">
@@ -59,7 +62,7 @@
     <a class="sib" href="concepts/orbit/original/" aria-current="page">יואלי מקורי</a>
   </nav>
   <footer class="foot">
-    <span>© DIKMAN FM · יואלי דיקמן</span>
+    <span>© DIKMAN FM · יואלי דיקמן<br><a class="lite-toggle" data-lite-toggle href="#" hidden>גרסה קלה למכשירים כשרים</a></span>
   <!-- יואלי ברשתות: נפתח בכרטיסייה חדשה -->
   <nav class="social" aria-label="יואלי דיקמן ברשתות החברתיות">
     <span class="social-tag" dir="ltr" aria-hidden="true">FOLLOW //</span>
@@ -78,10 +81,10 @@
   </footer>
 </div>
 
-<script src="js/config.js?v=20261123d"></script>
-<script src="js/zmanim.js?v=20261123d"></script>
-<script src="concepts/orbit/minihero.js?v=20261123d"></script>
-<script src="vendor/motion-14.9.0.min.js"></script>
-<script src="concepts/orbit/pages.js?v=20261123d"></script>
+<script src="js/config.js?v=20261124a"></script>
+<script src="js/zmanim.js?v=20261124a"></script>
+<script src="concepts/orbit/minihero.js?v=20261124a"></script>
+<script src="concepts/orbit/vendor-load.js?v=20261124a" data-v="20261124a" data-libs="motion"></script>
+<script src="concepts/orbit/pages.js?v=20261124a"></script>
 </body>
 </html>

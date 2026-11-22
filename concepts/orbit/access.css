@@ -1,0 +1,55 @@
+/* ==========================================================================
+   DIKMAN FM · Orbit · נגישות ותאימות (כל הדפים)
+   • מסגרת פוקוס בולטת לניווט במקשים (חצי-טאץ' / כשרים)
+   • html.lite: גרסה קלה – אותו תוכן ואותו מבנה, בלי תנועה ובלי אפקטים כבדים
+   • חלופה כשאין JavaScript
+   הגרסה המלאה בדפדפנים רגילים לא משתנה: כל הכללים כאן מותנים ב-.kbd-nav / .lite / noscript.
+   ========================================================================== */
+
+/* ---------- פוקוס במקשים ---------- */
+.kbd-nav :focus { outline: 3px solid #fff !important; outline-offset: 3px !important; box-shadow: 0 0 0 6px rgba(255, 26, 60, .85) !important; }
+.kbd-nav .orb:focus .orb-disc, .kbd-nav .soc:focus { box-shadow: 0 0 0 3px #fff, 0 0 0 7px rgba(255, 26, 60, .9) !important; }
+.kbd-nav .orb:focus { outline: none !important; box-shadow: none !important; }
+
+/* קישור מעבר בין הגרסאות (מופיע רק כש-JS פעיל) */
+.lite-toggle { display: inline-block; margin-top: 10px; padding: 8px 12px; font: 600 13px/1.2 "Heebo", system-ui, sans-serif; color: var(--ink-2, #bbb); text-decoration: underline; text-underline-offset: 3px; }
+.lite-toggle:hover, .lite-toggle:focus { color: #fff; }
+
+/* ---------- גרסה קלה ---------- */
+html.lite *, html.lite *::before, html.lite *::after {
+  animation: none !important; transition: none !important; scroll-behavior: auto !important;
+  -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+}
+html.lite { scroll-behavior: auto; }
+/* קישוטים נעים במכ"ם: נשארות רק הטבעות הסטטיות */
+html.lite .orbit .sweep, html.lite .orbit .sat, html.lite .lk-ring, html.lite .hud-id { display: none !important; }
+/* צלליות-זוהר ופילטרים: יקרים לציור במכשיר חלש */
+html.lite .host img, html.lite .mh-host img, html.lite .orb-disc svg, html.lite .soc svg, html.lite .sat path,
+html.lite .story-ring .seg-new, html.lite .poster img { filter: none !important; }
+html.lite .host::after { display: none; }
+html.lite .now-card::before { display: none; }
+/* שום דבר לא נשאר שקוף בהמתנה לאנימציה */
+html.lite .lb-line, html.lite .lb-fm, html.lite .live-key-wrap, html.lite .ro, html.lite .brand-sub, html.lite .pl, html.lite .host, html.lite .orbit .ring { opacity: 1 !important; transform: none !important; }
+/* לחצנים ויעדי הקשה נוחים */
+html.lite .orb { min-height: 44px; }
+html.lite .soc { min-width: 44px; min-height: 44px; }
+/* תיבת הסטורי: רקע אטום במקום טשטוש */
+html.lite .sv::backdrop { background: #000; }
+/* tooltip של הרשתות לא נדרש – יש aria-label והכיתוב נקרא */
+html.lite .soc::after { display: none; }
+
+/* מסכים קטנים מאוד (טלפונים כשרים 240–320px): הכול בעמודה אחת, כיתוב קריא */
+@media (max-width: 340px) {
+  html.lite .ro { display: none; }
+  html.lite .orbs { gap: 6px; }
+  html.lite .seg button { font-size: 13px; }
+}
+
+/* ---------- בלי JavaScript ---------- */
+.nojs { margin: 18px auto 0; max-width: 520px; padding: 14px 16px; text-align: center; font: 500 15px/1.5 "Heebo", system-ui, sans-serif; color: #fff; background: rgba(0,0,0,.72); box-shadow: inset 0 0 0 1px rgba(255, 26, 60, .5); }
+.nojs b { display: block; margin-bottom: 8px; font-size: 17px; }
+.nojs audio { display: block; width: 100%; margin: 10px 0 4px; }
+.nojs a { color: #fff; }
+
+/* תמונות WebP קלות בתוך <picture> (עם PNG כגיבוי לדפדפן ישן): ה-<picture> ממלא את המסגרת כמו התמונה */
+.host picture, .mh-host picture, .story-avatar picture { display: block; width: 100%; height: 100%; }
