@@ -53,3 +53,5 @@ html.lite .soc::after { display: none; }
 
 /* תמונות WebP קלות בתוך <picture> (עם PNG כגיבוי לדפדפן ישן): ה-<picture> ממלא את המסגרת כמו התמונה */
 .host picture, .mh-host picture, .story-avatar picture { display: block; width: 100%; height: 100%; }
+/* גרסה קלה: תאורת הבמה נשארת כרקע סטטי פשוט, בלי קרניים וערבוב שכבות */
+html.lite .stage-light .beam { display: none; }
