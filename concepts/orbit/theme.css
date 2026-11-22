@@ -538,3 +538,18 @@
 @keyframes beam-a { 0%, 100% { transform: rotate(16deg); opacity: 1; } 50% { transform: rotate(12deg); opacity: .75; } }
 @keyframes beam-b { 0%, 100% { opacity: .8; } 50% { opacity: .5; } }
 @keyframes beam-c { 0%, 100% { transform: rotate(-16deg); opacity: .9; } 50% { transform: rotate(-12deg); opacity: 1; } }
+
+/* ==========================================================================
+   הלחצנים העגולים: אור מאחורי האייקון (בקשה של יואלי) – פשוט ונקי.
+   כתם אור אדום-ורוד רך בתוך העיגול, והאייקון הלבן "יושב" עליו כמו שלט מואר מאחור.
+   ========================================================================== */
+.orb-disc::before { content: ""; position: absolute; inset: 14%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 120, 140, .95) 0%, rgba(255, 40, 70, .75) 26%, rgba(255, 26, 60, .28) 52%, transparent 72%); }
+.stage-zone .orb-disc svg, .orb-disc svg { stroke: #fff; filter: drop-shadow(0 0 2px rgba(120, 0, 20, .9)); }
+.orb:hover .orb-disc::before, .orb:focus-visible .orb-disc::before { background: radial-gradient(circle, #fff 0%, rgba(255, 220, 226, .85) 30%, transparent 70%); }
+@media (prefers-reduced-motion: no-preference) {
+  .orb-disc::before { animation: orb-glow 3.6s ease-in-out infinite; }
+  .orb:nth-child(2) .orb-disc::before { animation-delay: -1.2s; }
+  .orb:nth-child(3) .orb-disc::before { animation-delay: -2.4s; }
+}
+@keyframes orb-glow { 0%, 100% { opacity: .85; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.04); } }
