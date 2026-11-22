@@ -238,7 +238,9 @@
   function liveAvailable() { return !!(CFG.live.url || CFG.demo) && Date.now() > state.liveDownUntil; }
 
   // ---------- השמעה ----------
-  function srcFor(ep) { return ep.url || (CFG.demo ? window.DemoAudio.url(ep.id, 44) : ""); }
+  // רק כתובות https מהארכיון (הגנה מרשומה פגומה ב-episodes.json)
+  function safeUrl(u) { return typeof u === "string" && u.slice(0, 8).toLowerCase() === "https://" ? u : ""; }
+  function srcFor(ep) { return safeUrl(ep.url) || (CFG.demo ? window.DemoAudio.url(ep.id, 44) : ""); }
 
   function start(src, opts) {
     state.stopping = false;

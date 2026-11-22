@@ -10,16 +10,17 @@ on:
   push:
     branches: [main]
 
+# הרשאות מינימליות: כברירת מחדל קריאה בלבד, וכל משימה מקבלת רק את מה שהיא צריכה
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
 
 jobs:
   sync:
     # רץ רק אחרי שהוגדר MEDIA_BASE_URL (שלב 4 ב-README) – עד אז האתר מתפרסם בלי סנכרון, בלי ריצות שנכשלות כל שעה
     if: github.event_name != 'push' && vars.MEDIA_BASE_URL != ''
     runs-on: ubuntu-latest
+    permissions:
+      contents: write          # שמירת data/episodes.json בלבד
     timeout-minutes: 350
     concurrency:
       group: telegram-sync
@@ -66,6 +67,10 @@ jobs:
     needs: sync
     if: always() && needs.sync.result != 'cancelled'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     concurrency:
       group: pages
       cancel-in-progress: true
@@ -77,8 +82,14 @@ jobs:
         with:
           ref: main
       - uses: actions/configure-pages@v5
+      # מפרסמים רק את קבצי האתר – בלי סקריפט הסנכרון, README, מצב הסנכרון וקבצי git
+      - name: הכנת קבצי האתר
+        run: |
+          mkdir _site
+          cp -r index.html sw.js manifest.webmanifest css js fonts icons vendor concepts _site/
+          mkdir _site/data && cp data/episodes.json _site/data/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
