@@ -344,3 +344,33 @@
   .lk-ring { animation: none; opacity: .5; }
   .live-key.is-loading .lk-spin { animation-duration: 2.4s; }
 }
+
+/* ==========================================================================
+   יואלי – דמות בצד שמאל של המכ"ם, השרביט מכוון למרכז
+   ========================================================================== */
+.host {
+  --h: calc(var(--ring) * .7);
+  position: absolute; z-index: 1; margin: 0; pointer-events: none;
+  left: max(0px, calc(50% - var(--ring) * .7)); top: 39%;
+  height: var(--h); aspect-ratio: 754 / 942;
+  -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 96%);
+          mask-image: linear-gradient(180deg, #000 62%, transparent 96%);
+}
+.host img {
+  display: block; width: 100%; height: 100%;
+  /* אור אחורי אדום דק סביב הדמות */
+  filter: contrast(1.06) saturate(.88) drop-shadow(0 0 1px rgba(var(--neon-rgb), .9)) drop-shadow(0 0 22px rgba(var(--neon-rgb), .35));
+}
+/* פסי סריקה של הולוגרמה, רק על הדמות עצמה */
+.host::after {
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(180deg, rgba(var(--neon-rgb), .10) 0 1px, transparent 1px 4px);
+  -webkit-mask: url("img/yoeli.png") center / 100% 100% no-repeat;
+          mask: url("img/yoeli.png") center / 100% 100% no-repeat;
+  mix-blend-mode: screen;
+}
+
+@media (max-width: 680px) {
+  .host { --h: 70%; left: -11%; top: 43%; }
+  .host img { filter: contrast(1.04) saturate(.85) drop-shadow(0 0 1px rgba(var(--neon-rgb), .8)) drop-shadow(0 0 14px rgba(var(--neon-rgb), .3)); }
+}

@@ -158,15 +158,17 @@
   })();
 
   // ---------- כניסה ----------
-  var lines = $$(".lb-line"), fm = $(".lb-fm"), ro = $$(".ro"), sub = $(".brand-sub"), keyWrap = $(".live-key-wrap"), pls = $$(".pl");
+  var lines = $$(".lb-line"), fm = $(".lb-fm"), ro = $$(".ro"), sub = $(".brand-sub"), keyWrap = $(".live-key-wrap"), pls = $(".pl"), host = $(".host");
   A.utils.set(lines, { y: "105%" });
   A.utils.set([fm, keyWrap].concat(ro, [sub], pls), { opacity: 0 });
+  if (host) A.utils.set(host, { opacity: 0 });
   A.utils.set(ticks, { opacity: 0 });
   var tl = A.createTimeline({ defaults: { ease: "outExpo" } });
   tl.add(ticks, { opacity: [0, 1], scale: [.6, 1], duration: 500, delay: A.stagger(9), ease: "outQuad" }, 0)
     .add(lines, { y: ["105%", "0%"], duration: 1100, delay: A.stagger(60) }, 250)
     .add(fm, { opacity: [0, 1], scaleX: [0, 1], duration: 700 }, 750)
     .add(ro, { opacity: [0, 1], x: function (el) { return [el.classList.contains("ro-tl") || el.classList.contains("ro-bl") ? -20 : 20, 0]; }, duration: 700, delay: A.stagger(80) }, 850)
+    .add(host, { opacity: [0, 1], y: [60, 0], clipPath: ["inset(100% 0 0 0)", "inset(0% 0 0 0)"], duration: 1300, ease: "outExpo" }, 500)
     .add(keyWrap, { opacity: [0, 1], scale: [.6, 1], duration: 900, ease: "outElastic(1, .7)" }, 950)
     .add(sub, { opacity: [0, 1], y: [10, 0], duration: 700 }, 1000)
     .add(pls, { opacity: [0, 1], y: [16, 0], duration: 700, delay: A.stagger(70) }, 1100);
@@ -174,6 +176,7 @@
   function finish() {
     if (done) return; done = true;
     lines.concat([fm, sub, keyWrap], ro, ticks, pls).forEach(function (n) { n.style.removeProperty("opacity"); n.style.removeProperty("transform"); });
+    if (host) ["opacity", "transform", "clip-path"].forEach(function (p) { host.style.removeProperty(p); });
   }
   tl.then(finish);
   setTimeout(function () { if (!done) { tl.complete(); finish(); } }, 3500);
@@ -181,7 +184,7 @@
   // ---------- עומק לפי העכבר (Motion) ----------
   var SPRING = { type: "spring", stiffness: 140, damping: 20 };
   if (window.matchMedia && matchMedia("(pointer: fine)").matches) {
-    var layers = [[".r-outer", 8], [".r-inner", 26], [".orbit", 12], [".core", -10]];
+    var layers = [[".r-outer", 8], [".r-inner", 26], [".orbit", 12], [".host", 18], [".core", -10]];
     hero.addEventListener("pointermove", function (e) {
       var r = stage.getBoundingClientRect();
       var nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;
