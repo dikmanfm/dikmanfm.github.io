@@ -305,10 +305,10 @@
 /* ==========================================================================
    פלייליסטים – ארבעה מקשי HUD
    ========================================================================== */
-.pl-rail { margin: 14px auto 0; max-width: 760px; }
+.pl-rail { margin: 14px auto 0; max-width: 560px; }
 .pl-head { display: block; margin-bottom: 8px; font-size: 10px; letter-spacing: .3em; color: var(--ink-3); text-align: center; }
 .pl-head i { color: var(--neon); font-style: normal; }
-.pl-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.pl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .pl {
   position: relative; display: grid; grid-template-columns: 1fr auto; grid-template-areas: "n ic" "t t" "m m";
   align-items: center; gap: 4px 8px; min-height: 84px; padding: 11px 12px 12px;

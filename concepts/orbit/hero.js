@@ -97,7 +97,7 @@
       var id = b.getAttribute("data-pl");
       // לחיצה על הפלייליסט שכבר מתנגן = עצירה
       if (activePl() === id && !audio.paused) { R.stop(); loading = false; sync(); return; }
-      var name = CAT_LABEL[id] || id, list;
+      var name = b.querySelector("b").textContent, list;
       loading = true;
       if (id === "replay") { R.showArchive("הכל"); R.playChannel(""); myQueue = null; }
       else {
