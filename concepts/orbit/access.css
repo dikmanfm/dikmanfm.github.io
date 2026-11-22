@@ -24,7 +24,7 @@ html.lite { scroll-behavior: auto; }
 /* קישוטים נעים במכ"ם: נשארות רק הטבעות הסטטיות */
 html.lite .orbit .sweep, html.lite .orbit .sat, html.lite .lk-ring, html.lite .hud-id { display: none !important; }
 /* צלליות-זוהר ופילטרים: יקרים לציור במכשיר חלש */
-html.lite .host img, html.lite .mh-host img, html.lite .orb-disc svg, html.lite .soc svg, html.lite .sat path,
+html.lite .host img, html.lite .mh-host img, html.lite .orb-disc svg, html.lite .soc:not([href*="tiktok"]) svg, html.lite .sat path,
 html.lite .story-ring .seg-new, html.lite .poster img { filter: none !important; }
 html.lite .host::after { display: none; }
 html.lite .now-card::before { display: none; }
