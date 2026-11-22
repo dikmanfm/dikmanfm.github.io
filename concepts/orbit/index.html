@@ -26,11 +26,12 @@
   <!-- הפונטים מקומיים (fonts/) – בלי תלות בדומיינים חיצוניים שחלק מהסינונים חוסמים -->
   <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/karantina-hebrew-700-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261122f">
-  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261122f">
-  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261122f">
-  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261122f">
-  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261122f">
+  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261123a">
+  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261123a">
+  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261123a">
+  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261123a">
+  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261123a">
+  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261123a">
 </head>
 <body>
 <div class="app" id="app">
@@ -315,8 +316,22 @@
   </main>
 
   <footer class="foot">
-    <span>© <span id="year"></span> DIKMAN FM</span>
-    <span class="foot-keys">מקשים: 5 נגן/עצור · 4/6 דילוג · 8 הבא</span>
+    <div class="foot-info"><span>© <span id="year"></span> DIKMAN FM</span><span class="foot-keys">מקשים: 5 נגן/עצור · 4/6 דילוג · 8 הבא</span></div>
+    <!-- יואלי ברשתות: נפתח בכרטיסייה חדשה -->
+    <nav class="social" aria-label="יואלי דיקמן ברשתות החברתיות">
+      <span class="social-tag" dir="ltr" aria-hidden="true">FOLLOW //</span>
+      <ul>
+        <li><a class="soc" href="https://www.instagram.com/yoelidikman/" target="_blank" rel="noopener noreferrer" data-label="אינסטגרם" aria-label="יואלי דיקמן באינסטגרם (נפתח בכרטיסייה חדשה)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect class="s-line" x="3.5" y="3.5" width="17" height="17" rx="5"/><circle class="s-line" cx="12" cy="12" r="4"/><circle class="s-fill" cx="17.2" cy="6.8" r="1.1"/></svg>
+        </a></li>
+        <li><a class="soc" href="https://www.tiktok.com/@yoelidikman" target="_blank" rel="noopener noreferrer" data-label="טיקטוק" aria-label="יואלי דיקמן בטיקטוק (נפתח בכרטיסייה חדשה)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="s-fill" d="M16.6 3c.4 2.2 1.8 3.6 4 3.9v3.1c-1.5 0-2.9-.4-4-1.2v6.1c0 3.2-2.6 5.6-5.7 5.6S5.2 18 5.2 14.9c0-3.3 2.9-5.9 6.3-5.5v3.2c-1.6-.4-3.2.8-3.2 2.4 0 1.4 1.1 2.5 2.5 2.5s2.6-1.1 2.6-2.6V3h3.2z"/></svg>
+        </a></li>
+        <li><a class="soc" href="https://www.facebook.com/share/19jNSax6Jb/" target="_blank" rel="noopener noreferrer" data-label="פייסבוק" aria-label="יואלי דיקמן בפייסבוק (נפתח בכרטיסייה חדשה)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="s-fill" d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg>
+        </a></li>
+      </ul>
+    </nav>
   </footer>
 </div>
 
@@ -361,20 +376,20 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <audio id="audio" preload="none" playsinline></audio>
 
-<script src="js/config.js?v=20261122f"></script>
-<script src="js/zmanim.js?v=20261122f"></script>
-<script src="js/schedule.js?v=20261122f"></script>
-<script src="js/demo-audio.js?v=20261122f"></script>
-<script src="concepts/_base/js/app.js?v=20261122f"></script>
+<script src="js/config.js?v=20261123a"></script>
+<script src="js/zmanim.js?v=20261123a"></script>
+<script src="js/schedule.js?v=20261123a"></script>
+<script src="js/demo-audio.js?v=20261123a"></script>
+<script src="concepts/_base/js/app.js?v=20261123a"></script>
 <!-- שכבת תנועה מתקדמת: Anime.js v4 + Motion, מקומיות. בדפדפן ישן שלא מכיר אותן – נשארת השכבה הבסיסית (motion.js) -->
-<script src="vendor/anime-4.5.0.umd.min.js?v=20261122f"></script>
-<script src="vendor/motion-14.9.0.min.js?v=20261122f"></script>
-<script src="concepts/_base/js/fx.js?v=20261122f"></script>
-<script src="concepts/_base/js/motion.js?v=20261122f"></script>
-<script src="concepts/_base/js/mixer.js?v=20261122f"></script>
-<script src="concepts/orbit/hero.js?v=20261122f"></script>
-<script src="concepts/orbit/genres.js?v=20261122f"></script>
-<script src="concepts/fonts/fonts.js?v=20261122f"></script>
-<script src="concepts/orbit/fontpick.js?v=20261122f"></script>
+<script src="vendor/anime-4.5.0.umd.min.js?v=20261123a"></script>
+<script src="vendor/motion-14.9.0.min.js?v=20261123a"></script>
+<script src="concepts/_base/js/fx.js?v=20261123a"></script>
+<script src="concepts/_base/js/motion.js?v=20261123a"></script>
+<script src="concepts/_base/js/mixer.js?v=20261123a"></script>
+<script src="concepts/orbit/hero.js?v=20261123a"></script>
+<script src="concepts/orbit/genres.js?v=20261123a"></script>
+<script src="concepts/fonts/fonts.js?v=20261123a"></script>
+<script src="concepts/orbit/fontpick.js?v=20261123a"></script>
 </body>
 </html>

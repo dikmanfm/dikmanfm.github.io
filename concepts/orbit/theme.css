@@ -479,3 +479,7 @@
 @keyframes orb-spin { to { --spin: 360deg; } }
 .orb-disc svg.clef { width: 50%; height: 50%; stroke-width: 1.5; }
 .head-disc svg.clef { width: 52%; height: 52%; }
+
+/* ---------- תחתית: מידע מימין, רשתות משמאל ---------- */
+[data-theme="orbit"] .foot { align-items: center; padding-top: 18px; padding-bottom: calc(6px + env(safe-area-inset-bottom)); }
+[data-theme="orbit"] .foot-info { display: flex; flex-wrap: wrap; gap: 4px 14px; min-width: 0; }

@@ -1,0 +1,61 @@
+/* ==========================================================================
+   DIKMAN FM · Orbit · לחצני הרשתות של יואלי (בתחתית, צד שמאל)
+   עיגולים כהים עם טבעת דקה. במעבר עכבר: טבעת אדומה "נסגרת" סביב העיגול
+   (כמו מכ"ם), האייקון עולה מעט ונדלק, ומעל מופיעה תווית עם שם הרשת.
+   ========================================================================== */
+@property --sweep { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+.social { display: flex; align-items: center; gap: 12px; margin-inline-start: auto; }
+.social-tag { font: 10px "Share Tech Mono", ui-monospace, monospace; letter-spacing: .22em; color: var(--ink-3, #626262); }
+.social ul { display: flex; gap: 10px; margin: 0; padding: 0; list-style: none; }
+
+.soc {
+  position: relative; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  color: var(--ink-2, #a3a3a3); text-decoration: none; -webkit-tap-highlight-color: transparent;
+  background: radial-gradient(circle at 50% 35%, rgba(255,255,255,.06), rgba(5,5,5,.72) 70%);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.13), 0 0 0 4px rgba(255,255,255,.015);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  transition: color .25s, background .3s, box-shadow .3s, transform .3s cubic-bezier(.2,.8,.2,1);
+}
+/* הטבעת האדומה שמתמלאת סביב העיגול */
+.soc::before {
+  content: ""; position: absolute; inset: -3px; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(from -90deg, var(--neon, #ff1a3c) var(--sweep), transparent 0);
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+          mask: radial-gradient(closest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  filter: drop-shadow(0 0 4px rgba(255, 26, 60, .8));
+  transition: --sweep .55s cubic-bezier(.2,.8,.2,1);
+}
+.soc svg { width: 20px; height: 20px; transition: transform .3s cubic-bezier(.2,.8,.2,1), filter .3s; }
+.soc .s-fill { fill: currentColor; }
+.soc .s-line { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* תווית שם הרשת */
+.soc::after {
+  content: attr(data-label); position: absolute; inset-block-end: calc(100% + 12px); left: 50%;
+  padding: 5px 9px; font: 700 12px/1 "Heebo", system-ui, sans-serif; letter-spacing: .02em; white-space: nowrap;
+  color: #000; background: var(--neon, #ff1a3c); box-shadow: 0 0 18px rgba(255, 26, 60, .55);
+  opacity: 0; transform: translate(-50%, 4px); pointer-events: none;
+  transition: opacity .2s, transform .25s cubic-bezier(.2,.8,.2,1);
+}
+
+.soc:hover, .soc:focus-visible {
+  color: #fff; transform: translateY(-3px);
+  background: radial-gradient(circle at 50% 35%, rgba(255, 26, 60, .35), rgba(20, 3, 6, .85) 72%);
+  box-shadow: inset 0 0 0 1px rgba(255, 26, 60, .5), 0 0 0 4px rgba(255, 26, 60, .12), 0 10px 26px -10px rgba(255, 26, 60, .9);
+}
+.soc:hover::before, .soc:focus-visible::before { --sweep: 360deg; }
+.soc:hover svg, .soc:focus-visible svg { transform: scale(1.1); filter: drop-shadow(0 0 6px rgba(255, 26, 60, .9)); }
+.soc:hover::after, .soc:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
+.soc:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.soc:active { transform: translateY(-1px) scale(.95); }
+
+@media (max-width: 520px) {
+  .social-tag { display: none; }
+  .social ul { gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .soc, .soc svg, .soc::after { transition: none; }
+  .soc::before { transition: none; }
+  .soc:hover, .soc:focus-visible { transform: none; }
+}
