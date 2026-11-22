@@ -50,7 +50,7 @@
   // ---------- וידיאו ----------
   var audio = null, current = null;
   function stopAll() {
-    if (audio) { audio.pause(); }
+    if (audio) { audio.pause(); }   // הנגן העליון (שיר) – נעצר
     if (current) { current.classList.remove("is-playing"); current = null; }
     Array.prototype.forEach.call(document.querySelectorAll("video"), function (v) { v.pause(); });
     Array.prototype.forEach.call(document.querySelectorAll("iframe.vframe"), function (f) { f.src = "about:blank"; });
@@ -59,44 +59,71 @@
   if (page === "video") return;   // הוידיאו מטופל ב-video.js
 
   // ---------- שירים (עיבודים ולחנים / יואלי מקורי) ----------
-  audio = new Audio(); audio.preload = "none";
-  // השידור החי התחיל בראש העמוד: עוצרים את השיר
-  try { var bcIn = new BroadcastChannel("dikman-fm"); bcIn.onmessage = function (e) { if (e.data && e.data.type === "media-start" && e.data.from === "live") stopAll(); }; } catch (x) {}
+  // השירים מתנגנים בנגן שבראש הדף (minihero.js): שם השיר מופיע שם, והלחצן הגדול עוצר/ממשיך.
+  var H = window.DKMHero;
+  if (!H) {   // גיבוי, אם הנגן העליון לא נטען: נגן פשוט בדף עצמו
+    var own = new Audio(); own.preload = "none";
+    H = { audio: own, playTrack: function (src) { if (own.getAttribute("src") !== src) own.src = src; own.play().catch(function () {}); return true; },
+          isTrack: function (src) { return own.getAttribute("src") === src; } };
+  }
+  audio = H.audio;
+  function mark(li) {
+    Array.prototype.forEach.call(document.querySelectorAll(".tracks .item.is-playing"), function (n) { if (n !== li) n.classList.remove("is-playing"); });
+    if (li) li.classList.add("is-playing");
+  }
   var ol = el("ol", "tracks");
   items.forEach(function (it, i) {
     var src = audioSrc(it.url); if (!src) return;
+    var title = it.title || "שיר " + (i + 1);
     var li = el("li", "card item"), btn = el("button", "play");
-    btn.type = "button"; btn.setAttribute("aria-label", "ניגון: " + (it.title || "שיר"));
+    li._src = src;
+    btn.type = "button"; btn.setAttribute("aria-label", "ניגון: " + title);
     btn.appendChild(svg("M8 5.5v13l10-6.5z", "i-play")); btn.appendChild(svg("M7 5h3.5v14H7zM13.5 5H17v14h-3.5z", "i-pause"));
     var main = el("div", "t-main");
-    main.appendChild(el("b", null, it.title || "שיר " + (i + 1)));
+    main.appendChild(el("b", null, title));
     var sub = [it.artist, it.note].filter(Boolean).join(" · ");
     if (sub) main.appendChild(el("span", null, sub));
     var tag = el("span", "t-tag", it.role || mmss(it.duration) || ""); if (!tag.textContent) tag.style.visibility = "hidden";
     var prog = el("div", "t-prog"); prog.appendChild(el("i"));
     li.appendChild(btn); li.appendChild(main); li.appendChild(tag); li.appendChild(prog);
     btn.addEventListener("click", function () {
-      if (current === li && !audio.paused) { audio.pause(); li.classList.remove("is-playing"); btn.setAttribute("aria-label", "ניגון: " + (it.title || "שיר")); return; }
+      if (current === li && H.isTrack(src) && !audio.paused) { audio.pause(); return; }
       if (guard()) return;
-      if (current !== li) { stopAll(); audio.src = src; }
-      try { new BroadcastChannel("dikman-fm").postMessage({ type: "media-start", from: page }); } catch (x) {}   // עוצר את הרדיו אם הוא מנגן בלשונית אחרת
-      current = li; li.classList.add("is-playing"); btn.setAttribute("aria-label", "השהיה: " + (it.title || "שיר"));
-      audio.play().catch(function () { li.classList.remove("is-playing"); });
+      if (current && current !== li) current.querySelector(".t-prog i").style.width = "0";
+      current = li;
+      H.playTrack(src, title);
+      // גוללים לראש הדף רק אם הנגן לא נראה, כדי שיראו את שם השיר
+      var top = document.querySelector(".mh");
+      if (top && top.getBoundingClientRect().bottom < 0 && top.scrollIntoView) top.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
     });
     ol.appendChild(li);
   });
   host.appendChild(ol);
 
+  // מצב הלחצנים ברשימה עוקב אחרי הנגן העליון
+  function sync() {
+    var on = current && H.isTrack(current._src) && !audio.paused;
+    mark(on ? current : null);
+    Array.prototype.forEach.call(ol.children, function (li) {
+      var t = li.querySelector(".t-main b").textContent;
+      li.querySelector(".play").setAttribute("aria-label", (on && li === current ? "השהיה: " : "ניגון: ") + t);
+    });
+  }
+  audio.addEventListener("play", sync);
+  audio.addEventListener("pause", sync);
+  // חזרה לשידור החי: אף שיר לא מסומן
+  document.addEventListener("dkm:live", function () { if (current) current.querySelector(".t-prog i").style.width = "0"; current = null; sync(); });
+
   audio.addEventListener("timeupdate", function () {
-    if (!current || !isFinite(audio.duration)) return;
+    if (!current || !H.isTrack(current._src) || !isFinite(audio.duration)) return;
     current.querySelector(".t-prog i").style.width = (audio.currentTime / audio.duration * 100).toFixed(2) + "%";
   });
   audio.addEventListener("ended", function () {
+    if (!current || !H.isTrack(current._src)) return;
     // ממשיך לשיר הבא ברשימה
-    var next = current && current.nextElementSibling;
-    if (current) current.classList.remove("is-playing");
-    current = null;
-    if (next) next.querySelector(".play").click();
+    var next = current.nextElementSibling;
+    current.querySelector(".t-prog i").style.width = "0";
+    if (next) next.querySelector(".play").click(); else { current = null; sync(); }
   });
   setInterval(function () { if (current && !audio.paused) guard(); }, 30000);
 

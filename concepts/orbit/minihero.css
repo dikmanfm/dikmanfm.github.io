@@ -66,3 +66,11 @@
 /* Syncopate רחב בערך פי 1.5 מ-Heebo: אותו רוחב לוגו כמו קודם */
 .mh { --logo-size: min(11.2vw, 87px); }
 @media (min-width: 561px) { .mh { --logo-size: min(8.3vw, 74px); } }
+
+/* ---------- כשמנגן שיר מהרשימה: שם השיר מתחת ללחצן ---------- */
+.live-key-label.is-track { max-width: min(88vw, 520px); overflow: hidden; text-overflow: ellipsis; font-size: clamp(15px, 4.3vw, 21px); }
+.live-key.is-on + .live-key-label.is-track { color: #000; background: var(--neon); }
+.mh-back-live { padding: 6px 12px; border: 0; background: rgba(0,0,0,.6); color: var(--ink-2, #bbb); font: 700 13px/1.2 "Heebo", system-ui, sans-serif; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; box-shadow: inset 0 0 0 1px var(--line-2); }
+.mh-back-live:hover, .mh-back-live:focus-visible { color: #fff; box-shadow: inset 0 0 0 1px rgba(var(--neon-rgb), .6); }
+.mh-back-live:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.mh-back-live[hidden] { display: none; }
