@@ -42,13 +42,6 @@
     { "id": "studio-home-07", "type": "video", "src": "data/stories/home-07.mp4", "fit": "contain" },
     { "id": "studio-home-08", "type": "video", "src": "data/stories/home-08.mp4", "fit": "contain" },
     { "id": "studio-home-09", "type": "video", "src": "data/stories/home-09.mp4", "fit": "contain" },
-    { "id": "studio-home-10", "date": "2024-11-04", "type": "video", "src": "data/stories/home-10.mp4", "fit": "contain" },
-    { "id": "studio-home-11", "date": "2024-11-04", "type": "video", "src": "data/stories/home-11.mp4", "fit": "contain" },
-    { "id": "studio-home-12", "date": "2024-11-04", "type": "video", "src": "data/stories/home-12.mp4", "fit": "contain" },
-    { "id": "studio-home-13", "date": "2024-11-04", "type": "video", "src": "data/stories/home-13.mp4", "fit": "contain" },
-    { "id": "studio-home-14", "date": "2024-11-04", "type": "video", "src": "data/stories/home-14.mp4", "fit": "contain" },
-    { "id": "studio-home-15", "date": "2024-11-04", "type": "video", "src": "data/stories/home-15.mp4", "fit": "contain" },
-    { "id": "studio-home-16", "date": "2024-11-04", "type": "video", "src": "data/stories/home-16.mp4", "fit": "contain" },
     { "id": "studio-home-17", "date": "2024-11-04", "type": "video", "src": "data/stories/home-17.mp4", "fit": "contain" },
     { "id": "studio-home-18", "date": "2024-11-04", "type": "video", "src": "data/stories/home-18.mp4", "fit": "contain" },
     { "id": "studio-home-19", "date": "2024-11-04", "type": "video", "src": "data/stories/home-19.mp4", "fit": "contain" },
@@ -67,8 +60,6 @@
     { "id": "studio-home-32", "type": "video", "src": "data/stories/home-32.mp4", "fit": "contain" },
     { "id": "studio-home-33", "date": "2023-11-19", "type": "video", "src": "data/stories/home-33.mp4", "fit": "contain" },
     { "id": "studio-home-34", "date": "2023-11-19", "type": "video", "src": "data/stories/home-34.mp4", "fit": "contain" },
-    { "id": "studio-home-35", "date": "2023-11-19", "type": "video", "src": "data/stories/home-35.mp4", "fit": "contain" },
-    { "id": "studio-home-36", "date": "2023-11-11", "type": "video", "src": "data/stories/home-36.mp4", "fit": "contain" },
-    { "id": "studio-home-37", "date": "2023-11-11", "type": "video", "src": "data/stories/home-37.mp4", "fit": "contain" }
+    { "id": "studio-home-35", "date": "2023-11-19", "type": "video", "src": "data/stories/home-35.mp4", "fit": "contain" }
   ]
 }
