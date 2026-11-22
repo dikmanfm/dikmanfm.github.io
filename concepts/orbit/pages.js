@@ -17,6 +17,8 @@
     var p = document.createElementNS("http://www.w3.org/2000/svg", "path"); p.setAttribute("d", d); s.appendChild(p); return s;
   }
   function https(u) { return typeof u === "string" && u.slice(0, 8).toLowerCase() === "https://" ? u : ""; }
+  // קובץ שמע: https, או קובץ מהאתר עצמו (נתיב יחסי פשוט, בלי "..")
+  function audioSrc(u) { return https(u) || (typeof u === "string" && /^[\w\-\/.]+\.(mp3|m4a|aac|ogg|wav)$/i.test(u) && u.indexOf("..") < 0 && u.charAt(0) !== "/" ? u : ""); }
   function mmss(sec) { sec = Math.round(sec || 0); if (!sec) return ""; var m = Math.floor(sec / 60), s = sec % 60; return m + ":" + (s < 10 ? "0" : "") + s; }
   function heDate(d) { if (!d) return ""; var p = String(d).split("-"); return p.length === 3 ? +p[2] + "." + +p[1] + "." + p[0] : d; }
 
@@ -60,7 +62,7 @@
   audio = new Audio(); audio.preload = "none";
   var ol = el("ol", "tracks");
   items.forEach(function (it, i) {
-    var src = https(it.url); if (!src) return;
+    var src = audioSrc(it.url); if (!src) return;
     var li = el("li", "card item"), btn = el("button", "play");
     btn.type = "button"; btn.setAttribute("aria-label", "ניגון: " + (it.title || "שיר"));
     btn.appendChild(svg("M8 5.5v13l10-6.5z", "i-play")); btn.appendChild(svg("M7 5h3.5v14H7zM13.5 5H17v14h-3.5z", "i-pause"));

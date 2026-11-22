@@ -55,7 +55,7 @@ window.RADIO_CONFIG = {
   //   video:        { youtube: "מזהה הסרטון", title: "שם השיר", sub: "שורת משנה" } (אפשר גם date, place)
   //                 או { title, url: "https://…mp4" }
   //   arrangements: { title: "שם השיר", artist: "מבצע", role: "עיבוד" / "לחן" / "עיבוד ולחן", url: "https://…mp3", duration: 240 }
-  //   original:     { title: "שם השיר", note: "שורה קצרה", url: "https://…mp3", duration: 240 }
+  //   original:     { title: "שם השיר", note: "שורה קצרה", url: "https://…mp3" או "concepts/orbit/audio/קובץ.mp3", duration: 240 }
   showcase: {
     video: [
       { youtube: "j1JJRKhyjxg", title: "אוברטורת פתיחה · Ruslan & Ludmila", sub: "יואלי דיקמן · מופע השקת האלבום \"תדבר איתו\" של שמוליק סוכות" },
@@ -68,7 +68,17 @@ window.RADIO_CONFIG = {
       { youtube: "PdGBxsJUSPE", title: "עברתי בחושך", sub: "קולולחן Live · שמוליק סוכות, בנצי שטיין ויואלי דיקמן" }
     ],
     arrangements: [],
-    original: []
+    original: [
+      { title: "פתחי לי",          url: "concepts/orbit/audio/pitchi-li.mp3",                duration: 297 },
+      { title: "ואפיל תחינתי",     note: "גרסה ווקאלית", url: "concepts/orbit/audio/vayapil-techinati-vocal.mp3", duration: 341 },
+      { title: "למצוא חן",         url: "concepts/orbit/audio/limtzo-chen.mp3",              duration: 329 },
+      { title: "ואפיל תחינתי",     url: "concepts/orbit/audio/vayapil-techinati.mp3",        duration: 341 },
+      { title: "ישתבח שמך",        note: "גרסה ווקאלית", url: "concepts/orbit/audio/yishtabach-shimcha-vocal.mp3", duration: 259 },
+      { title: "נושם שלמות",       url: "concepts/orbit/audio/noshem-shlemut.mp3",           duration: 303 },
+      { title: "טאטע למה",         note: "אהרלה סאמעט ויואלי גרינפלד", url: "concepts/orbit/audio/tate-lama.mp3", duration: 260 },
+      { title: "תפילה לחופה",      url: "concepts/orbit/audio/tefila-lachupa.mp3",           duration: 319 }
+    ]
+
   },
 
   shabbat: {
