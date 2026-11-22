@@ -212,7 +212,7 @@
       playing ? (m === "replay" ? "שידור חוזר" : "מנגן") :
       liveNow ? "חי עכשיו" : "מוכן";
     var r = $("btnRadio");
-    if (r) r.querySelector(".cta-label").textContent = playing && state.auto ? "מאזינים עכשיו · עצירה" : (liveNow ? "האזנה לשידור החי" : "האזנה לרדיו");
+    if (r) r.querySelector(".cta-label").textContent = playing && state.auto ? "מאזינים עכשיו · עצירה" : (liveNow ? "האזנה לשידור החי" : (r.getAttribute("data-idle") || "האזנה לרדיו"));
     if (r) r.classList.toggle("is-on", playing && state.auto);
     try { document.dispatchEvent(new CustomEvent("radio:update")); } catch (e) {}
   }
