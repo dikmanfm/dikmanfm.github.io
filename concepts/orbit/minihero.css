@@ -58,3 +58,11 @@
 .mh-host { top: auto; bottom: 0; height: calc(100% - 46px - var(--logo-size) * .9 - 6px); left: max(-4%, calc(50% - 360px)); }
 @media (max-width: 560px) { .mh-host { left: -10%; height: calc(100% - 46px - var(--logo-size) * 1.05 - 10px); } }
 @media (min-width: 561px) { .mh { --logo-size: min(12.5vw, 112px); } }
+
+/* פונט הלוגו: Syncopate Bold, כמו בדף הראשי */
+@font-face { font-family: "DKM Syncopate"; src: url("../fonts/files/syncopate.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+.mh-word, .mh-fm { font-family: "DKM Syncopate", "Heebo", sans-serif; font-weight: 700; letter-spacing: 0; }
+.mh-word { -webkit-text-stroke-width: 1px; }
+/* Syncopate רחב בערך פי 1.5 מ-Heebo: אותו רוחב לוגו כמו קודם */
+.mh { --logo-size: min(11.2vw, 87px); }
+@media (min-width: 561px) { .mh { --logo-size: min(8.3vw, 74px); } }

@@ -487,3 +487,12 @@
 /* ---------- תחתית: מידע מימין, רשתות משמאל ---------- */
 [data-theme="orbit"] .foot { align-items: center; padding-top: 18px; padding-bottom: calc(6px + env(safe-area-inset-bottom)); }
 [data-theme="orbit"] .foot-info { display: flex; flex-wrap: wrap; gap: 4px 14px; min-width: 0; }
+
+/* ==========================================================================
+   פונט הלוגו: Syncopate Bold (מס' 22 בדף הפונטים). מקומי, OFL.
+   בבדיקת פונטים (?font=) הלוגו מקבל את הפונט מהסרגל במקום זה.
+   ========================================================================== */
+@font-face { font-family: "DKM Syncopate"; src: url("../fonts/files/syncopate.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+.logo-b:not([data-font]) .lb-line, .logo-b:not([data-font]) .lb-fm b { font-family: "DKM Syncopate", "Heebo", sans-serif; font-weight: 700; letter-spacing: 0; }
+.logo-b:not([data-font]) { --size: min(13vw, 140px); }
+.logo-b:not([data-font]) .lb-fm { padding: .1em .14em .05em; }

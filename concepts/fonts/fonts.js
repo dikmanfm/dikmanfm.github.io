@@ -6,7 +6,7 @@
 (function () {
   "use strict";
   var F = [
-    { id: "heebo",        name: "Heebo Black",   file: null,                  src: "הנוכחי",    lic: "OFL",            note: "הפונט שבאתר היום", track: "-.045em", weight: 900 },
+    { id: "heebo",        name: "Heebo Black",   file: null,                  src: "הקודם",      lic: "OFL",            note: "הפונט הקודם של הלוגו", track: "-.045em", weight: 900 },
     { id: "xirod",        name: "Xirod",         file: "xirod.otf",           src: "dafont",    lic: "חינם",           note: "רחב וכבד מאוד" },
     { id: "nasalization", name: "Nasalization",  file: "nasalization.otf",    src: "1001fonts", lic: "חינם (Typodermic)", note: "מעוגל, חללית" },
     { id: "induction",    name: "Induction",     file: "induction.otf",       src: "1001fonts", lic: "CC0",            note: "רחב במיוחד, קווים חדים" },
@@ -29,7 +29,7 @@
     { id: "archivo-black",name: "Archivo Black", file: "archivo-black.woff2", src: "Google Fonts", lic: "OFL", note: "רחב ומוצק" },
     { id: "righteous",    name: "Righteous",     file: "righteous.woff2",     src: "Google Fonts", lic: "OFL", note: "מעוגל, רדיו שנות ה-70" },
     { id: "bungee",       name: "Bungee",        file: "bungee.woff2",        src: "Google Fonts", lic: "OFL", note: "שילוט אורבני" },
-    { id: "syncopate",    name: "Syncopate Bold",file: "syncopate.woff2",     src: "Google Fonts", lic: "OFL", note: "רחב ומאוורר, יוקרתי" },
+    { id: "syncopate",    name: "Syncopate Bold",file: "syncopate.woff2",     src: "Google Fonts", lic: "OFL", note: "הפונט שבאתר היום · רחב ומאוורר" },
     { id: "exo2",         name: "Exo 2 Black",   file: "exo2-black.woff2",    src: "Google Fonts", lic: "OFL", note: "עתידני במידה" },
     { id: "rubik-mono",   name: "Rubik Mono One",file: "rubik-mono-one.woff2",src: "Google Fonts", lic: "OFL", note: "גאומטרי ומעוגל" },
     { id: "unbounded",    name: "Unbounded Black",file: "unbounded-black.woff2",src: "Google Fonts", lic: "OFL", note: "רחב ורך, עכשווי" }
