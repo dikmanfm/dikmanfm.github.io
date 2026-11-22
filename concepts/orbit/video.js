@@ -27,6 +27,8 @@
   // ---------- עצירת הרדיו ----------
   var bc = null; try { bc = new BroadcastChannel("dikman-fm"); } catch (e) {}
   function hushRadio() { try { if (bc) bc.postMessage({ type: "media-start", from: "video" }); } catch (e) {} }
+  // השידור החי התחיל בראש העמוד: עוצרים את הסרטון וחוזרים לתמונה שלו
+  if (bc) bc.onmessage = function (e) { if (e.data && e.data.type === "media-start" && e.data.from === "live" && frame) poster(cur); };
 
   // ---------- שבת ----------
   var notice = document.getElementById("notice");

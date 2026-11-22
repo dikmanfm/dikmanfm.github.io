@@ -60,6 +60,8 @@
 
   // ---------- שירים (עיבודים ולחנים / יואלי מקורי) ----------
   audio = new Audio(); audio.preload = "none";
+  // השידור החי התחיל בראש העמוד: עוצרים את השיר
+  try { var bcIn = new BroadcastChannel("dikman-fm"); bcIn.onmessage = function (e) { if (e.data && e.data.type === "media-start" && e.data.from === "live") stopAll(); }; } catch (x) {}
   var ol = el("ol", "tracks");
   items.forEach(function (it, i) {
     var src = audioSrc(it.url); if (!src) return;

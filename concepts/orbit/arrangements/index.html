@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <base href="../../../">
   <!-- אבטחה: רק קבצים מהאתר עצמו, שמע/וידיאו מ-R2 -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self' https://*.r2.dev; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self' https://cdn.cybercdn.live https://*.r2.dev; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#020202">
@@ -13,15 +13,31 @@
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="concepts/orbit/pages.css?v=20261123a">
-  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261123a">
+  <link rel="stylesheet" href="concepts/orbit/pages.css?v=20261123d">
+  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261123d">
+  <link rel="stylesheet" href="concepts/orbit/minihero.css?v=20261123d">
 </head>
 <body data-page="arrangements" data-empty="כאן יופיעו העיבודים והלחנים של יואלי, עם ניגון ישיר מהדף.">
 <div class="wrap">
-  <header class="bar">
-    <a class="back" href="concepts/orbit/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>חזרה לרדיו</a>
-    <a class="mark" href="concepts/orbit/" aria-label="DIKMAN FM">DIKMAN <b>·</b><i>FM</i></a>
+  <!-- ראש עמוד קבוע בכל דף: הלוגו, יואלי והשידור החי -->
+  <header class="mh">
+    <a class="mh-back" href="concepts/orbit/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>לעמוד הראשי</a>
+    <figure class="mh-host" aria-hidden="true"><img src="concepts/orbit/img/yoeli.png" width="754" height="942" alt="" decoding="async" fetchpriority="high"></figure>
+    <div class="mh-core">
+      <a class="mh-logo" href="concepts/orbit/" dir="ltr" aria-label="DIKMAN FM, לעמוד הראשי"><span class="mh-word" aria-hidden="true">DIKMAN</span><span class="mh-fm" aria-hidden="true">FM</span></a>
+      <div class="mh-live-wrap">
+        <button class="live-key" id="heroLive" type="button" aria-pressed="false" aria-describedby="heroLiveLabel">
+          <span class="lk-ring" aria-hidden="true"></span>
+          <svg class="lk-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 5.5v13L7 12z"/></svg>
+          <svg class="lk-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10"/></svg>
+          <span class="lk-spin" aria-hidden="true"></span>
+          <span class="sr-only" id="heroLiveSr">הפעלת השידור החי</span>
+        </button>
+        <span class="live-key-label" id="heroLiveLabel">לחצו פליי לשידור החי</span>
+      </div>
+    </div>
   </header>
+
 
   <section class="head">
     <span class="head-disc" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18V5.5l11-2.5v12.5"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/><path d="M9 9.5l11-2.5"/></svg></span>
@@ -62,9 +78,10 @@
   </footer>
 </div>
 
-<script src="js/config.js?v=20261123a"></script>
-<script src="js/zmanim.js?v=20261123a"></script>
+<script src="js/config.js?v=20261123d"></script>
+<script src="js/zmanim.js?v=20261123d"></script>
+<script src="concepts/orbit/minihero.js?v=20261123d"></script>
 <script src="vendor/motion-14.9.0.min.js"></script>
-<script src="concepts/orbit/pages.js?v=20261123a"></script>
+<script src="concepts/orbit/pages.js?v=20261123d"></script>
 </body>
 </html>
