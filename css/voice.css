@@ -418,3 +418,26 @@ html.has-mini .toast { bottom: calc(var(--tabs-h) + 90px + env(safe-area-inset-b
 @media (forced-colors: active) {
   .play, .src[aria-checked="true"], .band.on { forced-color-adjust: none; }
 }
+
+/* ===================== שבת: מסך מלא, נרות גדולים, אזור וזמנים ===================== */
+.shabbat { background: radial-gradient(560px 460px at 50% 36%, rgba(255,196,110,.08), transparent 70%), var(--bg); animation: sh-in .9s cubic-bezier(.16,1,.3,1) both; }
+.shabbat.is-leaving { animation: sh-out .7s ease-in both; }
+@keyframes sh-in { from { opacity: 0; } }
+@keyframes sh-out { to { opacity: 0; } }
+.sh-in { gap: 8px; animation: sh-rise 1.1s cubic-bezier(.16,1,.3,1) both; }
+@keyframes sh-rise { from { opacity: 0; transform: translateY(18px) scale(.98); } }
+.sh-brand { font: 700 22px/1 var(--display); letter-spacing: .14em; color: var(--fg-3); margin-bottom: 6px; }
+.sh-brand b { color: var(--fg-2); }
+.sh-orbit { width: min(300px, 70vw); height: auto; aspect-ratio: 1; display: grid; place-items: center; }
+.sh-ring { width: 100%; height: 100%; transform: rotate(-90deg); }   /* מתחיל ב-12 ומתקדם עם כיוון השעון */
+.candles { position: relative; inset: auto; width: 46%; height: auto; overflow: visible; }
+.candle { fill: #e9e4d8; }
+.halo { transform-box: fill-box; transform-origin: 50% 50%; animation: sh-halo 3.6s ease-in-out infinite; }
+@keyframes sh-halo { 50% { opacity: .7; transform: scale(1.12); } }
+.sh-arc { stroke: #ffd27a; filter: drop-shadow(0 0 6px rgba(255,210,122,.45)); transition: stroke-dashoffset 1s linear; }
+.shabbat h2 { margin: 6px 0 0; font-size: clamp(80px, 22vw, 128px); color: #f6f1e6; text-shadow: 0 0 46px rgba(255,210,122,.22); }
+.sh-region { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 10px; font-size: 14px; color: var(--fg-2) !important; }
+.sh-region b { color: var(--fg); font-weight: 700; }
+.sh-region i { width: 4px; height: 4px; border-radius: 50%; background: #ffd27a; }
+.sh-region span { font-family: var(--mono); color: var(--fg); }
+@media (prefers-reduced-motion: reduce) { .shabbat, .sh-in, .halo { animation: none; } }

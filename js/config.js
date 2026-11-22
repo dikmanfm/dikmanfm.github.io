@@ -40,12 +40,26 @@ window.RADIO_CONFIG = {
   // מחוגי VU לפי השמע האמיתי – רק אם שרת השידור מאפשר CORS
   realMeters: false,
 
-  // מצב שבת: חוסם השמעה מכניסת שבת עד צאת השבת, לפי שקיעה מחושבת
+  // מצב שבת: חוסם השמעה מכניסת שבת עד צאת השבת, לפי שקיעה מחושבת – בנפרד לכל אזור.
+  // הגולש מקבל את האזור שלו לפי אזור הזמן של הדפדפן (match). שבת בישראל לא חוסמת את ניו יורק, ולהפך.
   shabbat: {
     enabled: true,
-    lat: 31.778, lng: 35.235,      // ירושלים. לבני ברק: 32.084, 34.834
-    candleMinutes: 40,
-    havdalaMinutes: 40,
+    fallbackRegion: "il",          // אזור זמן לא מוכר (אירופה וכו') → לפי ישראל
+    regions: {
+      il: {
+        name: "ישראל", tz: "Asia/Jerusalem",
+        lat: 31.778, lng: 35.235,  // ירושלים. לבני ברק: 32.084, 34.834
+        candleMinutes: 40, havdalaMinutes: 40,
+        match: ["Asia/Jerusalem", "Asia/Tel_Aviv", "Israel"]
+      },
+      ny: {
+        name: "ניו יורק", tz: "America/New_York",
+        lat: 40.7128, lng: -74.006,
+        candleMinutes: 18, havdalaMinutes: 50,
+        match: ["America/", "US/", "Canada/"]   // כל יבשת אמריקה מקבלת את זמני ניו יורק
+      }
+    },
+    // חגים: תאריכי לוח של האזור. אפשר גם רשימה נפרדת בתוך אזור (holidays) – למשל יום טוב שני בחו"ל
     holidays: [
       // { name: "פסח", start: "2027-04-21", end: "2027-04-22" }
     ]

@@ -790,19 +790,27 @@
     if (state.closed) { toast("השידורים מושבתים כעת"); return true; }
     return false;
   }
+  // החסימה לפי האזור של הגולש (ישראל / ניו יורק) – js/zmanim.js
   function checkClosed() {
-    var preview = location.hash === "#shabbat-preview";
-    var st = preview ? { kind: "shabbat", since: new Date(Date.now() - 3600e3 * 5.5), until: new Date(Date.now() + 3600e3 * 20) } : window.Zmanim.closedState(new Date(), CFG.shabbat);
-    // תצוגה מקדימה – זמן קבוע לכל ריענון, כדי שהספירה תתקדם באמת
-    if (preview && state.closed && state.closed.kind === "shabbat") st = state.closed;
+    var Z = window.Zmanim, st = Z.current(CFG.shabbat), was = !!state.closed, el = $("shabbat");
     state.closed = st;
-    $("shabbat").hidden = !st;
-    if (!st) return;
-    if (!audio.paused) stopAudio();
+    if (!st) {
+      if (was && !el.hidden) {   // צאת שבת: המסך נעלם בעדינות, והאפליקציה חוזרת לפעול
+        el.classList.add("is-leaving");
+        setTimeout(function () { if (!state.closed) { el.hidden = true; el.classList.remove("is-leaving"); } }, 700);
+      } else el.hidden = true;
+      return;
+    }
+    el.classList.remove("is-leaving");
+    el.hidden = false;
+    if (!was || !audio.paused) stopAudio();      // כניסת שבת: עוצרים מיד כל ניגון
     var holiday = st.kind === "holiday";
+    var inT = Z.hm(st.realSince || st.since, st.tz), outT = Z.hm(st.realUntil || st.until, st.tz);
     $("shabbatTitle").textContent = holiday ? "חג שמח" : "שבת שלום";
     $("shabbatText").textContent = holiday ? "השידורים מושבתים בחג" + (st.name ? " " + st.name : "") + " ויחודשו בצאת החג." : "השידורים מושבתים בשבת ויחודשו במוצאי שבת.";
-    $("shabbatTime").textContent = (holiday ? "בצאת החג, " : "במוצאי שבת, ") + pad(st.until.getHours()) + ":" + pad(st.until.getMinutes());
+    $("shabbatTime").textContent = (holiday ? "בצאת החג, " : "במוצאי שבת, ") + outT;
+    var reg = $("shabbatRegion");
+    if (reg) reg.innerHTML = "<b>" + esc(st.regionName) + "</b><i></i>" + (holiday ? "כניסת החג " : "כניסת שבת ") + '<span dir="ltr">' + inT + "</span><i></i>" + (holiday ? "צאת החג " : "צאת שבת ") + '<span dir="ltr">' + outT + "</span>";
     tickShabbat();
   }
   // ספירה לאחור עד חידוש השידורים + טבעת שמראה כמה מהשבת עברה
@@ -817,11 +825,12 @@
   })();
   function tickShabbat() {
     var st = state.closed; if (!st) return;
-    var left = Math.max(0, st.until - Date.now());
+    var t = window.Zmanim.now().getTime(), left = Math.max(0, st.until - t);
+    if (left === 0 && !st.preview) { checkClosed(); return; }
     var s = Math.floor(left / 1000);
     $("shabbatCount").textContent = pad(Math.floor(s / 3600)) + ":" + pad(Math.floor(s % 3600 / 60)) + ":" + pad(s % 60);
     if (st.since) {
-      var f = Math.max(0, Math.min(1, (Date.now() - st.since) / (st.until - st.since)));
+      var f = Math.max(0, Math.min(1, (t - st.since) / (st.until - st.since)));
       $("shArc").style.setProperty("--f", f.toFixed(4));
     }
   }
@@ -894,7 +903,8 @@
   setTab(load("tab", "live"));
   updateDeck(); setPlayUI();
   tickClock(); setInterval(tickClock, 15000);
-  checkClosed(); setInterval(checkClosed, 30000);
+  checkClosed(); setInterval(checkClosed, 15000);
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) checkClosed(); });
   state.wasLive = schedStatus().live;
   tickSchedule(); setInterval(tickSchedule, 10000);
   pollNowPlaying(); setInterval(pollNowPlaying, 30000);
