@@ -524,3 +524,46 @@
   .orb:nth-child(3) .orb-disc::before { animation-delay: -2.4s; }
 }
 @keyframes orb-glow { 0%, 100% { opacity: .85; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.04); } }
+
+/* ==========================================================================
+   הבמה בטלפון: התמונה של יואלי עד קצה המסך (בלי חיתוך בשוליים),
+   והשעונים יורדים לקו שבו התמונה נגמרת – ניו יורק משמאל, ישראל מימין, באותו גובה
+   ========================================================================== */
+/* מחשב: אותו עיקרון. היחסים קבועים כי הכל נגזר מ-ring:
+   תחתית הבמה = 86% מגובה ה-SVG, ו-63% מגובה התמונה */
+.orbit-stage {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 14%);
+          mask-image: linear-gradient(180deg, transparent 0, #000 14%);
+}
+.orbit {
+  -webkit-mask-image: linear-gradient(180deg, #000 76%, transparent 86%);
+          mask-image: linear-gradient(180deg, #000 76%, transparent 86%);
+}
+.host {
+  -webkit-mask-image: linear-gradient(180deg, #000 44%, transparent 63%);
+          mask-image: linear-gradient(180deg, #000 44%, transparent 63%);
+}
+.ro-bl, .ro-br { bottom: 4%; }
+@media (max-width: 680px) {
+  /* הבמה פורצת את השוליים של העמוד ונוגעת בשני קצות המסך */
+  .orbit-stage {
+    margin-inline: calc(50% - 50vw);
+    /* דהייה רק למעלה; למטה כל שכבה דוהה בעצמה, כדי שהשעונים יישארו חדים */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 14%);
+            mask-image: linear-gradient(180deg, transparent 0, #000 14%);
+  }
+  /* הטבעות דוהות בדיוק בתחתית הבמה (89% מגובה ה-SVG = התחתית שלה) */
+  .orbit {
+    -webkit-mask-image: linear-gradient(180deg, #000 77%, transparent 89%);
+            mask-image: linear-gradient(180deg, #000 77%, transparent 89%);
+  }
+  /* התמונה מתחילה בקצה המסך, ונגמרת בתחתית הבמה (81% מגובה התמונה) */
+  .host {
+    left: 0;
+    -webkit-mask-image: linear-gradient(180deg, #000 56%, transparent 81%);
+            mask-image: linear-gradient(180deg, #000 56%, transparent 81%);
+  }
+  /* השעונים: באותו פס, בגובה שבו התמונה נגמרת, עם שוליים מהקצוות */
+  .ro-bl, .ro-br { bottom: 3%; }
+  .ro-bl { left: 16px; } .ro-br { right: 16px; }
+}
