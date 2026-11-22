@@ -42,9 +42,14 @@
 
   // ---------- שעון וקריאות ----------
   function pad(n) { return (n < 10 ? "0" : "") + n; }
+  var roTimeNY = $("#roTimeNY");
+  function tz(zone) {
+    var d = new Date(new Date().toLocaleString("en-US", { timeZone: zone }));
+    return pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
+  }
   function clock() {
-    var d = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Jerusalem" }));
-    roTime.textContent = pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
+    roTime.textContent = tz("Asia/Jerusalem");
+    if (roTimeNY) roTimeNY.textContent = tz("America/New_York");
     var live = onair && onair.classList.contains("is-live");
     roMode.textContent = live ? "LIVE" : "REPLAY"; roMode.classList.toggle("live", !!live);
   }
