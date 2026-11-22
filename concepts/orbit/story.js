@@ -1,5 +1,5 @@
 /* ==========================================================================
-   DIKMAN FM · Orbit · סטורי "עבודות מאחורי הקלעים"
+   DIKMAN FM · Orbit · סטורי "מאחורי הקלעים באולפן של יואלי"
    התוכן: data/stories.json (מוסיפים פריטים לסוף items, שום דבר לא נמחק לבד).
    - טבעת מקוטעת: קטע לכל פריט. אדום = עוד לא נצפה אצל הצופה הזה, אפור = נצפה.
    - חלון צפייה: פסי התקדמות, הקשה משמאל = הבא / מימין = הקודם, החזקה = עצירה,
@@ -12,7 +12,7 @@
   if (!wrap || !btn || !window.fetch) return;
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   var IMAGE_MS = 6000, TEXT_MS = 6500, SEEN_KEY = "dkm-stories-seen";
-  var data = null, items = [], title = "עבודות מאחורי הקלעים", avatar = "concepts/orbit/img/yoeli.png";
+  var data = null, items = [], title = "מאחורי הקלעים באולפן של יואלי", avatar = "concepts/orbit/img/yoeli-story.png";
 
   // ---------- עזרים ----------
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }

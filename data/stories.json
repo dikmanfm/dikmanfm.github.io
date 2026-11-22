@@ -15,14 +15,14 @@
     { "id": "2026-12-06-link", "date": "2026-12-06", "type": "link", "text": "כל הפרטים על המופע", "url": "https://www.instagram.com/yoelidikman/", "label": "לפרטים" }
   ],
 
-  "title": "עבודות מאחורי הקלעים",
-  "avatar": "concepts/orbit/img/yoeli.png",
+  "title": "מאחורי הקלעים באולפן של יואלי",
+  "avatar": "concepts/orbit/img/yoeli-story.png",
   "items": [
     {
       "id": "2026-11-23-welcome",
       "date": "2026-11-23",
       "type": "text",
-      "text": "ברוכים הבאים למאחורי הקלעים של יואלי דיקמן",
+      "text": "ברוכים הבאים למאחורי הקלעים באולפן של יואלי",
       "caption": "עיבודים, חזרות ורגעים מהאולפן. מתעדכן כל הזמן.",
       "bg": "red"
     },

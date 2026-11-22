@@ -26,13 +26,13 @@
   <!-- הפונטים מקומיים (fonts/) – בלי תלות בדומיינים חיצוניים שחלק מהסינונים חוסמים -->
   <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/karantina-hebrew-700-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261123b">
-  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261123b">
-  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261123b">
-  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261123b">
-  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261123b">
-  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261123b">
-  <link rel="stylesheet" href="concepts/orbit/story.css?v=20261123b">
+  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261123c">
+  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261123c">
+  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261123c">
+  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261123c">
+  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261123c">
+  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261123c">
+  <link rel="stylesheet" href="concepts/orbit/story.css?v=20261123c">
 </head>
 <body>
 <div class="app" id="app">
@@ -103,13 +103,13 @@
 
     <p class="brand-sub"><i></i><span><b class="h24">24</b> שעות של מוזיקה יהודית ללא הפסקה</span><i></i></p>
 
-    <!-- סטורי קבוע: "עבודות מאחורי הקלעים". התוכן ב-data/stories.json, שום פריט לא נמחק לבד -->
+    <!-- סטורי קבוע: "מאחורי הקלעים באולפן של יואלי". התוכן ב-data/stories.json, שום פריט לא נמחק לבד -->
     <div class="story-wrap" id="storyWrap" hidden>
       <button class="story" id="storyBtn" type="button" aria-haspopup="dialog">
         <span class="story-ring" aria-hidden="true"><svg viewBox="0 0 100 100" id="storyRing"></svg></span>
-        <span class="story-avatar" aria-hidden="true"><img id="storyAvatar" src="concepts/orbit/img/yoeli.png" alt="" width="754" height="942" decoding="async"></span>
+        <span class="story-avatar" aria-hidden="true"><img id="storyAvatar" src="concepts/orbit/img/yoeli-story.png" alt="" width="480" height="480" decoding="async"></span>
         <span class="story-new mono" id="storyNew" dir="ltr" hidden>NEW</span>
-        <span class="story-label">עבודות מאחורי הקלעים</span>
+        <span class="story-label">מאחורי הקלעים באולפן של יואלי</span>
         <span class="sr-only" id="storySr"></span>
       </button>
     </div>
@@ -388,21 +388,21 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <audio id="audio" preload="none" playsinline></audio>
 
-<script src="js/config.js?v=20261123b"></script>
-<script src="js/zmanim.js?v=20261123b"></script>
-<script src="js/schedule.js?v=20261123b"></script>
-<script src="js/demo-audio.js?v=20261123b"></script>
-<script src="concepts/_base/js/app.js?v=20261123b"></script>
+<script src="js/config.js?v=20261123c"></script>
+<script src="js/zmanim.js?v=20261123c"></script>
+<script src="js/schedule.js?v=20261123c"></script>
+<script src="js/demo-audio.js?v=20261123c"></script>
+<script src="concepts/_base/js/app.js?v=20261123c"></script>
 <!-- שכבת תנועה מתקדמת: Anime.js v4 + Motion, מקומיות. בדפדפן ישן שלא מכיר אותן – נשארת השכבה הבסיסית (motion.js) -->
-<script src="vendor/anime-4.5.0.umd.min.js?v=20261123b"></script>
-<script src="vendor/motion-14.9.0.min.js?v=20261123b"></script>
-<script src="concepts/_base/js/fx.js?v=20261123b"></script>
-<script src="concepts/_base/js/motion.js?v=20261123b"></script>
-<script src="concepts/_base/js/mixer.js?v=20261123b"></script>
-<script src="concepts/orbit/hero.js?v=20261123b"></script>
-<script src="concepts/orbit/genres.js?v=20261123b"></script>
-<script src="concepts/orbit/story.js?v=20261123b"></script>
-<script src="concepts/fonts/fonts.js?v=20261123b"></script>
-<script src="concepts/orbit/fontpick.js?v=20261123b"></script>
+<script src="vendor/anime-4.5.0.umd.min.js?v=20261123c"></script>
+<script src="vendor/motion-14.9.0.min.js?v=20261123c"></script>
+<script src="concepts/_base/js/fx.js?v=20261123c"></script>
+<script src="concepts/_base/js/motion.js?v=20261123c"></script>
+<script src="concepts/_base/js/mixer.js?v=20261123c"></script>
+<script src="concepts/orbit/hero.js?v=20261123c"></script>
+<script src="concepts/orbit/genres.js?v=20261123c"></script>
+<script src="concepts/orbit/story.js?v=20261123c"></script>
+<script src="concepts/fonts/fonts.js?v=20261123c"></script>
+<script src="concepts/orbit/fontpick.js?v=20261123c"></script>
 </body>
 </html>
