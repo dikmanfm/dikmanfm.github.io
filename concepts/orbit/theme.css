@@ -118,6 +118,8 @@
   display: flex; align-items: center; justify-content: center; gap: 14px;
   margin: 2px 0 0; font-size: 14px; font-weight: 500; color: var(--ink-2); letter-spacing: .04em;
 }
+[data-theme="orbit"] .brand-sub span { color: #fff; font-weight: 600; }
+[data-theme="orbit"] .brand-sub .h24 { font-weight: 900; color: var(--neon); text-shadow: 0 0 12px rgba(var(--neon-rgb), .6); }
 [data-theme="orbit"] .brand-sub i { width: 5px; height: 5px; background: var(--neon); transform: rotate(45deg); }
 
 .shock { position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px; border-radius: 50%; border: 2px solid var(--neon); pointer-events: none; z-index: 1; }
