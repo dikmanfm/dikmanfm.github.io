@@ -14,7 +14,6 @@
     { "id": "2026-12-05-text", "date": "2026-12-05", "type": "text", "text": "מחר בערב: הופעה חיה", "bg": "red" },
     { "id": "2026-12-06-link", "date": "2026-12-06", "type": "link", "text": "כל הפרטים על המופע", "url": "https://www.instagram.com/yoelidikman/", "label": "לפרטים" }
   ],
-
   "title": "מאחורי הקלעים באולפן של יואלי",
   "avatar": "concepts/orbit/img/yoeli-story.png",
   "items": [
@@ -33,6 +32,43 @@
       "src": "concepts/orbit/img/yoeli.png",
       "caption": "יואלי דיקמן",
       "fit": "contain"
-    }
+    },
+    { "id": "studio-home-01", "type": "video", "src": "data/stories/home-01.mp4", "fit": "contain" },
+    { "id": "studio-home-02", "type": "video", "src": "data/stories/home-02.mp4", "fit": "contain" },
+    { "id": "studio-home-03", "type": "video", "src": "data/stories/home-03.mp4", "fit": "contain" },
+    { "id": "studio-home-04", "type": "video", "src": "data/stories/home-04.mp4", "fit": "contain" },
+    { "id": "studio-home-05", "type": "video", "src": "data/stories/home-05.mp4", "fit": "contain" },
+    { "id": "studio-home-06", "type": "video", "src": "data/stories/home-06.mp4", "fit": "contain" },
+    { "id": "studio-home-07", "type": "video", "src": "data/stories/home-07.mp4", "fit": "contain" },
+    { "id": "studio-home-08", "type": "video", "src": "data/stories/home-08.mp4", "fit": "contain" },
+    { "id": "studio-home-09", "type": "video", "src": "data/stories/home-09.mp4", "fit": "contain" },
+    { "id": "studio-home-10", "date": "2024-11-04", "type": "video", "src": "data/stories/home-10.mp4", "fit": "contain" },
+    { "id": "studio-home-11", "date": "2024-11-04", "type": "video", "src": "data/stories/home-11.mp4", "fit": "contain" },
+    { "id": "studio-home-12", "date": "2024-11-04", "type": "video", "src": "data/stories/home-12.mp4", "fit": "contain" },
+    { "id": "studio-home-13", "date": "2024-11-04", "type": "video", "src": "data/stories/home-13.mp4", "fit": "contain" },
+    { "id": "studio-home-14", "date": "2024-11-04", "type": "video", "src": "data/stories/home-14.mp4", "fit": "contain" },
+    { "id": "studio-home-15", "date": "2024-11-04", "type": "video", "src": "data/stories/home-15.mp4", "fit": "contain" },
+    { "id": "studio-home-16", "date": "2024-11-04", "type": "video", "src": "data/stories/home-16.mp4", "fit": "contain" },
+    { "id": "studio-home-17", "date": "2024-11-04", "type": "video", "src": "data/stories/home-17.mp4", "fit": "contain" },
+    { "id": "studio-home-18", "date": "2024-11-04", "type": "video", "src": "data/stories/home-18.mp4", "fit": "contain" },
+    { "id": "studio-home-19", "date": "2024-11-04", "type": "video", "src": "data/stories/home-19.mp4", "fit": "contain" },
+    { "id": "studio-home-20", "date": "2024-11-04", "type": "video", "src": "data/stories/home-20.mp4", "fit": "contain" },
+    { "id": "studio-home-21", "date": "2024-03-01", "type": "video", "src": "data/stories/home-21.mp4", "fit": "contain" },
+    { "id": "studio-home-22", "type": "video", "src": "data/stories/home-22.mp4", "fit": "contain" },
+    { "id": "studio-home-23", "type": "video", "src": "data/stories/home-23.mp4", "fit": "contain" },
+    { "id": "studio-home-24", "date": "2023-12-10", "type": "video", "src": "data/stories/home-24.mp4", "fit": "contain" },
+    { "id": "studio-home-25", "type": "video", "src": "data/stories/home-25.mp4", "fit": "contain" },
+    { "id": "studio-home-26", "type": "video", "src": "data/stories/home-26.mp4", "fit": "contain" },
+    { "id": "studio-home-27", "date": "2023-12-10", "type": "video", "src": "data/stories/home-27.mp4", "fit": "contain" },
+    { "id": "studio-home-28", "date": "2023-12-10", "type": "video", "src": "data/stories/home-28.mp4", "fit": "contain" },
+    { "id": "studio-home-29", "date": "2023-12-04", "type": "video", "src": "data/stories/home-29.mp4", "fit": "contain" },
+    { "id": "studio-home-30", "date": "2023-11-22", "type": "video", "src": "data/stories/home-30.mp4", "fit": "contain" },
+    { "id": "studio-home-31", "type": "video", "src": "data/stories/home-31.mp4", "fit": "contain" },
+    { "id": "studio-home-32", "type": "video", "src": "data/stories/home-32.mp4", "fit": "contain" },
+    { "id": "studio-home-33", "date": "2023-11-19", "type": "video", "src": "data/stories/home-33.mp4", "fit": "contain" },
+    { "id": "studio-home-34", "date": "2023-11-19", "type": "video", "src": "data/stories/home-34.mp4", "fit": "contain" },
+    { "id": "studio-home-35", "date": "2023-11-19", "type": "video", "src": "data/stories/home-35.mp4", "fit": "contain" },
+    { "id": "studio-home-36", "date": "2023-11-11", "type": "video", "src": "data/stories/home-36.mp4", "fit": "contain" },
+    { "id": "studio-home-37", "date": "2023-11-11", "type": "video", "src": "data/stories/home-37.mp4", "fit": "contain" }
   ]
 }
