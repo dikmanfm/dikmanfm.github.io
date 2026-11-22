@@ -412,3 +412,7 @@
 [data-theme="orbit"] .sh-count::before { content: ""; position: absolute; inset-block-start: -1px; inset-inline-start: -1px; width: 14px; height: 14px; border-block-start: 2px solid var(--neon); border-inline-start: 2px solid var(--neon); }
 [data-theme="orbit"] .sh-region i { border-radius: 0; transform: rotate(45deg); background: var(--neon); }
 @media (max-width: 520px) { [data-theme="orbit"] .brand-sub i { display: none; } }
+
+/* ---------- בלי קונסולה: התוכן ממלא את כל הרוחב ---------- */
+[data-theme="orbit"] .deck.console { display: none !important; }
+[data-theme="orbit"] .layout { grid-template-columns: minmax(0, 1fr) !important; max-width: 880px; margin-inline: auto; }
