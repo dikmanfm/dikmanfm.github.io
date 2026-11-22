@@ -68,6 +68,12 @@
   // ---------- הטבעת ----------
   function drawRing() {
     var ring = document.getElementById("storyRing"), seen = seenList(), n = items.length;
+    // ראו הכול: הסטורי חוזר להיות אדום ומתחיל מההתחלה בפעם הבאה
+    if (n && items.every(function (it) { return seen.indexOf(it.id) >= 0; })) {
+      var ids = items.map(function (it) { return it.id; });
+      seen = seen.filter(function (id) { return ids.indexOf(id) < 0; });
+      try { localStorage.setItem(SEEN_KEY, JSON.stringify(seen)); } catch (e) {}
+    }
     while (ring.firstChild) ring.removeChild(ring.firstChild);
     var r = 47, C = 2 * Math.PI * r, gap = n > 1 ? Math.min(6, C / n * .25) : 0, len = C / n - gap, unseen = 0;
     items.forEach(function (it, i) {
