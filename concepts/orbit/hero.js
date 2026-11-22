@@ -50,6 +50,80 @@
   }
   clock(); setInterval(clock, 1000);
 
+  // ---------- לחצן השידור החי במרכז המכ"ם ----------
+  var R = window.RadioApp, liveKey = $("#heroLive"), liveLabel = $("#heroLiveLabel"), liveSr = $("#heroLiveSr");
+  var plRail = $("#plRail"), plBtns = $$(".pl", plRail), myQueue = null, loading = false;
+  var CAT_LABEL = { archive: "ארכיון תוכניות", replay: "שידור חוזר" };
+
+  function liveOn() { return R && !audio.paused && R.state.mode === "live"; }
+  function syncLive() {
+    var on = liveOn();
+    liveKey.classList.toggle("is-on", on);
+    liveKey.classList.toggle("is-loading", loading && R && R.state.mode === "live");
+    liveKey.setAttribute("aria-pressed", on);
+    liveSr.textContent = on ? "עצירת השידור החי" : "הפעלת השידור החי";
+    liveLabel.textContent = on ? "משדרים חי · לחצו לעצירה" : "לחצו פליי לשידור החי";
+  }
+  // איזה פלייליסט מתנגן עכשיו – נגזר ממצב הנגן, כך שגם המיקסר והארכיון מעדכנים את הבחירה
+  function activePl() {
+    if (!R || audio.paused && !loading) return null;
+    var s = R.state;
+    if (s.mode === "replay") return s.channel || "replay";
+    if (s.mode === "ep" && myQueue && s.queue === myQueue.list) return myQueue.id;
+    return null;
+  }
+  function syncPl() {
+    var a = activePl();
+    plBtns.forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-pl") === a); });
+  }
+  function sync() { syncLive(); syncPl(); }
+
+  if (R && liveKey) {
+    audio.addEventListener("waiting", function () { loading = true; sync(); });
+    audio.addEventListener("playing", function () { loading = false; sync(); });
+    audio.addEventListener("pause", function () { loading = false; sync(); });
+    // עצירת שידור חי מנתקת את המקור (load()), וזה מבטל את אירוע ה-pause שבתור – לכן גם emptied
+    ["error", "emptied", "abort"].forEach(function (ev) { audio.addEventListener(ev, function () { loading = false; sync(); }); });
+    document.addEventListener("radio:update", sync);
+
+    liveKey.addEventListener("click", function () {
+      if (liveOn()) { R.stop(); loading = false; sync(); return; }
+      loading = true; R.playLive(); sync();
+      if (M && !REDUCE) M.animate(liveKey, { scale: [.86, 1] }, { type: "spring", stiffness: 520, damping: 14 });
+    });
+
+    plRail.addEventListener("click", function (e) {
+      var b = e.target.closest(".pl"); if (!b) return;
+      var id = b.getAttribute("data-pl");
+      // לחיצה על הפלייליסט שכבר מתנגן = עצירה
+      if (activePl() === id && !audio.paused) { R.stop(); loading = false; sync(); return; }
+      var name = CAT_LABEL[id] || id, list;
+      loading = true;
+      if (id === "replay") { R.showArchive("הכל"); R.playChannel(""); myQueue = null; }
+      else {
+        list = R.playList(id === "archive" ? "הכל" : id);
+        if (!list) { loading = false; return; }
+        myQueue = { id: id, list: R.state.queue };
+      }
+      R.toast("מנגנים: " + name + (list ? " · " + list.length + " הקלטות" : ""));
+      sync();
+      if (M && !REDUCE) M.animate(b, { scale: [.95, 1] }, { type: "spring", stiffness: 500, damping: 16 });
+    });
+
+    // מספר ההקלטות בכל פלייליסט – אחרי שהארכיון נטען
+    (function counts(n) {
+      var eps = R.state.episodes || [];
+      if (!eps.length) { if (n < 40) setTimeout(function () { counts(n + 1); }, 400); return; }
+      plBtns.forEach(function (b) {
+        var id = b.getAttribute("data-pl"), m = b.querySelector("[data-meta]");
+        if (id === "replay") return;
+        var c = id === "archive" ? eps.length : eps.filter(function (x) { return x.category === id; }).length;
+        m.textContent = c.toLocaleString("he-IL") + " הקלטות" + (id === "archive" ? " · מהחדשה" : "");
+      });
+    })(0);
+    sync();
+  }
+
   // ---------- עוצמה ----------
   var level = 0;
   function targetLevel() {
@@ -84,20 +158,22 @@
   })();
 
   // ---------- כניסה ----------
-  var lines = $$(".lb-line"), fm = $(".lb-fm"), ro = $$(".ro"), sub = $(".brand-sub");
+  var lines = $$(".lb-line"), fm = $(".lb-fm"), ro = $$(".ro"), sub = $(".brand-sub"), keyWrap = $(".live-key-wrap"), pls = $$(".pl");
   A.utils.set(lines, { y: "105%" });
-  A.utils.set([fm].concat(ro, [sub]), { opacity: 0 });
+  A.utils.set([fm, keyWrap].concat(ro, [sub], pls), { opacity: 0 });
   A.utils.set(ticks, { opacity: 0 });
   var tl = A.createTimeline({ defaults: { ease: "outExpo" } });
   tl.add(ticks, { opacity: [0, 1], scale: [.6, 1], duration: 500, delay: A.stagger(9), ease: "outQuad" }, 0)
     .add(lines, { y: ["105%", "0%"], duration: 1100, delay: A.stagger(60) }, 250)
     .add(fm, { opacity: [0, 1], scaleX: [0, 1], duration: 700 }, 750)
     .add(ro, { opacity: [0, 1], x: function (el) { return [el.classList.contains("ro-tl") || el.classList.contains("ro-bl") ? -20 : 20, 0]; }, duration: 700, delay: A.stagger(80) }, 850)
-    .add(sub, { opacity: [0, 1], y: [10, 0], duration: 700 }, 1000);
+    .add(keyWrap, { opacity: [0, 1], scale: [.6, 1], duration: 900, ease: "outElastic(1, .7)" }, 950)
+    .add(sub, { opacity: [0, 1], y: [10, 0], duration: 700 }, 1000)
+    .add(pls, { opacity: [0, 1], y: [16, 0], duration: 700, delay: A.stagger(70) }, 1100);
   var done = false;
   function finish() {
     if (done) return; done = true;
-    lines.concat([fm, sub], ro, ticks).forEach(function (n) { n.style.removeProperty("opacity"); n.style.removeProperty("transform"); });
+    lines.concat([fm, sub, keyWrap], ro, ticks, pls).forEach(function (n) { n.style.removeProperty("opacity"); n.style.removeProperty("transform"); });
   }
   tl.then(finish);
   setTimeout(function () { if (!done) { tl.complete(); finish(); } }, 3500);
@@ -105,7 +181,7 @@
   // ---------- עומק לפי העכבר (Motion) ----------
   var SPRING = { type: "spring", stiffness: 140, damping: 20 };
   if (window.matchMedia && matchMedia("(pointer: fine)").matches) {
-    var layers = [[".r-outer", 8], [".r-inner", 26], [".orbit", 12], [".logo-b", -10]];
+    var layers = [[".r-outer", 8], [".r-inner", 26], [".orbit", 12], [".core", -10]];
     hero.addEventListener("pointermove", function (e) {
       var r = stage.getBoundingClientRect();
       var nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;

@@ -342,6 +342,8 @@
     audio.pause();
     // בשידור חי: מנתקים כדי לא לצרוך נתונים ברקע
     if (state.mode === "live" && CFG.live.url) { audio.removeAttribute("src"); audio.load(); }
+    // load() מבטל את אירוע ה-pause שבתור – מעדכנים את החיווי ישירות
+    setLoading(false); setPlayUI();
   }
 
   function togglePlay() {
@@ -446,7 +448,7 @@
         title: live ? (state.liveTitle || CFG.live.program) : it.title,
         artist: live ? CFG.live.stationLabel : CFG.stationName,
         album: live ? "שידור חי" : (state.mode === "replay" ? "שידור חוזר" : it.category),
-        artwork: [{ src: new URL("icons/icon-512.png", location.href).href, sizes: "512x512", type: "image/png" }]
+        artwork: [{ src: new URL("icons/icon-512.png", document.baseURI).href, sizes: "512x512", type: "image/png" }]
       });
     } catch (e) {}
   }
@@ -866,6 +868,19 @@
     playChannel: function (cat) {                           // שידורים חוזרים מתוכנית אחת
       if (guardClosed()) return;
       state.channel = cat; state.bag = []; state.manualLive = false; playReplayNext();
+    },
+    // פלייליסט מסודר מהארכיון (cat = "הכל" או שם קטגוריה): מציג אותו בלשונית הארכיון ומנגן ברצף מהחדש
+    showArchive: function (cat) {
+      state.cat = cat || "הכל"; state.q = ""; $("q").value = "";
+      renderChips(); renderArchive(); setTab("archive");
+      return filtered();
+    },
+    playList: function (cat) {
+      var list = window.RadioApp.showArchive(cat);
+      if (!list.length) { toast("הארכיון עדיין נטען…"); return null; }
+      state.channel = null; state.manualLive = false;
+      playEpisode(list[0], list, { autoNext: true });
+      return list;
     },
     toggle: togglePlay, stop: stopAudio, seek: seek, next: function () { step(1); },
     toast: toast,

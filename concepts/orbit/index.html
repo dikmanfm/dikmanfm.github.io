@@ -68,16 +68,53 @@
       <span class="ro ro-bl mono" dir="ltr"><small>FREQ</small><b>107.6</b></span>
       <span class="ro ro-br mono" dir="ltr"><small>UTC+2</small><b id="roTime">--:--:--</b></span>
 
-      <h1 class="logo-b" dir="ltr" aria-label="DIKMAN FM">
-        <span class="lb-word" aria-hidden="true">
-          <span class="lb-mask"><span class="lb-line lb-outline">DIKMAN</span></span>
-          <span class="lb-mask lb-fill-wrap"><span class="lb-line lb-fill">DIKMAN</span></span>
-        </span>
-        <span class="lb-fm" aria-hidden="true"><b>FM</b></span>
-      </h1>
+      <div class="core">
+        <h1 class="logo-b" dir="ltr" aria-label="DIKMAN FM">
+          <span class="lb-word" aria-hidden="true">
+            <span class="lb-mask"><span class="lb-line lb-outline">DIKMAN</span></span>
+            <span class="lb-mask lb-fill-wrap"><span class="lb-line lb-fill">DIKMAN</span></span>
+          </span>
+          <span class="lb-fm" aria-hidden="true"><b>FM</b></span>
+        </h1>
+
+        <!-- לחצן השידור החי: במרכז המכ"ם, מתחת ללוגו -->
+        <div class="live-key-wrap">
+          <button class="live-key" id="heroLive" type="button" data-nav aria-pressed="false" aria-describedby="heroLiveLabel">
+            <span class="lk-ring" aria-hidden="true"></span>
+            <svg class="lk-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 5.5v13L7 12z"/></svg>
+            <svg class="lk-stop" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10"/></svg>
+            <span class="lk-spin" aria-hidden="true"></span>
+            <span class="sr-only" id="heroLiveSr">הפעלת השידור החי</span>
+          </button>
+          <span class="live-key-label" id="heroLiveLabel">לחצו פליי לשידור החי</span>
+        </div>
+      </div>
     </div>
 
     <p class="brand-sub"><span>ניגונים</span><i></i><span>שיעורים</span><i></i><span>תוכניות</span></p>
+
+    <!-- פלייליסטים: בחירה מנגנת מיד ומציגה את הרשימה בלשונית הארכיון -->
+    <nav class="pl-rail" id="plRail" aria-label="פלייליסטים">
+      <span class="pl-head mono" dir="ltr">PLAYLISTS <i>//</i> 04</span>
+      <div class="pl-grid">
+        <button class="pl" type="button" data-nav data-pl="archive" aria-pressed="false">
+          <span class="pl-n mono" dir="ltr">01</span><b>ארכיון תוכניות</b><small data-meta>כל התוכניות, מהחדשה</small>
+          <svg class="pl-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 5.5v13L7 12z"/></svg>
+        </button>
+        <button class="pl" type="button" data-nav data-pl="replay" aria-pressed="false">
+          <span class="pl-n mono" dir="ltr">02</span><b>שידור חוזר</b><small data-meta>ערבוב רציף מכל הארכיון</small>
+          <svg class="pl-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 5.5v13L7 12z"/></svg>
+        </button>
+        <button class="pl" type="button" data-nav data-pl="לילה מנצח" aria-pressed="false">
+          <span class="pl-n mono" dir="ltr">03</span><b>לילה מנצח</b><small data-meta>ליל חמישי</small>
+          <svg class="pl-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 5.5v13L7 12z"/></svg>
+        </button>
+        <button class="pl" type="button" data-nav data-pl="מאסטר פליי" aria-pressed="false">
+          <span class="pl-n mono" dir="ltr">04</span><b>מאסטר פליי</b><small data-meta>התוכנית המלאה</small>
+          <svg class="pl-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 5.5v13L7 12z"/></svg>
+        </button>
+      </div>
+    </nav>
   </header>
 
   <main class="layout">
