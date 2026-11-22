@@ -1,0 +1,138 @@
+/* ==========================================================================
+   DIKMAN FM · Orbit · דפי "עוד מיואלי"
+   התוכן מגיע מ-RADIO_CONFIG.showcase[<דף>]. בלי תוכן מוצג מצב "בקרוב".
+   ========================================================================== */
+(function () {
+  "use strict";
+  var CFG = window.RADIO_CONFIG || {}, page = document.body.getAttribute("data-page");
+  var items = ((CFG.showcase || {})[page] || []).slice();
+  var host = document.getElementById("items");
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!host) return;
+
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  function svg(d, cls) {
+    var s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("aria-hidden", "true"); if (cls) s.setAttribute("class", cls);
+    var p = document.createElementNS("http://www.w3.org/2000/svg", "path"); p.setAttribute("d", d); s.appendChild(p); return s;
+  }
+  function https(u) { return typeof u === "string" && u.slice(0, 8).toLowerCase() === "https://" ? u : ""; }
+  function mmss(sec) { sec = Math.round(sec || 0); if (!sec) return ""; var m = Math.floor(sec / 60), s = sec % 60; return m + ":" + (s < 10 ? "0" : "") + s; }
+  function heDate(d) { if (!d) return ""; var p = String(d).split("-"); return p.length === 3 ? +p[2] + "." + +p[1] + "." + p[0] : d; }
+
+  // שבת: אותה נעילה של הרדיו, לפי האזור של המאזין
+  function closed() { try { return window.Zmanim ? window.Zmanim.current(CFG.shabbat) : null; } catch (e) { return null; } }
+  var notice = document.getElementById("notice");
+  function guard() {
+    var st = closed();
+    if (!st) return false;
+    notice.hidden = false;
+    notice.textContent = (st.kind === "shabbat" ? "שבת שלום. " : "חג שמח. ") + "הניגון חוזר במוצאי " + (st.kind === "shabbat" ? "שבת" : "החג") + ".";
+    stopAll();
+    return true;
+  }
+
+  // ---------- מצב ריק ----------
+  if (!items.length) {
+    var box = el("div", "card empty");
+    var ring = el("span", "ring"); ring.appendChild(el("i")); box.appendChild(ring);
+    box.appendChild(el("b", null, "התוכן בדרך"));
+    box.appendChild(el("span", null, document.body.getAttribute("data-empty")));
+    host.appendChild(box);
+    var gh = el("div", "ghosts"); gh.setAttribute("aria-hidden", "true");
+    for (var g = 0; g < 3; g++) gh.appendChild(el("div", page === "video" ? "ghost" : "ghost row"));
+    host.appendChild(gh);
+    return;
+  }
+
+  // ---------- וידיאו ----------
+  var audio = null, current = null;
+  function stopAll() {
+    if (audio) { audio.pause(); }
+    if (current) { current.classList.remove("is-playing"); current = null; }
+    Array.prototype.forEach.call(document.querySelectorAll("video"), function (v) { v.pause(); });
+    Array.prototype.forEach.call(document.querySelectorAll("iframe.vframe"), function (f) { f.src = "about:blank"; });
+  }
+
+  if (page === "video") {
+    var grid = el("div", "vgrid");
+    items.forEach(function (it) {
+      var yt = typeof it.youtube === "string" && /^[\w-]{11}$/.test(it.youtube) ? it.youtube : "";
+      var file = https(it.url);
+      if (!yt && !file) return;
+      var card = el("article", "card"), thumb = el("button", "vthumb");
+      thumb.type = "button"; thumb.setAttribute("aria-label", "ניגון: " + (it.title || "וידיאו"));
+      var pb = el("span", "pbtn"); pb.appendChild(svg("M8 5.5v13l10-6.5z")); thumb.appendChild(pb);
+      thumb.addEventListener("click", function () {
+        if (guard()) return;
+        stopAll();
+        var media;
+        if (yt) {
+          media = document.createElement("iframe");
+          media.src = "https://www.youtube-nocookie.com/embed/" + yt + "?autoplay=1&rel=0";
+          media.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+          media.setAttribute("allowfullscreen", ""); media.title = it.title || "וידיאו";
+        } else {
+          media = document.createElement("video");
+          media.src = file; media.controls = true; media.autoplay = true; media.playsInline = true;
+        }
+        media.className = "vframe";
+        thumb.replaceWith(media);
+      });
+      card.appendChild(thumb);
+      var meta = el("div", "vmeta");
+      meta.appendChild(el("b", null, it.title || "הופעה"));
+      var sub = [heDate(it.date), it.place].filter(Boolean).join(" · ");
+      if (sub) meta.appendChild(el("span", null, sub));
+      card.appendChild(meta);
+      grid.appendChild(card);
+    });
+    host.appendChild(grid);
+    return;
+  }
+
+  // ---------- שירים (עיבודים ולחנים / יואלי מקורי) ----------
+  audio = new Audio(); audio.preload = "none";
+  var ol = el("ol", "tracks");
+  items.forEach(function (it, i) {
+    var src = https(it.url); if (!src) return;
+    var li = el("li", "card item"), btn = el("button", "play");
+    btn.type = "button"; btn.setAttribute("aria-label", "ניגון: " + (it.title || "שיר"));
+    btn.appendChild(svg("M8 5.5v13l10-6.5z", "i-play")); btn.appendChild(svg("M7 5h3.5v14H7zM13.5 5H17v14h-3.5z", "i-pause"));
+    var main = el("div", "t-main");
+    main.appendChild(el("b", null, it.title || "שיר " + (i + 1)));
+    var sub = [it.artist, it.note].filter(Boolean).join(" · ");
+    if (sub) main.appendChild(el("span", null, sub));
+    var tag = el("span", "t-tag", it.role || mmss(it.duration) || ""); if (!tag.textContent) tag.style.visibility = "hidden";
+    var prog = el("div", "t-prog"); prog.appendChild(el("i"));
+    li.appendChild(btn); li.appendChild(main); li.appendChild(tag); li.appendChild(prog);
+    btn.addEventListener("click", function () {
+      if (current === li && !audio.paused) { audio.pause(); li.classList.remove("is-playing"); btn.setAttribute("aria-label", "ניגון: " + (it.title || "שיר")); return; }
+      if (guard()) return;
+      if (current !== li) { stopAll(); audio.src = src; }
+      current = li; li.classList.add("is-playing"); btn.setAttribute("aria-label", "השהיה: " + (it.title || "שיר"));
+      audio.play().catch(function () { li.classList.remove("is-playing"); });
+    });
+    ol.appendChild(li);
+  });
+  host.appendChild(ol);
+
+  audio.addEventListener("timeupdate", function () {
+    if (!current || !isFinite(audio.duration)) return;
+    current.querySelector(".t-prog i").style.width = (audio.currentTime / audio.duration * 100).toFixed(2) + "%";
+  });
+  audio.addEventListener("ended", function () {
+    // ממשיך לשיר הבא ברשימה
+    var next = current && current.nextElementSibling;
+    if (current) current.classList.remove("is-playing");
+    current = null;
+    if (next) next.querySelector(".play").click();
+  });
+  setInterval(function () { if (current && !audio.paused) guard(); }, 30000);
+
+  if (!reduce && window.Motion && Motion.animate) {
+    Array.prototype.forEach.call(ol.children, function (n, i) {
+      Motion.animate(n, { opacity: [0, 1], transform: ["translateY(10px)", "translateY(0)"] }, { duration: .4, delay: .05 * i, easing: [.2, .8, .2, 1] });
+    });
+  }
+})();

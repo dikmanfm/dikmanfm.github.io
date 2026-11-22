@@ -51,6 +51,13 @@ window.RADIO_CONFIG = {
     { id: "us-jew",  name: "אמריקאי יהודי",    en: "JEWISH · US", note: "פופ יהודי מניו יורק ומעבר לים",  items: [] }
   ],
 
+  // הדפים "עוד מיואלי" (הלחצנים העגולים ב-Orbit). כל הקישורים חייבים להיות ב-https.
+  //   video:        { title: "שם ההופעה", youtube: "מזהה הסרטון", date: "2024-03-01", place: "היכל התרבות" }
+  //                 או { title, url: "https://…mp4" }
+  //   arrangements: { title: "שם השיר", artist: "מבצע", role: "עיבוד" / "לחן" / "עיבוד ולחן", url: "https://…mp3", duration: 240 }
+  //   original:     { title: "שם השיר", note: "שורה קצרה", url: "https://…mp3", duration: 240 }
+  showcase: { video: [], arrangements: [], original: [] },
+
   shabbat: {
     enabled: true,
     fallbackRegion: "il",          // אזור זמן לא מוכר (אירופה וכו') → לפי ישראל

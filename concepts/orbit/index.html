@@ -26,11 +26,11 @@
   <!-- הפונטים מקומיים (fonts/) – בלי תלות בדומיינים חיצוניים שחלק מהסינונים חוסמים -->
   <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/karantina-hebrew-700-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261122b">
-  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261122b">
-  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261122b">
-  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261122b">
-  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261122b">
+  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261122c">
+  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261122c">
+  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261122c">
+  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261122c">
+  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261122c">
 </head>
 <body>
 <div class="app" id="app">
@@ -100,6 +100,31 @@
     </div>
 
     <p class="brand-sub"><i></i><span><b class="h24">24</b> שעות של מוזיקה יהודית ללא הפסקה</span><i></i></p>
+
+    <!-- עוד מיואלי: שלושה לחצנים עגולים, כל אחד לדף משלו -->
+    <nav class="orbs" aria-label="עוד מיואלי דיקמן">
+      <a class="orb" href="concepts/orbit/video/">
+        <span class="orb-disc" aria-hidden="true"><span class="orb-arc"></span>
+          <svg viewBox="0 0 24 24"><rect x="2.5" y="6" width="13" height="12" rx="1"/><path d="M15.5 10.5l6-3.5v10l-6-3.5"/><circle cx="6.5" cy="9.5" r=".6"/></svg>
+        </span>
+        <span class="orb-n mono" dir="ltr">01 · LIVE</span>
+        <b>וידיאו<br>הופעות לייב</b>
+      </a>
+      <a class="orb" href="concepts/orbit/arrangements/">
+        <span class="orb-disc" aria-hidden="true"><span class="orb-arc"></span>
+          <svg viewBox="0 0 24 24"><path d="M9 18V5.5l11-2.5v12.5"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/><path d="M9 9.5l11-2.5"/></svg>
+        </span>
+        <span class="orb-n mono" dir="ltr">02 · ARR</span>
+        <b>עיבודים<br>ולחנים</b>
+      </a>
+      <a class="orb" href="concepts/orbit/original/">
+        <span class="orb-disc" aria-hidden="true"><span class="orb-arc"></span>
+          <svg viewBox="0 0 24 24"><path d="M12 2.8l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6-4.5-4.2 6.1-.7z"/></svg>
+        </span>
+        <span class="orb-n mono" dir="ltr">03 · ORIG</span>
+        <b>יואלי<br>מקורי</b>
+      </a>
+    </nav>
 
     <!-- פלייליסטים: בחירה מנגנת מיד ומציגה את הרשימה בלשונית הארכיון -->
     <nav class="pl-rail" id="plRail" aria-label="פלייליסטים">
@@ -336,20 +361,20 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <audio id="audio" preload="none" playsinline></audio>
 
-<script src="js/config.js?v=20261122b"></script>
-<script src="js/zmanim.js?v=20261122b"></script>
-<script src="js/schedule.js?v=20261122b"></script>
-<script src="js/demo-audio.js?v=20261122b"></script>
-<script src="concepts/_base/js/app.js?v=20261122b"></script>
+<script src="js/config.js?v=20261122c"></script>
+<script src="js/zmanim.js?v=20261122c"></script>
+<script src="js/schedule.js?v=20261122c"></script>
+<script src="js/demo-audio.js?v=20261122c"></script>
+<script src="concepts/_base/js/app.js?v=20261122c"></script>
 <!-- שכבת תנועה מתקדמת: Anime.js v4 + Motion, מקומיות. בדפדפן ישן שלא מכיר אותן – נשארת השכבה הבסיסית (motion.js) -->
-<script src="vendor/anime-4.5.0.umd.min.js?v=20261122b"></script>
-<script src="vendor/motion-14.9.0.min.js?v=20261122b"></script>
-<script src="concepts/_base/js/fx.js?v=20261122b"></script>
-<script src="concepts/_base/js/motion.js?v=20261122b"></script>
-<script src="concepts/_base/js/mixer.js?v=20261122b"></script>
-<script src="concepts/orbit/hero.js?v=20261122b"></script>
-<script src="concepts/orbit/genres.js?v=20261122b"></script>
-<script src="concepts/fonts/fonts.js?v=20261122b"></script>
-<script src="concepts/orbit/fontpick.js?v=20261122b"></script>
+<script src="vendor/anime-4.5.0.umd.min.js?v=20261122c"></script>
+<script src="vendor/motion-14.9.0.min.js?v=20261122c"></script>
+<script src="concepts/_base/js/fx.js?v=20261122c"></script>
+<script src="concepts/_base/js/motion.js?v=20261122c"></script>
+<script src="concepts/_base/js/mixer.js?v=20261122c"></script>
+<script src="concepts/orbit/hero.js?v=20261122c"></script>
+<script src="concepts/orbit/genres.js?v=20261122c"></script>
+<script src="concepts/fonts/fonts.js?v=20261122c"></script>
+<script src="concepts/orbit/fontpick.js?v=20261122c"></script>
 </body>
 </html>
