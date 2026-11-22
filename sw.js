@@ -1,6 +1,6 @@
 /* Service Worker – מעטפת האפליקציה עובדת גם בלי רשת.
    שידורים חיים וקובצי שמע לא נשמרים במטמון (לא חוסמים, לא תופסים מקום). */
-var VERSION = "dikman-voice-v4";
+var VERSION = "dikman-voice-v5";
 var SHELL = [
   "./", "index.html", "css/voice.css",
   "js/config.js", "js/zmanim.js", "js/schedule.js", "js/demo-audio.js", "js/app.js", "js/voice.js", "js/fx.js", "js/stats.js",
@@ -35,7 +35,8 @@ self.addEventListener("fetch", function (e) {
     return;
   }
   // שאר הקבצים: רשת קודם (כדי שעדכון באתר יגיע מיד ובשלמותו), מטמון כגיבוי כשאין רשת
-  e.respondWith(fetch(req).then(function (res) {
+  // cache: "no-cache" = תמיד לבדוק מול השרת (304 זול), כדי שהטלפון לא יחזיק קבצים ישנים עד 10 דקות
+  e.respondWith(fetch(req, { cache: "no-cache" }).then(function (res) {
     if (res.ok) { var copy = res.clone(); caches.open(VERSION).then(function (c) { c.put(req, copy); }); }
     return res;
   }).catch(function () {
