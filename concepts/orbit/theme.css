@@ -577,3 +577,8 @@
 .orbs { position: relative; }
 .orbs > .orb { position: relative; z-index: 1; }
 .orbs-fx { position: absolute; inset-block-start: -40px; inset-inline-start: -40px; z-index: 0; pointer-events: none; }
+
+/* הלוגו בלי "קופסה": הזוהר של האותיות נחתך בגבולות המסכה ויצר מלבן כהה סביב DIKMAN.
+   מורידים את הזוהר מתוך המסכה, ושמים אותו על המילה כולה – שם הוא לא נחתך. */
+.lb-outline, .lb-fill { text-shadow: none !important; }
+.lb-word { filter: drop-shadow(0 0 calc(var(--size) * .06) rgba(var(--neon-rgb), .45)); }
