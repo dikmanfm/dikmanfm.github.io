@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <base href="../../../">
   <!-- אבטחה: רק קבצים מהאתר עצמו, שמע/וידיאו מ-R2 -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self' https://cdn.cybercdn.live https://*.r2.dev; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.r2.dev; font-src 'self'; media-src 'self' https://cdn.cybercdn.live https://*.r2.dev; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#020202">
@@ -13,11 +13,11 @@
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <script src="concepts/orbit/access.js?v=20261125c"></script>
-  <link rel="stylesheet" href="concepts/orbit/pages.css?v=20261125c">
-  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261125c">
-  <link rel="stylesheet" href="concepts/orbit/minihero.css?v=20261125c">
-  <link rel="stylesheet" href="concepts/orbit/access.css?v=20261125c">
+  <script src="concepts/orbit/access.js?v=20261125d"></script>
+  <link rel="stylesheet" href="concepts/orbit/pages.css?v=20261125d">
+  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261125d">
+  <link rel="stylesheet" href="concepts/orbit/minihero.css?v=20261125d">
+  <link rel="stylesheet" href="concepts/orbit/access.css?v=20261125d">
 </head>
 <body data-page="original" data-empty="כאן יופיעו השירים המקוריים של יואלי, עם ניגון ישיר מהדף.">
 <div class="wrap">
@@ -46,7 +46,7 @@
     <div>
       <div class="kicker" dir="ltr">03 · ORIGINAL</div>
       <h1>יואלי מקורי</h1>
-      <p class="lead">היצירות של יואלי עצמו: שירים מקוריים, ניגונים וקטעי נגינה.</p>
+      <p class="lead" data-text="originalLead">היצירות של יואלי עצמו: שירים מקוריים, ניגונים וקטעי נגינה.</p>
     </div>
   </section>
 
@@ -81,10 +81,12 @@
   </footer>
 </div>
 
-<script src="js/config.js?v=20261125c"></script>
-<script src="js/zmanim.js?v=20261125c"></script>
-<script src="concepts/orbit/minihero.js?v=20261125c"></script>
-<script src="concepts/orbit/vendor-load.js?v=20261125c" data-v="20261124a" data-libs="motion"></script>
-<script src="concepts/orbit/pages.js?v=20261125c"></script>
+<script src="js/config.js?v=20261125d"></script>
+<script src="js/content.js?v=20261125d"></script>
+<script src="js/content-apply.js?v=20261125d"></script>
+<script src="js/zmanim.js?v=20261125d"></script>
+<script src="concepts/orbit/minihero.js?v=20261125d"></script>
+<script src="concepts/orbit/vendor-load.js?v=20261125d" data-v="20261124a" data-libs="motion"></script>
+<script src="concepts/orbit/pages.js?v=20261125d"></script>
 </body>
 </html>

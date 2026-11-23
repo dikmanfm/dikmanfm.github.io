@@ -692,8 +692,14 @@
     var cached = load("episodes", null);
     if (cached) { state.episodes = cached; renderChips(); renderArchive(); }
     if (!window.fetch) return;
-    fetch(CFG.episodesUrl, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (j) {
-      state.episodes = (j.items || []).slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+    // פרקים שהועלו ידנית מעמוד הניהול – קובץ נפרד, כדי שהסנכרון מטלגרם לא יתנגש בהם. אם חסר: ממשיכים בלעדיו.
+    var manual = fetch("data/manual-episodes.json", { cache: "no-cache" }).then(function (r) { return r.ok ? r.json() : { items: [] }; }).catch(function () { return { items: [] }; });
+    Promise.all([fetch(CFG.episodesUrl, { cache: "no-cache" }).then(function (r) { if (!r.ok) throw 0; return r.json(); }), manual]).then(function (both) {
+      var j = both[0], extra = (both[1] && both[1].items) || [], seen = {};
+      var all = (j.items || []).concat(extra.filter(function (e) {
+        return e && typeof e.id === "string" && typeof e.url === "string" && /^https:\/\//i.test(e.url) && !e.hidden;
+      })).filter(function (e) { if (seen[e.id]) return false; seen[e.id] = 1; return true; });
+      state.episodes = all.sort(function (a, b) { return a.date < b.date ? 1 : -1; });
       save("episodes", state.episodes);
       renderChips(); renderArchive(); if (state.tab === "fav") renderFavs();
       if (state.pendingRadio) { state.pendingRadio = false; playRadio(); }

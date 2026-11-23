@@ -87,7 +87,8 @@ jobs:
         run: |
           mkdir _site
           cp -r index.html sw.js manifest.webmanifest css js fonts icons vendor concepts _site/
-          mkdir _site/data && cp data/episodes.json data/stories.json _site/data/
+          mkdir _site/data && cp data/episodes.json data/stories.json data/manual-episodes.json _site/data/
+          if [ -d admin ]; then cp -r admin _site/; fi
           if [ -d data/stories ]; then cp -r data/stories _site/data/; fi
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa   # v3.0.1
         with:

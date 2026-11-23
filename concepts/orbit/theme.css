@@ -572,3 +572,8 @@
 @media (max-width: 520px) {
   .live-key-label { position: relative; top: 4.5vw; }
 }
+
+/* זיקוקי תווים עדינים מאחורי שלושת הלחצנים (notes-fx.js) */
+.orbs { position: relative; }
+.orbs > .orb { position: relative; z-index: 1; }
+.orbs-fx { position: absolute; inset-block-start: -40px; inset-inline-start: -40px; z-index: 0; pointer-events: none; }

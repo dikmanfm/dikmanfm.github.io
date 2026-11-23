@@ -25,6 +25,8 @@
   // קובץ מהאתר עצמו: נתיב יחסי פשוט בלי ".." ובלי סכמה
   function local(u) { return typeof u === "string" && /^[\w\-\/.]+$/.test(u) && u.indexOf("..") < 0 && u.charAt(0) !== "/" ? u : ""; }
   function https(u) { return typeof u === "string" && u.slice(0, 8).toLowerCase() === "https://" ? u : ""; }
+  // תמונות שהועלו מעמוד הניהול יושבות ב-R2 (pub-….r2.dev)
+  function r2(u) { return typeof u === "string" && /^https:\/\/pub-[a-z0-9]+\.r2\.dev\/[\w\-\/.%]+$/i.test(u) ? u : ""; }
   function heDate(d) {
     if (!d) return "";
     var p = String(d).split("-"); if (p.length !== 3) return "";
@@ -46,7 +48,7 @@
     if (!it || typeof it.id !== "string" || !it.id) return false;
     switch (it.type) {
       case "text": return typeof it.text === "string" && !!it.text;
-      case "image": return !!local(it.src);
+      case "image": return !!(local(it.src) || r2(it.src));
       case "video": case "audio": return !!(local(it.src) || https(it.src));
       case "youtube": return typeof it.youtube === "string" && /^[\w-]{11}$/.test(it.youtube);
       case "link": return !!https(it.url);

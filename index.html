@@ -5,7 +5,7 @@
   <base href="./">
   <meta charset="utf-8">
   <!-- אבטחה: רק קבצים מהאתר עצמו + השידור החי והארכיון (R2). כתובת שידור חדשה → להוסיף ל-media-src -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' blob: https://cdn.cybercdn.live https://*.r2.dev; frame-src https://www.youtube-nocookie.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.r2.dev; font-src 'self'; media-src 'self' blob: https://cdn.cybercdn.live https://*.r2.dev; frame-src https://www.youtube-nocookie.com; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#020202">
@@ -26,15 +26,15 @@
   <!-- הפונטים מקומיים (fonts/) – בלי תלות בדומיינים חיצוניים שחלק מהסינונים חוסמים -->
   <link rel="preload" href="fonts/heebo-hebrew-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/karantina-hebrew-700-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <script src="concepts/orbit/access.js?v=20261125c"></script>
-  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261125c">
-  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261125c">
-  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261125c">
-  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261125c">
-  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261125c">
-  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261125c">
-  <link rel="stylesheet" href="concepts/orbit/story.css?v=20261125c">
-  <link rel="stylesheet" href="concepts/orbit/access.css?v=20261125c">
+  <script src="concepts/orbit/access.js?v=20261125d"></script>
+  <link rel="stylesheet" href="concepts/_base/css/app.css?v=20261125d">
+  <link rel="stylesheet" href="concepts/_base/css/motion.css?v=20261125d">
+  <link rel="stylesheet" href="concepts/_base/css/mixer.css?v=20261125d">
+  <link rel="stylesheet" href="concepts/_base/css/ui.css?v=20261125d">
+  <link rel="stylesheet" href="concepts/orbit/theme.css?v=20261125d">
+  <link rel="stylesheet" href="concepts/orbit/social.css?v=20261125d">
+  <link rel="stylesheet" href="concepts/orbit/story.css?v=20261125d">
+  <link rel="stylesheet" href="concepts/orbit/access.css?v=20261125d">
 </head>
 <body>
 <div class="app" id="app">
@@ -112,7 +112,7 @@
       </div>
     </noscript>
 
-    <p class="brand-sub"><i></i><span><b class="h24">24</b> שעות של מוזיקה יהודית ללא הפסקה</span><i></i></p>
+    <p class="brand-sub"><i></i><span><b class="h24">24</b> <span data-text="tagline">שעות של מוזיקה יהודית ללא הפסקה</span></span><i></i></p>
 
     <div class="stage-zone">
     <!-- סטורי קבוע: "מאחורי הקלעים באולפן של יואלי". התוכן ב-data/stories.json, שום פריט לא נמחק לבד -->
@@ -401,20 +401,23 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <audio id="audio" preload="none" playsinline></audio>
 
-<script src="js/config.js?v=20261125c"></script>
-<script src="js/zmanim.js?v=20261125c"></script>
-<script src="js/schedule.js?v=20261125c"></script>
-<script src="js/demo-audio.js?v=20261125c"></script>
-<script src="concepts/_base/js/app.js?v=20261125c"></script>
+<script src="js/config.js?v=20261125d"></script>
+<script src="js/content.js?v=20261125d"></script>
+<script src="js/content-apply.js?v=20261125d"></script>
+<script src="js/zmanim.js?v=20261125d"></script>
+<script src="js/schedule.js?v=20261125d"></script>
+<script src="js/demo-audio.js?v=20261125d"></script>
+<script src="concepts/_base/js/app.js?v=20261125d"></script>
 <!-- שכבת תנועה מתקדמת: Anime.js v4 + Motion, מקומיות. בדפדפן ישן שלא מכיר אותן – נשארת השכבה הבסיסית (motion.js) -->
-<script src="concepts/orbit/vendor-load.js?v=20261125c" data-v="20261124a"></script>
-<script src="concepts/_base/js/fx.js?v=20261125c"></script>
-<script src="concepts/_base/js/motion.js?v=20261125c"></script>
-<script src="concepts/_base/js/mixer.js?v=20261125c"></script>
-<script src="concepts/orbit/hero.js?v=20261125c"></script>
-<script src="concepts/orbit/genres.js?v=20261125c"></script>
-<script src="concepts/orbit/story.js?v=20261125c"></script>
-<script src="concepts/fonts/fonts.js?v=20261125c"></script>
-<script src="concepts/orbit/fontpick.js?v=20261125c"></script>
+<script src="concepts/orbit/vendor-load.js?v=20261125d" data-v="20261124a"></script>
+<script src="concepts/_base/js/fx.js?v=20261125d"></script>
+<script src="concepts/_base/js/motion.js?v=20261125d"></script>
+<script src="concepts/_base/js/mixer.js?v=20261125d"></script>
+<script src="concepts/orbit/hero.js?v=20261125d"></script>
+<script src="concepts/orbit/genres.js?v=20261125d"></script>
+<script src="concepts/orbit/story.js?v=20261125d"></script>
+<script src="concepts/orbit/notes-fx.js?v=20261125d"></script>
+<script src="concepts/fonts/fonts.js?v=20261125d"></script>
+<script src="concepts/orbit/fontpick.js?v=20261125d"></script>
 </body>
 </html>
