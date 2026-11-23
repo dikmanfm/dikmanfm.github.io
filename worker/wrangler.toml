@@ -1,0 +1,23 @@
+# DIKMAN FM · Admin API
+# הסודות (ADMIN_PASSWORD, SESSION_SECRET, GH_TOKEN) לא כאן! מגדירים אותם עם:
+#   npx wrangler secret put ADMIN_PASSWORD
+name = "dikmanfm-admin"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGINS = "https://dikmanfm.github.io"
+MEDIA_BASE_URL = "https://pub-3f59d934c303407ab9679a4437821546.r2.dev"
+GH_REPO = "dikmanfm/dikmanfm.github.io"
+GH_BRANCH = "main"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "replace-with-bucket"
+
+# הגבלת ניסיונות כניסה: 5 בדקה לכל כתובת IP
+[[ratelimits]]
+name = "LOGIN_LIMIT"
+namespace_id = "1001"
+simple = { limit = 5, period = 60 }
