@@ -14,7 +14,7 @@ GH_BRANCH = "main"
 
 [[r2_buckets]]
 binding = "BUCKET"
-bucket_name = "replace-with-bucket"
+bucket_name = "yoeli-radio-archive"
 
 # הגבלת ניסיונות כניסה: 5 בדקה לכל כתובת IP
 [[ratelimits]]
