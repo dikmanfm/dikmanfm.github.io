@@ -73,13 +73,14 @@ window.RADIO_CONFIG = {
     arrangements: [],
     original: [
       { title: "פתחי לי",          url: "concepts/orbit/audio/pitchi-li.mp3",                duration: 297 },
-      { title: "ואפיל תחינתי",     note: "גרסה ווקאלית", url: "concepts/orbit/audio/vayapil-techinati-vocal.mp3", duration: 341 },
       { title: "למצוא חן",         url: "concepts/orbit/audio/limtzo-chen.mp3",              duration: 329 },
       { title: "ואפיל תחינתי",     url: "concepts/orbit/audio/vayapil-techinati.mp3",        duration: 341 },
-      { title: "ישתבח שמך",        note: "גרסה ווקאלית", url: "concepts/orbit/audio/yishtabach-shimcha-vocal.mp3", duration: 259 },
       { title: "נושם שלמות",       url: "concepts/orbit/audio/noshem-shlemut.mp3",           duration: 303 },
       { title: "טאטע למה",         note: "אהרלה סאמעט ויואלי גרינפלד", url: "concepts/orbit/audio/tate-lama.mp3", duration: 260 },
-      { title: "תפילה לחופה",      url: "concepts/orbit/audio/tefila-lachupa.mp3",           duration: 319 }
+      { title: "תפילה לחופה",      url: "concepts/orbit/audio/tefila-lachupa.mp3",           duration: 319 },
+      { title: "מחרוזת בעלזא",     url: "concepts/orbit/audio/machrozet-belz.mp3",           duration: 570 },
+      { title: "מחרוזת חב״ד",      url: "concepts/orbit/audio/machrozet-chabad.mp3",         duration: 476 },
+      { title: "תפילה",            url: "concepts/orbit/audio/tefila.mp3",                   duration: 317 }
     ]
 
   },
