@@ -77,10 +77,7 @@ window.RADIO_CONFIG = {
       { title: "ואפיל תחינתי",     url: "concepts/orbit/audio/vayapil-techinati.mp3",        duration: 341 },
       { title: "נושם שלמות",       url: "concepts/orbit/audio/noshem-shlemut.mp3",           duration: 303 },
       { title: "טאטע למה",         note: "אהרלה סאמעט ויואלי גרינפלד", url: "concepts/orbit/audio/tate-lama.mp3", duration: 260 },
-      { title: "תפילה לחופה",      url: "concepts/orbit/audio/tefila-lachupa.mp3",           duration: 319 },
-      { title: "מחרוזת בעלזא",     url: "concepts/orbit/audio/machrozet-belz.mp3",           duration: 570 },
-      { title: "מחרוזת חב״ד",      url: "concepts/orbit/audio/machrozet-chabad.mp3",         duration: 476 },
-      { title: "תפילה",            url: "concepts/orbit/audio/tefila.mp3",                   duration: 317 }
+      { title: "תפילה לחופה",      url: "concepts/orbit/audio/tefila-lachupa.mp3",           duration: 319 }
     ]
 
   },

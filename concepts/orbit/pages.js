@@ -67,6 +67,55 @@
           isTrack: function (src) { return own.getAttribute("src") === src; } };
   }
   audio = H.audio;
+
+  // ---------- הרצה קדימה/אחורה: פס זמן ולחצני 10 שניות בשיר שמתנגן ----------
+  var dragging = false;
+  function seekRow(title, dur) {
+    var row = el("div", "t-seek");
+    var back = el("button", "t-skip"); back.type = "button"; back.setAttribute("aria-label", "אחורה 10 שניות");
+    back.appendChild(svg("M5 6l6 6-6 6M12 6l6 6-6 6")); back.appendChild(el("span", null, "10"));
+    var fwd = el("button", "t-skip"); fwd.type = "button"; fwd.setAttribute("aria-label", "קדימה 10 שניות");
+    fwd.appendChild(el("span", null, "10")); fwd.appendChild(svg("M19 6l-6 6 6 6M12 6l-6 6 6 6"));
+    var now = el("span", "t-time", "0:00"); now.dir = "ltr";
+    var end = el("span", "t-time", mmss(dur) || "0:00"); end.dir = "ltr";
+    var bar = document.createElement("input");
+    bar.type = "range"; bar.min = 0; bar.max = 1000; bar.step = 1; bar.value = 0; bar.className = "t-bar";
+    bar.setAttribute("aria-label", "מיקום בשיר: " + title);
+    bar.addEventListener("pointerdown", function () { dragging = true; });
+    bar.addEventListener("input", function () {
+      var d = audio.duration; if (!isFinite(d)) return;
+      now.textContent = mmss(bar.value / 1000 * d) || "0:00";
+      bar.style.setProperty("--p", bar.value / 10 + "%");
+      if (!dragging) jump(bar.value / 1000 * d);
+    });
+    bar.addEventListener("change", function () {
+      dragging = false; var d = audio.duration;
+      if (isFinite(d)) jump(bar.value / 1000 * d);
+    });
+    back.addEventListener("click", function () { jump(audio.currentTime - 10); });
+    fwd.addEventListener("click", function () { jump(audio.currentTime + 10); });
+    row.appendChild(back); row.appendChild(now); row.appendChild(bar); row.appendChild(end); row.appendChild(fwd);
+    row._bar = bar; row._now = now; row._end = end;
+    return row;
+  }
+  function jump(t) {
+    var d = audio.duration; if (!isFinite(d)) return;
+    audio.currentTime = Math.max(0, Math.min(d - 0.5, t));
+    show();
+  }
+  function show() {
+    if (!current || !H.isTrack(current._src) || dragging) return;
+    var r = current.querySelector(".t-seek"), d = audio.duration;
+    if (!r || !isFinite(d) || !d) return;
+    var v = Math.round(audio.currentTime / d * 1000);
+    r._bar.value = v; r._bar.style.setProperty("--p", v / 10 + "%");
+    r._now.textContent = mmss(audio.currentTime) || "0:00";
+    r._end.textContent = mmss(d);
+  }
+  function reset(li) {
+    var r = li.querySelector(".t-seek"); if (!r) return;
+    r._bar.value = 0; r._bar.style.setProperty("--p", "0%"); r._now.textContent = "0:00";
+  }
   function mark(li) {
     Array.prototype.forEach.call(document.querySelectorAll(".tracks .item.is-playing"), function (n) { if (n !== li) n.classList.remove("is-playing"); });
     if (li) li.classList.add("is-playing");
@@ -84,12 +133,11 @@
     var sub = [it.artist, it.note].filter(Boolean).join(" · ");
     if (sub) main.appendChild(el("span", null, sub));
     var tag = el("span", "t-tag", it.role || mmss(it.duration) || ""); if (!tag.textContent) tag.style.visibility = "hidden";
-    var prog = el("div", "t-prog"); prog.appendChild(el("i"));
-    li.appendChild(btn); li.appendChild(main); li.appendChild(tag); li.appendChild(prog);
+    li.appendChild(btn); li.appendChild(main); li.appendChild(tag); li.appendChild(seekRow(title, it.duration));
     btn.addEventListener("click", function () {
       if (current === li && H.isTrack(src) && !audio.paused) { audio.pause(); return; }
       if (guard()) return;
-      if (current && current !== li) current.querySelector(".t-prog i").style.width = "0";
+      if (current && current !== li) reset(current);
       current = li;
       H.playTrack(src, title);
       // גוללים לראש הדף רק אם הנגן לא נראה, כדי שיראו את שם השיר
@@ -104,6 +152,7 @@
   function sync() {
     var on = current && H.isTrack(current._src) && !audio.paused;
     mark(on ? current : null);
+    Array.prototype.forEach.call(ol.children, function (li) { li.classList.toggle("is-current", li === current && H.isTrack(li._src)); });
     Array.prototype.forEach.call(ol.children, function (li) {
       var t = li.querySelector(".t-main b").textContent;
       li.querySelector(".play").setAttribute("aria-label", (on && li === current ? "השהיה: " : "ניגון: ") + t);
@@ -112,17 +161,15 @@
   audio.addEventListener("play", sync);
   audio.addEventListener("pause", sync);
   // חזרה לשידור החי: אף שיר לא מסומן
-  document.addEventListener("dkm:live", function () { if (current) current.querySelector(".t-prog i").style.width = "0"; current = null; sync(); });
+  document.addEventListener("dkm:live", function () { if (current) reset(current); current = null; sync(); });
 
-  audio.addEventListener("timeupdate", function () {
-    if (!current || !H.isTrack(current._src) || !isFinite(audio.duration)) return;
-    current.querySelector(".t-prog i").style.width = (audio.currentTime / audio.duration * 100).toFixed(2) + "%";
-  });
+  audio.addEventListener("timeupdate", show);
+  audio.addEventListener("loadedmetadata", show);
   audio.addEventListener("ended", function () {
     if (!current || !H.isTrack(current._src)) return;
     // ממשיך לשיר הבא ברשימה
     var next = current.nextElementSibling;
-    current.querySelector(".t-prog i").style.width = "0";
+    reset(current);
     if (next) next.querySelector(".play").click(); else { current = null; sync(); }
   });
   setInterval(function () { if (current && !audio.paused) guard(); }, 30000);

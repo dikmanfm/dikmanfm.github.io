@@ -107,6 +107,16 @@
   // שבת נכנסה בזמן ההאזנה
   setInterval(function () { if (playing() && closed()) { if (mode === "live") stop(); else audio.pause(); } }, 30000);
 
+  // מסך הנעילה / אוזניות: הרצה קדימה ואחורה בשיר (לא בשידור החי)
+  try {
+    if ("mediaSession" in navigator) {
+      var ms = navigator.mediaSession, dur = function () { return isFinite(audio.duration) ? audio.duration : 0; };
+      ms.setActionHandler("seekbackward", function (d) { if (mode === "track") audio.currentTime = Math.max(0, audio.currentTime - ((d && d.seekOffset) || 10)); });
+      ms.setActionHandler("seekforward", function (d) { if (mode === "track" && dur()) audio.currentTime = Math.min(dur() - 0.5, audio.currentTime + ((d && d.seekOffset) || 10)); });
+      ms.setActionHandler("seekto", function (d) { if (mode === "track" && d && isFinite(d.seekTime)) audio.currentTime = d.seekTime; });
+    }
+  } catch (e) {}
+
   window.DKMHero = {
     audio: audio,
     playTrack: playTrack,
