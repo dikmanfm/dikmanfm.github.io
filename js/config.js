@@ -48,7 +48,10 @@ window.RADIO_CONFIG = {
     { id: "hasidi",  name: "חסידי",            en: "HASIDIC",     note: "ניגונים, שמחה וקלאסיקות חסידיות", items: [] },
     { id: "mizrahi", name: "מזרחי",            en: "MIZRAHI",     note: "פיוטים, ים תיכוני ושירי נשמה",   items: [] },
     { id: "alt-il",  name: "אלטרנטיבי ישראלי", en: "ALT · IL",    note: "יהודי עכשווי, גיטרות ואינדי",    items: [] },
-    { id: "us-jew",  name: "אמריקאי יהודי",    en: "JEWISH · US", note: "פופ יהודי מניו יורק ומעבר לים",  items: [] }
+    { id: "us-jew",  name: "אמריקאי יהודי",    en: "JEWISH · US", note: "פופ יהודי מניו יורק ומעבר לים",  items: [] },
+    { id: "shabbat", name: "לכבוד שבת קודש",   en: "SHABBAT",     note: "זמירות, ניגוני שבת ושירים לשולחן השבת", items: [] },
+    { id: "chatan",  name: "חתן וכלה",         en: "WEDDING",     note: "שירי חופה, ריקודים ושמחת חתן וכלה",   items: [] },
+    { id: "quiet",   name: "שקטים ומרגשים",    en: "SOUL · SLOW", note: "שירים שקטים, נוגעים ללב ומרגשים",     items: [] }
   ],
 
   // הדפים "עוד מיואלי" (הלחצנים העגולים ב-Orbit). כל הקישורים חייבים להיות ב-https.
